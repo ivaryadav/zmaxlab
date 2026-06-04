@@ -11,6 +11,24 @@
     <meta property="og:image" content="https://zmaxlab.site/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@zmaxlab" />
+        <!-- Google tag (gtag.js) – GA4 + Consent Mode -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9MXJ3DPTFH"></script>
+        <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                // Consent Mode v2 defaults (before consent)
+                gtag('consent', 'default', {
+                          analytics_storage: 'granted',
+                          ad_storage: 'denied',
+                          ad_user_data: 'denied',
+                          ad_personalization: 'denied',
+                          wait_for_update: 500
+                });
+                gtag('js', new Date());
+                gtag('config', 'G-9MXJ3DPTFH', {
+                          send_page_view: false
+                });
+        </script>
   </head>
   <body>
     <div id="root"></div>
