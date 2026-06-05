@@ -43,8 +43,8 @@ export default function App() {
                                   <Route path="/how-it-works" element={<HowItWorksPage />} />
                                   <Route path="/about" element={<AboutPage />} />
                                   <Route path="/contact" element={<ContactPage />} />
-                        </Route>Route>
-                </Routes>Routes>
-          </BrowserRouter>BrowserRouter>
+                        </Route>
+                </Routes>
+          </BrowserRouter>
         )
-}</BrowserRouter>
+}
