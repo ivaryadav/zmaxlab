@@ -27,7 +27,13 @@ const FAQS = [
 ]
 
 export default function HowItWorksPage() {
-  useSEO({ title: 'How It Works | ZmaxLab – Website in 7 Days for NPI Practitioners', description: 'See how ZmaxLab builds your healthcare website in 7 days: free demo call, design approval, hand-coded build, and launch. 7-day guarantee.', canonical: 'https://zmaxlab.site/how-it-works' })
+  const howItWorksSchema = [{"@context":"https://schema.org","@type":"HowTo","name":"How to Get a Custom Healthcare Website in 7 Days","description":"ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. Here is the 6-step process from demo call to live website.","totalTime":"P7D","supply":[{"@type":"HowToSupply","name":"Practice information (name, specialty, services, location)"},{"@type":"HowToSupply","name":"Photos (optional — stock photography provided free)"}],"step":[{"@type":"HowToStep","name":"Book a Free Demo Call","text":"Schedule a 30-minute call to discuss your practice and goals."},{"@type":"HowToStep","name":"Send Your Content","text":"Provide your practice details, services, and any photos on Day 1."},{"@type":"HowToStep","name":"Design Approval","text":"Review and approve the full design mockup before coding begins on Day 2-3."},{"@type":"HowToStep","name":"Build & Code","text":"Your custom healthcare website is hand-coded on Day 3-5."},{"@type":"HowToStep","name":"Launch & Deliver","text":"Your website goes live with SEO setup complete on Day 5-7."},{"@type":"HowToStep","name":"Post-Launch Support","text":"30 days of WhatsApp support included after launch."}]}]
+    useSEO({
+        title: 'How It Works – Get a Custom Nurse Practitioner Website in 7 Days | ZmaxLab $500',
+            description: 'See how ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. 6-step process: demo call → content → design approval → build → launch → support. Nurse practitioners, PAs, mental health providers.',
+                canonical: 'https://zmaxlab.site/how-it-works',
+                    schema: howItWorksSchema
+                      })
   return (
     <div style={{ background: '#07091f' }}>
       {/* HERO */}

@@ -13,7 +13,13 @@ const VALUES = [
 ]
 
 export default function AboutPage() {
-  useSEO({ title: 'About Ravi | ZmaxLab – Healthcare Web Designer for NPI Practitioners', description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI practitioners in the USA. 60+ sites delivered. 7-day guarantee.', canonical: 'https://zmaxlab.site/about' })
+  const aboutSchema = [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer & NPI Website Specialist","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. 60+ sites delivered. $500 flat fee. 7-day guarantee.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"knowsAbout":["Healthcare Website Design","NPI Practitioner Websites","Nurse Practitioner Websites","Medical SEO","HIPAA-Aware Web Design"]}]
+    useSEO({
+        title: 'About Ravi – Healthcare Web Designer for Nurse Practitioners & NPI Practitioners | ZmaxLab',
+            description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners — nurse practitioners, PAs, mental health providers. 60+ sites. 7-day guarantee.',
+                canonical: 'https://zmaxlab.site/about',
+                    schema: aboutSchema
+                      })
   return (
     <div style={{ background: '#07091f' }}>
       {/* HERO */}

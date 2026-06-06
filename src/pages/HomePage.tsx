@@ -15,7 +15,7 @@ const fadeUp = (delay = 0) => ({
 function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
   const [val, setVal] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const started = useRef(false)
+  const started = useRef(false
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -70,7 +70,36 @@ const FAQS = [
 const GS = { fontFamily: "'Space Grotesk',sans-serif" }
 
 export default function HomePage() {
-  useSEO({ title: 'ZmaxLab – $500 Custom Healthcare Websites for NPI Practitioners', description: 'ZmaxLab builds custom healthcare websites for NPI-registered practitioners in the USA. $500 flat fee. Live in 7 days. Nurse practitioners, PAs, mental health, chiropractors.', canonical: 'https://zmaxlab.site/' })
+const homeSchema = [{
+      "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+              "name": "ZmaxLab – Healthcare Website Design",
+                  "description": "Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee, live in 7 days. Serving nurse practitioners, physician assistants, mental health providers, chiropractors.",
+                      "url": "https://zmaxlab.site",
+                          "telephone": "+91-94511-00556",
+                              "priceRange": "$500",
+                                  "areaServed": {"@type": "Country", "name": "United States"},
+                                      "serviceType": ["Healthcare Website Design","Medical Website Development","Local SEO for Healthcare","NPI Practitioner Website","Nurse Practitioner Website","Physician Assistant Website","Mental Health Provider Website"],
+                                          "offers": [
+                                                {"@type": "Offer","name": "Custom Healthcare Website","price": "500","priceCurrency": "USD","description": "Hand-coded custom medical website for NPI practitioners. Live in 7 days or full refund."},
+                                                      {"@type": "Offer","name": "Local SEO for Healthcare","price": "230","priceCurrency": "USD","description": "Rank for specialty near me searches within weeks. Monthly management."},
+                                                            {"@type": "Offer","name": "Healthcare Social Media Management","price": "150","priceCurrency": "USD","description": "12-16 healthcare-specific posts per month across platforms."}
+                                                                ],
+                                                                    "founder": {"@type": "Person","name": "Ravi","jobTitle": "Healthcare Web Designer & NPI Website Specialist"}
+                                                                      },{
+                                                                          "@context": "https://schema.org",
+                                                                              "@type": "WebSite",
+                                                                                  "name": "ZmaxLab",
+                                                                                      "url": "https://zmaxlab.site",
+                                                                                          "description": "Custom healthcare website design for NPI practitioners. $500 flat fee, live in 7 days. No monthly platform fees."
+                                                                                            }]
+                                                                                              useSEO({
+                                                                                                  title: 'ZmaxLab – $500 Custom Healthcare Website Design for NPI Practitioners',
+                                                                                                      description: 'Affordable custom healthcare website design for nurse practitioners, physician assistants & mental health providers. $500 flat fee. Hand-coded. Live in 7 days. No monthly fees. NPI-focused.',
+                                                                                                          canonical: 'https://zmaxlab.site/',
+                                                                                                              schema: homeSchema
+                                                                                                                })
+}]
   return (
     <div style={{ background: '#07091f' }}>
 

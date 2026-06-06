@@ -35,7 +35,23 @@ export default function ServicesPage() {
 
   useSEO({ title: 'Services & Pricing | ZmaxLab – $500 Healthcare Website + SEO', description: 'ZmaxLab pricing: $500 custom healthcare website, $230/mo local SEO, $150/mo social media, and one-time add-ons for NPI practitioners in the USA.', canonical: 'https://zmaxlab.site/services' })
   return (
-    <div style={{ background: '#07091f' }}>
+      const servicesSchema = [{
+            "@context": "https://schema.org",
+                "@type": "Service",
+                    "name": "Custom Healthcare Website Design – $500",
+                        "provider": {"@type": "Organization", "name": "ZmaxLab", "url": "https://zmaxlab.site"},
+                            "description": "Affordable custom healthcare website for NPI practitioners. Hand-coded, mobile-perfect, live in 7 days. $500 one-time flat fee. No templates, no monthly platform fees.",
+                                "offers": {"@type": "Offer", "price": "500", "priceCurrency": "USD", "priceValidUntil": "2027-12-31", "availability": "https://schema.org/InStock"},
+                                    "areaServed": "United States",
+                                        "audience": {"@type": "Audience", "audienceType": "NPI-registered healthcare practitioners, nurse practitioners, physician assistants, mental health providers, chiropractors"}
+                                          }]
+                                            useSEO({
+                                                title: 'Healthcare Website Design Services & Pricing | ZmaxLab – $500 Custom Medical Websites',
+                                                    description: 'Custom healthcare website design for NPI practitioners. $500 flat fee, 7-day turnaround. Plus Local SEO ($230/mo) and social media ($150/mo). No contracts. Nurse practitioners, PAs, mental health, chiropractors.',
+                                                        canonical: 'https://zmaxlab.site/services',
+                                                            schema: servicesSchema
+                                                              })
+      }]
       {/* HERO */}
       <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)', background: 'linear-gradient(155deg,#03051a,#07091f)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 80% at 80% 50%,rgba(59,111,240,0.1) 0%,transparent 65%)' }}/>
