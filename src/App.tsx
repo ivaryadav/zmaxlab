@@ -6,6 +6,7 @@ import ServicesPage from './pages/ServicesPage'
 import HowItWorksPage from './pages/HowItWorksPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
+import BlogPage from './pages/BlogPage'
 
 // Page category mapping for GA4 custom dimension
 const PAGE_CATEGORIES: Record<string, string> = {
@@ -14,6 +15,7 @@ const PAGE_CATEGORIES: Record<string, string> = {
     '/how-it-works': 'how-it-works',
     '/about': 'about',
     '/contact': 'contact',
+      '/blog/custom-vs-template-medical-website': 'blog',
 }
 
 // SPA page view tracker
@@ -43,6 +45,7 @@ export default function App() {
                                   <Route path="/how-it-works" element={<HowItWorksPage />} />
                                   <Route path="/about" element={<AboutPage />} />
                                   <Route path="/contact" element={<ContactPage />} />
+                                            <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
                         </Route>
                 </Routes>
           </BrowserRouter>
