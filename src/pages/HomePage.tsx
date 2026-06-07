@@ -15,7 +15,7 @@ const fadeUp = (delay = 0) => ({
 function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
   const [val, setVal] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const started = useRef(false
+  const started = useRef(false)
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -66,7 +66,6 @@ const PORTFOLIO = [
             { specialty: 'Psychiatric NP', location: 'Seattle, WA', color: '#fbbf24', initials: 'CW', name: 'CalmWave Psychiatry', tag: 'Telehealth + Booking', desc: 'Telepsychiatry practice with HIPAA-aware video booking and insurance verification page.' },
               { specialty: 'Functional Medicine MD', location: 'Atlanta, GA', color: '#34d399', initials: 'RW', name: 'Roots Wellness MD', tag: 'Full Package', desc: 'Website + SEO + Social. Top 5 Google ranking for "functional medicine Atlanta" in 10 weeks.' },
               ]
-]
 
 const FAQS = [
   { q: 'What exactly do I get for $500?', a: 'A fully custom, hand-coded healthcare website designed for your specialty. Includes mobile responsiveness, SSL, online booking integration, insurance page, contact forms, Google Analytics, NPI credentials display, and 1 post-launch revision. No templates. No page builders.' },
@@ -109,7 +108,6 @@ const homeSchema = [{
                                                                                                           canonical: 'https://zmaxlab.site/',
                                                                                                               schema: homeSchema
                                                                                                                 })
-}]
   return (
     <div style={{ background: '#07091f' }}>
 
