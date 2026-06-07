@@ -10,7 +10,7 @@ export default function Footer() {
               <img src="/logo.svg" alt="ZmaxLab" style={{ display: 'block', height: 34, width: 'auto' }}/>
             </Link>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, marginBottom: 18 }}>
-              Custom websites for NPI-registered healthcare practitioners in the USA. $500 flat. Built personally by Ravi.
+              Affordable custom healthcare website design for NPI-registered practitioners across all 50 US states. Nurse practitioners, physician assistants, mental health providers, chiropractors, dentists, and physical therapists. $500 flat fee. Built personally by Ravi.
             </p>
             <div style={{ display: 'flex', gap: 8 }}>
               {[
@@ -24,8 +24,8 @@ export default function Footer() {
                   border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center',
                   justifyContent: 'center', color: 'rgba(255,255,255,0.5)', transition: '.2s',
                 }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#34d399')}
-                  onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.5)')}
+                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#34d399')}
+                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.5)')}
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24">{s.path}</svg>
                 </a>
@@ -34,9 +34,9 @@ export default function Footer() {
           </div>
 
           {[
-            { title: 'Services', links: [['Healthcare Website – $500','/services'],['Local SEO – $230/mo','/services'],['Social Media – $150/mo','/services'],['Google Business Profile','/services'],['NPI Directory Listings','/services']] },
-            { title: 'Specialties', links: [['Nurse Practitioners','/services'],['Physician Assistants','/services'],['Mental Health NPs','/services'],['Chiropractors','/services'],['All NPI Practitioners','/services']] },
-            { title: 'Company', links: [['About Ravi','/about'],['How It Works','/how-it-works'],['Pricing','/services'],['Contact','/contact']] },
+            { title: 'Services', links: [['Healthcare Website – $500','/services'],['Local SEO – $230/mo','/services'],['Social Media – $150/mo','/services'],['Review Management','/services'],['Website Support','/services']] },
+            { title: 'Specialties', links: [['Nurse Practitioners','/services'],['Physician Assistants','/services'],['Mental Health NPs','/services'],['Chiropractors','/services'],['Dentists','/services'],['Physical Therapists','/services'],['All NPI Practitioners','/services']] },
+            { title: 'Company', links: [['About Ravi','/about'],['How It Works','/how-it-works'],['Pricing','/services'],['Contact','/contact'],['Privacy Policy','/privacy'],['Terms of Service','/terms']] },
           ].map(col => (
             <div key={col.title}>
               <h4 style={{ fontSize: 11, fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#fff', marginBottom: 14 }}>{col.title}</h4>
@@ -52,9 +52,22 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* SEO keyword footer — all 50 states + specialties */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: 20, marginBottom: 20 }}>
+          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.18)', lineHeight: 1.9, maxWidth: 1100 }}>
+            ZmaxLab provides custom healthcare website design for NPI practitioners across all 50 US states including Texas, California, Florida, New York, Illinois, Pennsylvania, Ohio, Georgia, North Carolina, Michigan, New Jersey, Virginia, Washington, Arizona, Tennessee, Massachusetts, Indiana, Missouri, Maryland, Wisconsin, Colorado, Minnesota, South Carolina, Alabama, Louisiana, Kentucky, Oregon, Oklahoma, Connecticut, Utah, Iowa, Nevada, Arkansas, Mississippi, Kansas, New Mexico, Nebraska, Idaho, West Virginia, Hawaii, New Hampshire, Maine, Montana, Rhode Island, Delaware, South Dakota, North Dakota, Alaska, Vermont, and Wyoming. We specialise in websites for nurse practitioners (NPs), family nurse practitioners (FNPs), psychiatric nurse practitioners, physician assistants (PA-C), mental health therapists, licensed clinical social workers (LCSW), chiropractors (DC), dentists, orthodontists, physical therapists (PT), occupational therapists (OT), speech-language pathologists, functional medicine doctors, integrative medicine physicians, naturopathic doctors, and all NPI-registered solo practitioners. HIPAA-aware web design. Affordable medical website design. Healthcare SEO. NPI directory listings.
+          </p>
+        </div>
+
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-          <span>© 2026 ZmaxLab · Built by Ravi</span>
-          <span><a href="mailto:ravi@zmaxlab.site" style={{ color: 'inherit' }}>ravi@zmaxlab.site</a> · <a href="tel:+919451100556" style={{ color: 'inherit' }}>+91 94511 00556</a></span>
+          <span>© 2026 ZmaxLab · Built by Ravi · Serving NPI practitioners across the USA</span>
+          <span>
+            <a href="mailto:ravi@zmaxlab.site" style={{ color: 'inherit' }}>ravi@zmaxlab.site</a>
+            {' · '}
+            <Link to="/privacy" style={{ color: 'inherit' }}>Privacy Policy</Link>
+            {' · '}
+            <Link to="/terms" style={{ color: 'inherit' }}>Terms</Link>
+          </span>
         </div>
       </div>
     </footer>
