@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, Mail } from 'lucide-react'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -58,11 +58,12 @@ export default function Navbar() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <a href="tel:+919451100556" className="nav-phone" style={{
+          <a href="mailto:ravi@zmaxlab.site" className="nav-email" style={{
             display: 'flex', alignItems: 'center', gap: 5,
-            fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.45)',
+            fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.55)',
+            textDecoration: 'none',
           }}>
-            <Phone size={12} />+91 94511 00556
+            <Mail size={12} />ravi@zmaxlab.site
           </a>
           <Link to="/contact" style={{
             background: 'linear-gradient(135deg,#1b6fff,#00c896)',
@@ -102,6 +103,13 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <a href="mailto:ravi@zmaxlab.site" style={{
+              display: 'block', marginTop: 12, padding: '12px 0', fontSize: 14, fontWeight: 500,
+              color: 'rgba(255,255,255,0.55)', borderBottom: '1px solid rgba(255,255,255,0.05)',
+              textDecoration: 'none',
+            }}>
+              ravi@zmaxlab.site
+            </a>
             <Link to="/contact" style={{
               display: 'block', marginTop: 16, background: 'linear-gradient(135deg,#1b6fff,#00c896)',
               color: '#fff', fontWeight: 700, padding: '12px', borderRadius: 999, textAlign: 'center',
@@ -114,7 +122,7 @@ export default function Navbar() {
 
       <style>{`
         @media(max-width:768px){
-          .nav-links,.nav-phone{display:none!important}
+          .nav-links,.nav-email{display:none!important}
           .nav-burger{display:flex!important}
         }
       `}</style>
