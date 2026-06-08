@@ -48,14 +48,14 @@ const FEATURES = [
 const SERVICES = [
   { icon: <Globe size={22}/>, color: '#1b6fff', badge: 'Core Service', title: 'Custom Healthcare Website', price: '$500', period: 'one-time', desc: 'Hand-coded, mobile-perfect, NPI-optimised website live in 7 days.', perks: ['Custom design for your specialty','Mobile responsive + Fast','Online booking integration','Insurance page + Contact forms','Google Analytics + SEO foundation','Source code yours forever'] },
   { icon: <Search size={22}/>, color: '#00c896', badge: 'Most Popular', title: 'Local SEO', price: '$230', period: '/month', desc: 'Rank for "[specialty] near me" in your city within weeks.', perks: ['Keyword tracking + Rankings report','Content optimisation monthly','Local citation building','Google Search Console management'] },
-  { icon: <MessageSquare size={22}/>, color: '#a78bfa', badge: 'Growth Add-on', title: 'Social Media', price: '$150', period: '/month', desc: '12â16 healthcare-specific posts per month across Instagram, Facebook, LinkedIn.', perks: ['12â16 posts per month','Stories and reels included','Healthcare-specific content','Monthly analytics report'] },
+  { icon: <MessageSquare size={22}/>, color: '#a78bfa', badge: 'Growth Add-on', title: 'Social Media', price: '$150', period: '/month', desc: '12—16 healthcare-specific posts per month across Instagram, Facebook, LinkedIn.', perks: ['12—16 posts per month','Stories and reels included','Healthcare-specific content','Monthly analytics report'] },
 ]
 
 const TESTIMONIALS = [
   { name: 'Dr. Sarah Mitchell, NP', role: 'Family NP · Texas', stars: 5, quote: 'Ravi had my website live in 4 days. The site looks incredible and I\'ve already gotten 3 new patient inquiries through it. Worth every penny.' },
   { name: 'James Rodriguez, PA-C', role: 'Physician Assistant · Florida', stars: 5, quote: 'I compared agencies charging $4,000+. Ravi\'s work was better than all of them. The SEO add-on got me ranking #2 for "PA near me" in my city within 6 weeks.' },
   { name: 'Dr. Aisha Okonkwo', role: 'Mental Health NP · New York', stars: 5, quote: 'As a solo practitioner I needed something affordable that looked professional. ZmaxLab delivered beyond my expectations. Patients actually compliment my website.' },
-  { name: 'Dr. Marcus Lee, DC', role: 'Chiropractor · California', stars: 5, quote: 'The Google Business Profile setup alone was worth it. I went from invisible to getting 8â10 calls a week within a month. Ravi is incredibly responsive too.' },
+  { name: 'Dr. Marcus Lee, DC', role: 'Chiropractor · California', stars: 5, quote: 'The Google Business Profile setup alone was worth it. I went from invisible to getting 8—10 calls a week within a month. Ravi is incredibly responsive too.' },
 ]
 
 const PORTFOLIO = [
@@ -69,11 +69,11 @@ const PORTFOLIO = [
 
 const FAQS = [
   { q: 'What exactly do I get for $500?', a: 'A fully custom, hand-coded healthcare website designed for your specialty. Includes mobile responsiveness, SSL, online booking integration, insurance page, contact forms, Google Analytics, NPI credentials display, and 1 post-launch revision. No templates. No page builders.' },
-  { q: 'Why only $500 when agencies charge $3,000â$10,000?', a: 'No overhead. No office, no team of 10, no project managers. I\'m one person who builds every site personally. That efficiency gets passed directly to you.' },
-  { q: 'What if it\'s not live in 7 days?', a: 'Full refund. No questions asked. The 7-day guarantee is unconditional — if your site isn\'t live within 7 days of receiving your content, you get 100% back.' },
-  { q: 'Do I need any technical knowledge?', a: 'Zero. You send your name, specialty, services, location, and any photos. I handle everything — design, code, hosting setup, domain connection.' },
+  { q: 'Why only $500 when agencies charge $3,000—$10,000?', a: 'No overhead. No office, no team of 10, no project managers. I\'m one person who builds every site personally. That efficiency gets passed directly to you.' },
+  { q: 'What if it\'s not live in 7 days?', a: 'Full refund. No questions asked. The 7-day guarantee is unconditional â if your site isn\'t live within 7 days of receiving your content, you get 100% back.' },
+  { q: 'Do I need any technical knowledge?', a: 'Zero. You send your name, specialty, services, location, and any photos. I handle everything â design, code, hosting setup, domain connection.' },
   { q: 'Are the monthly services (SEO, Social) required?', a: 'Completely optional. The $500 website is standalone. You add growth services only when you\'re ready. No pressure, no bundles.' },
-  { q: 'Who builds the website — is it outsourced?', a: 'I build every single site personally. My name is Ravi. You\'ll have my direct email and can book a call via Calendly. No account managers, no middlemen.' },
+  { q: 'Who builds the website â is it outsourced?', a: 'I build every single site personally. My name is Ravi. You\'ll have my direct email and can book a call via Calendly. No account managers, no middlemen.' },
 ]
 
 const GS = { fontFamily: "'Space Grotesk',sans-serif" }
@@ -82,7 +82,7 @@ export default function HomePage() {
 const homeSchema = [{
       "@context": "https://schema.org",
           "@type": "ProfessionalService",
-              "name": "ZmaxLab â Healthcare Website Design",
+              "name": "ZmaxLab — Healthcare Website Design",
                   "description": "Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee, live in 7 days. Serving nurse practitioners, physician assistants, mental health providers, chiropractors.",
                       "url": "https://zmaxlab.site",
                           "email": "ravi@zmaxlab.site",
@@ -103,7 +103,7 @@ const homeSchema = [{
                                                                                           "description": "Custom healthcare website design for NPI practitioners. $500 flat fee, live in 7 days. No monthly platform fees."
                                                                                             }]
                                                                                               useSEO({
-                                                                                                  title: 'ZmaxLab â $500 Custom Healthcare Website Design for NPI Practitioners',
+                                                                                                  title: 'ZmaxLab — $500 Custom Healthcare Website Design for NPI Practitioners',
                                                                                                       description: 'Affordable custom healthcare website design for nurse practitioners, physician assistants & mental health providers. $500 flat fee. Hand-coded. Live in 7 days. No monthly fees. NPI-focused.',
                                                                                                           canonical: 'https://zmaxlab.site/',
                                                                                                               schema: homeSchema
@@ -174,7 +174,7 @@ const homeSchema = [{
                   </div>
                 ))}
                 <div style={{ marginTop: 22, paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                  {[['Web agencies charge','$3kâ$10k','#ef4444'],['Wix/Squarespace','$29/mo forever','#f59e0b'],['ZmaxLab','$500 once','#00c896']].map(([l,v,c]) => (
+                  {[['Web agencies charge','$3k—$10k','#ef4444'],['Wix/Squarespace','$29/mo forever','#f59e0b'],['ZmaxLab','$500 once','#00c896']].map(([l,v,c]) => (
                     <div key={l} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
                       <span style={{ color: 'rgba(255,255,255,0.4)' }}>{l}</span>
                       <span style={{ color: c, fontWeight: l === 'ZmaxLab' ? 800 : 400 }}>{v}</span>
@@ -199,7 +199,7 @@ const homeSchema = [{
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 40 }}>
           {[
             { icon: <Globe size={18}/>, val: 60, sfx: '+', label: 'Sites Delivered' },
-            { icon: <Award size={18}/>, val: 500, pfx: '$', label: 'Flat Fee â No Surprises' },
+            { icon: <Award size={18}/>, val: 500, pfx: '$', label: 'Flat Fee — No Surprises' },
             { icon: <Clock size={18}/>, val: 7, sfx: ' Days', label: 'Guaranteed Launch' },
             { icon: <Shield size={18}/>, val: 100, sfx: '%', label: 'NPI-Focused Agency' },
           ].map((s, i) => (
@@ -366,7 +366,7 @@ const homeSchema = [{
                                                                                                                                                                                                                                                                                                                                                                                                       ))}
                                                                                                                                                                                                                                                                                                                                                                                                                   </div>
                                                                                                                                                                                                                                                                                                                                                                                                                               <motion.div {...fadeUp(0.3)} style={{ textAlign: 'center', marginTop: 40 }}>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <Link to="/contact" style={{ ...GS, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(27,111,255,0.12)', border: '1px solid rgba(27,111,255,0.3)', color: '#1b6fff', fontWeight: 600, fontSize: 14, padding: '11px 28px', borderRadius: 999, textDecoration: 'none' }}>Want your practice on this list? Get started →</Link>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <Link to="/contact" style={{ ...GS, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(27,111,255,0.12)', border: '1px solid rgba(27,111,255,0.3)', color: '#1b6fff', fontWeight: 600, fontSize: 14, padding: '11px 28px', borderRadius: 999, textDecoration: 'none' }}>Want your practice on this list? Get started â</Link>
                                                                                                                                                                                                                                                                                                                                                                                                                                                         </motion.div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </section>
