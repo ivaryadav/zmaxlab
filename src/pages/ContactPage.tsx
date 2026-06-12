@@ -42,7 +42,7 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: '5a1bc976-474a-422f-bdb3-0c7f11eaed3d',
-          subject: `New ZmaxLab enquiry – ${form.name} (${form.specialty})`,
+          subject: `New ZmaxLab enquiry - ${form.name} (${form.specialty})`,
           from_name: form.name,
           email: form.email,
           specialty: form.specialty,
@@ -71,8 +71,8 @@ export default function ContactPage() {
   const contactSchema = [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee. No templates. 7-day delivery guarantee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Healthcare Web Design Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Custom Healthcare Website","description":"$500 flat fee custom medical website for NPI practitioners"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Healthcare SEO","description":"$230/month ongoing SEO for medical practices"}}]}}]
 
   useSEO({
-    title: 'Get a Free Demo – Custom Healthcare Website for NPI Practitioners | ZmaxLab $500',
-    description: 'Book a free demo with ZmaxLab. Get a custom $500 healthcare website for your NPI practice — nurse practitioners, PAs, mental health providers, chiropractors. 7-day live guarantee. No templates.',
+    title: 'Get a Free Demo - Custom Healthcare Website for NPI Practitioners | ZmaxLab $500',
+    description: 'Book a free demo with ZmaxLab. Get a custom $500 healthcare website for your NPI practice - nurse practitioners, PAs, mental health providers, chiropractors. 7-day live guarantee. No templates.',
     canonical: 'https://zmaxlab.site/contact',
     schema: contactSchema
   })
@@ -93,7 +93,7 @@ export default function ContactPage() {
               <span style={{ color: '#00c896' }}>healthcare website.</span>
             </h1>
             <p style={{ fontSize: 'clamp(15px,1.5vw,18px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 520, marginBottom: 28 }}>
-              Fill in the form and I'll get back to you within 2 hours with a personalised demo. No sales pitch — just a look at what your website will look like.
+              Fill in the form and I'll get back to you within 2 hours with a personalised demo. No sales pitch - just a look at what your website will look like.
             </p>
             <motion.div {...fadeUp(0.15)} style={{ display: 'inline-flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 18, padding: '20px 24px', display: 'inline-flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
@@ -113,7 +113,7 @@ export default function ContactPage() {
                   <Calendar size={16} /> Book a Free Call
                 </a>
               </div>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', textAlign: 'center', display: 'block', marginTop: 4 }}>Or fill the form below ↓</span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', textAlign: 'center', display: 'block', marginTop: 4 }}>Or fill the form below â</span>
             </motion.div>
           </motion.div>
         </div>
@@ -184,13 +184,13 @@ export default function ContactPage() {
 
                 <div style={{ marginBottom: 24 }}>
                   <Label style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block' }}>Anything else? (optional)</Label>
-                  <Textarea value={form.message} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Tell me about your current website, goals, timeline…" rows={4} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', borderRadius: 10, resize: 'none' as const }}/>
+                  <Textarea value={form.message} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Tell me about your current website, goals, timelineâ¦" rows={4} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', borderRadius: 10, resize: 'none' as const }}/>
                 </div>
 
                 {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 16 }}>{error}</p>}
 
                 <button type="submit" disabled={loading} style={{ ...GS, width: '100%', background: loading ? 'rgba(27,111,255,0.4)' : 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 16, padding: '14px 0', borderRadius: 12, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, boxShadow: loading ? 'none' : '0 4px 24px rgba(27,111,255,0.35)', transition: 'all .3s' }}>
-                  {loading ? 'Sending…' : <><Send size={18}/> Get My Free Demo</>}
+                  {loading ? 'Sendingâ¦' : <><Send size={18}/> Get My Free Demo</>}
                 </button>
                 <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 14 }}>No spam, no hard sell. Just your demo.</p>
               </form>
@@ -200,9 +200,9 @@ export default function ContactPage() {
           {/* SIDEBAR INFO */}
           <motion.div {...fadeUp(0.15)} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {[
-              { icon: <Clock size={20}/>, title: 'Reply within 2 hours', body: 'Reach out any time — I respond fast, usually within 2 hours on business days.' },
+              { icon: <Clock size={20}/>, title: 'Reply within 2 hours', body: 'Reach out any time - I respond fast, usually within 2 hours on business days.' },
               { icon: <Mail size={20}/>, title: 'ravi@zmaxlab.site', body: 'Email is the best way to reach me. I reply the same day, every day.' },
-              { icon: <Calendar size={20}/>, title: 'Book a free 30-min call', body: 'Prefer to talk? Schedule directly via Calendly — pick a time that suits your timezone.', link: 'https://calendly.com/ravi9235kumar/30min', linkLabel: 'Open Calendly →' },
+              { icon: <Calendar size={20}/>, title: 'Book a free 30-min call', body: 'Prefer to talk? Schedule directly via Calendly - pick a time that suits your timezone.', link: 'https://calendly.com/ravi9235kumar/30min', linkLabel: 'Open Calendly â' },
               { icon: <Shield size={20}/>, title: '7-Day Guarantee', body: 'Your site goes live in 7 days or you get a full refund. Secure payment via Stripe or PayPal.' },
             ].map((item, i) => (
               <motion.div key={i} {...fadeUp(0.1 * i)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '20px 22px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
@@ -222,7 +222,7 @@ export default function ContactPage() {
                 'I review your form and current online presence',
                 'Reply within 2 hours with demo examples',
                 'We schedule a 20-minute video call',
-                'You see your website mockup — zero obligation',
+                'You see your website mockup - zero obligation',
               ].map((step, i) => (
                 <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
                   <span style={{ ...GS, fontSize: 11, fontWeight: 800, color: '#1b6fff', background: 'rgba(27,111,255,0.15)', borderRadius: '50%', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>{i + 1}</span>
