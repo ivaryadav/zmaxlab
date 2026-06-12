@@ -8,15 +8,15 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { 
 
 export default function PrivacyPage() {
   useSEO({
-    title: 'Privacy Policy | ZmaxLab – Healthcare Website Design',
-    description: 'Privacy Policy for ZmaxLab — custom healthcare website design for NPI practitioners. How we collect, use, and protect your information.',
+    title: 'Privacy Policy | ZmaxLab - Healthcare Website Design',
+    description: 'Privacy Policy for ZmaxLab - custom healthcare website design for NPI practitioners. How we collect, use, and protect your information.',
     canonical: 'https://zmaxlab.site/privacy',
   })
 
   const SECTIONS = [
     {
       title: '1. Information We Collect',
-      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers — submissions are processed via Web3Forms and delivered directly to ravi@zmaxlab.site.`
+      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers - submissions are processed via Web3Forms and delivered directly to ravi@zmaxlab.site.`
     },
     {
       title: '2. How We Use Your Information',
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
     },
     {
       title: '10. Contact',
-      body: `For any privacy-related questions or requests, please contact: Ravi Kumar, ZmaxLab — ravi@zmaxlab.site`
+      body: `For any privacy-related questions or requests, please contact: Ravi Kumar, ZmaxLab - ravi@zmaxlab.site`
     }
   ]
 
