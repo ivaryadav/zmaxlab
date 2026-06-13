@@ -4,7 +4,7 @@ import { Mail, ArrowRight } from 'lucide-react'
 const T = { bg:'#04060f', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', green:'#059669', text:'#f1f5f9', muted:'rgba(241,245,249,0.4)' }
 
 const SOCIAL = [
-  { href:'https://www.instagram.com/', label:'Instagram', path:<><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></> },
+  { href:'https://www.instagram.com/zmaxlab/', label:'Instagram', path:<><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></> },
   { href:'https://www.facebook.com/profile.php?id=61590168938676', label:'Facebook', path:<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/> },
   { href:'https://www.linkedin.com/in/ivaryadav/', label:'LinkedIn', path:<><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" fill="none"/></> },
   { href:'https://twitter.com/zmaxlab', label:'X', path:<path d="M4 4l16 16M4 20L20 4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/> },

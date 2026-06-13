@@ -132,7 +132,7 @@ export default function AboutPage() {
               "I've spent years watching brilliant healthcare practitioners struggle to get found online - not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.",
               "ZmaxLab exists to fix that. One person, one mission: give every NPI-registered practitioner across all 50 US states a website that actually works.",
               "A nurse practitioner I knew had just opened her own practice after 10 years in a hospital. She was incredible at her job - patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.",
-              "That's when I stepped in. I built her a custom website in 5 days for $500. Within 3 months, she was ranking #3 for 'family nurse practitioner [city]' and getting 4–6 new patient inquiries per week from Google alone.",
+              "That's when I stepped in. I built her a custom website in 5 days for $500. Within 3 months, she was ranking #3 for 'family nurse practitioner [city]' and getting 4-6 new patient inquiries per week from Google alone.",
               "She told two colleagues. Then three more. Then I realised this was a real problem - and I was in a unique position to solve it for a lot of practitioners who had the same story.",
             ].map((para,i) => (
               <motion.p key={i} {...fadeUp(i*0.08)} style={{ fontSize:'clamp(14px,1.4vw,16px)',color:i===0||i===1 ? T.text : T.muted,lineHeight:1.85,marginBottom:i<4?20:0,fontStyle:i===0?'normal':'normal' }}>

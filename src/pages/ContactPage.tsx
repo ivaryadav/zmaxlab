@@ -48,7 +48,7 @@ export default function ContactPage() {
         headers:{ 'Content-Type':'application/json', Accept:'application/json' },
         body: JSON.stringify({
           access_key:'5a1bc976-474a-422f-bdb3-0c7f11eaed3d',
-          subject:`New ZmaxLab enquiry – ${form.name} (${form.specialty})`,
+          subject:`New ZmaxLab enquiry - ${form.name} (${form.specialty})`,
           from_name: form.name, email: form.email, specialty: form.specialty,
           practice: form.practice, state: form.state, service: form.service,
           message: form.message || '(no message)', replyto: form.email,
@@ -70,7 +70,7 @@ export default function ContactPage() {
   const contactSchema = [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}]
 
   useSEO({
-    title: 'Book a Free Demo – Custom Healthcare Website for NPI Practitioners | ZmaxLab',
+    title: 'Book a Free Demo - Custom Healthcare Website for NPI Practitioners | ZmaxLab',
     description: 'Book a free demo with ZmaxLab. Get a custom $500 healthcare website for your NPI practice - nurse practitioners, PAs, mental health providers, chiropractors. 7-day live guarantee.',
     canonical: 'https://zmaxlab.site/contact',
     schema: contactSchema,

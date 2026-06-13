@@ -292,11 +292,11 @@ function SectionLabel({ label, color }: { label: string; color: string }) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   useSEO({
-    title: 'ZmaxLab - Premium Healthcare Website Design & Growth Platform',
-    description: 'Custom healthcare websites for NPs, PAs, mental health providers, dentists, chiropractors, and physical therapists. $500 flat fee. Launch in 48 hours.',
+    title: 'ZmaxLab | $500 Custom Healthcare Websites for NPI Practitioners',
+    description: '$500 custom healthcare websites for NPI practitioners. 7-day delivery, custom design, SEO-ready. NPs, PAs, mental health, dentists, chiropractors.',
     canonical: 'https://zmaxlab.site/',
-    ogTitle: 'ZmaxLab - Healthcare Growth Platform',
-    ogDescription: '500+ healthcare sites built. 127% avg traffic increase. $500 flat fee.',
+    ogTitle: 'ZmaxLab | $500 Healthcare Websites for NPI Practitioners',
+    ogDescription: '$500 flat fee. 500+ NPI healthcare sites built. Launch in 7 days. HIPAA-aware, SEO-optimized, all 50 US states.',
   })
 
   const [tIdx, setTIdx]       = useState(0)
