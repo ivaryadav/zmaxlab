@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle2, ArrowRight } from 'lucide-react'
 import { useSEO } from '@/lib/useSEO'
+import { GlowCard } from '@/components/ui/spotlight-card'
+
+const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
+  c === '#7c3aed' ? 'purple' :
+  c === '#059669' ? 'green'  :
+  c === '#e11d48' ? 'red'    :
+  c === '#f59e0b' ? 'orange' : 'blue'
 
 const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -93,13 +100,7 @@ export default function ServicesPage() {
           </motion.div>
 
           <motion.div {...fadeUp(0.1)}>
-            <Glass style={{
-              padding:'clamp(28px,4vw,48px)',
-              display:'grid',gridTemplateColumns:'1fr clamp(240px,25%,300px)',
-              gap:48,alignItems:'start',
-              border:`1px solid ${T.blue}25`,
-              background:`linear-gradient(135deg,${T.blue}07,${T.card})`,
-            }}>
+            <GlowCard customSize glowColor="blue" className="grid gap-12 items-start" style={{ padding:'clamp(28px,4vw,48px)', gridTemplateColumns:'1fr clamp(240px,25%,300px)' }}>
               <div>
                 <div style={{ display:'inline-block',background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',padding:'4px 14px',borderRadius:999,marginBottom:20 }}>
                   Website Package - $500 One-Time
@@ -139,7 +140,7 @@ export default function ServicesPage() {
                   ))}
                 </div>
               </div>
-            </Glass>
+            </GlowCard>
           </motion.div>
         </div>
       </section>
@@ -178,8 +179,8 @@ export default function ServicesPage() {
               {tab === 'monthly' && (
                 <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18 }}>
                   {MONTHLY.map((s,i) => (
-                    <motion.div key={s.title} {...fadeUp(i*0.07)} whileHover={{ y:-5,transition:{duration:0.25} }}>
-                      <Glass style={{ padding:26,height:'100%',border:`1px solid ${s.color}18` }}>
+                    <motion.div key={s.title} {...fadeUp(i*0.07)} style={{ height:'100%' }}>
+                      <GlowCard customSize glowColor={toGlow(s.color)} className="h-full p-6.5">
                         <div style={{ width:36,height:36,borderRadius:10,background:`${s.color}15`,border:`1px solid ${s.color}30`,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14 }}>
                           <div style={{ width:10,height:10,borderRadius:'50%',background:s.color }}/>
                         </div>
@@ -199,7 +200,7 @@ export default function ServicesPage() {
                           </div>
                           <Link to="/contact" style={{ background:`${s.color}18`,border:`1px solid ${s.color}30`,color:s.color,fontSize:12,fontWeight:700,padding:'8px 16px',borderRadius:999 }}>Add this</Link>
                         </div>
-                      </Glass>
+                      </GlowCard>
                     </motion.div>
                   ))}
                 </div>
@@ -208,8 +209,8 @@ export default function ServicesPage() {
               {tab === 'onetime' && (
                 <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18 }}>
                   {ONE_TIME.map((s,i) => (
-                    <motion.div key={s.title} {...fadeUp(i*0.07)} whileHover={{ y:-4,transition:{duration:0.25} }}>
-                      <Glass style={{ padding:24,height:'100%',border:`1px solid ${s.color}18` }}>
+                    <motion.div key={s.title} {...fadeUp(i*0.07)} style={{ height:'100%' }}>
+                      <GlowCard customSize glowColor={toGlow(s.color)} className="h-full p-6">
                         <div style={{ fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',color:s.color,marginBottom:10 }}>One-time {s.label}</div>
                         <h3 style={{ fontSize:16,fontWeight:800,marginBottom:8 }}>{s.title}</h3>
                         <p style={{ fontSize:13,color:T.muted,lineHeight:1.7,marginBottom:18 }}>{s.desc}</p>
@@ -217,28 +218,23 @@ export default function ServicesPage() {
                           <span style={{ fontSize:26,fontWeight:900,color:T.text }}>{s.price}</span>
                           <Link to="/contact" style={{ background:`${s.color}18`,border:`1px solid ${s.color}30`,color:s.color,fontSize:12,fontWeight:700,padding:'7px 14px',borderRadius:999 }}>Add</Link>
                         </div>
-                      </Glass>
+                      </GlowCard>
                     </motion.div>
                   ))}
                 </div>
               )}
 
               {tab === 'bundle' && (
-                <Glass style={{
-                  padding:'clamp(36px,5vw,56px)',textAlign:'center',
-                  border:`2px solid ${T.green}30`,
-                  background:`linear-gradient(135deg,${T.green}07,${T.card})`,
-                  boxShadow:`0 0 60px ${T.green}10`,
-                }}>
+                <GlowCard customSize glowColor="green" className="text-center" style={{ padding:'clamp(36px,5vw,56px)' }}>
                   <div style={{ display:'inline-block',background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',padding:'5px 16px',borderRadius:999,marginBottom:24 }}>Best Value</div>
                   <h3 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,marginBottom:14 }}>Complete Launch Bundle</h3>
                   <p style={{ fontSize:15,color:T.muted,maxWidth:520,margin:'0 auto 36px',lineHeight:1.75 }}>Everything to go from NPI number to fully online in one week.</p>
                   <div style={{ display:'flex',justifyContent:'center',gap:12,flexWrap:'wrap',marginBottom:36 }}>
                     {[['$500','Website'],['$150','Google GBP'],['$75','NPI Dirs'],['$100','HIPAA Forms'],['$150','Blog Starter']].map(([price,label]) => (
-                      <Glass key={label} style={{ padding:'12px 18px',borderRadius:14 }}>
+                      <GlowCard key={label} customSize glowColor="green" className="p-3">
                         <div style={{ fontSize:18,fontWeight:800,color:T.green }}>{price}</div>
                         <div style={{ fontSize:11,color:T.muted,marginTop:2 }}>{label}</div>
-                      </Glass>
+                      </GlowCard>
                     ))}
                   </div>
                   <div style={{ fontSize:14,color:T.muted,textDecoration:'line-through',marginBottom:6 }}>$975 purchased separately</div>
@@ -249,7 +245,7 @@ export default function ServicesPage() {
                   <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
                     Get the Full Bundle <ArrowRight size={16}/>
                   </Link>
-                </Glass>
+                </GlowCard>
               )}
             </motion.div>
           </AnimatePresence>

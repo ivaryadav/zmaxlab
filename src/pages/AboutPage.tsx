@@ -2,6 +2,13 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Heart, Code, Globe, CheckCircle2, Calendar } from 'lucide-react'
 import { useSEO } from '@/lib/useSEO'
+import { GlowCard } from '@/components/ui/spotlight-card'
+
+const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
+  c === T.violet || c === '#7c3aed' ? 'purple' :
+  c === T.green  || c === '#059669' ? 'green'  :
+  c === '#e11d48'                   ? 'red'    :
+  c === T.amber  || c === '#f59e0b' ? 'orange' : 'blue'
 
 const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -82,7 +89,7 @@ export default function AboutPage() {
             transition={{ duration:0.9,delay:0.4,ease:EASE }}
             style={{ flex:'0 0 auto' }}
           >
-            <Glass style={{ padding:32,textAlign:'center',minWidth:240 }}>
+            <GlowCard customSize glowColor="purple" className="p-8 text-center" style={{ minWidth:240 }}>
               <div style={{
                 width:96,height:96,borderRadius:'50%',
                 background:`linear-gradient(135deg,${T.blue},${T.violet})`,
@@ -101,7 +108,7 @@ export default function AboutPage() {
                   </div>
                 ))}
               </div>
-            </Glass>
+            </GlowCard>
           </motion.div>
         </div>
       </section>
@@ -111,10 +118,10 @@ export default function AboutPage() {
         <div style={{ maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:20 }}>
           {STATS.map((s,i) => (
             <motion.div key={s.label} {...fadeUp(i*0.1)}>
-              <Glass style={{ padding:'24px',textAlign:'center' }}>
+              <GlowCard customSize glowColor={toGlow(s.color)} className="p-6 text-center">
                 <div style={{ fontSize:40,fontWeight:900,color:s.color,lineHeight:1,marginBottom:6 }}>{s.n}</div>
                 <div style={{ fontSize:13,color:T.muted }}>{s.label}</div>
-              </Glass>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -152,14 +159,14 @@ export default function AboutPage() {
           </motion.div>
           <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20 }}>
             {VALUES.map((v,i) => (
-              <motion.div key={v.title} {...fadeUp(i*0.1)} whileHover={{ y:-5,transition:{duration:0.25} }}>
-                <Glass style={{ padding:'28px 24px',height:'100%',border:`1px solid ${v.color}18` }}>
+              <motion.div key={v.title} {...fadeUp(i*0.1)} style={{ height:'100%' }}>
+                <GlowCard customSize glowColor={toGlow(v.color)} className="h-full p-7">
                   <div style={{ width:48,height:48,borderRadius:14,background:`${v.color}15`,border:`1px solid ${v.color}30`,display:'flex',alignItems:'center',justifyContent:'center',color:v.color,marginBottom:16 }}>
                     <v.Icon size={22}/>
                   </div>
                   <h3 style={{ fontSize:17,fontWeight:800,marginBottom:8 }}>{v.title}</h3>
                   <p style={{ fontSize:14,color:T.muted,lineHeight:1.7 }}>{v.desc}</p>
-                </Glass>
+                </GlowCard>
               </motion.div>
             ))}
           </div>

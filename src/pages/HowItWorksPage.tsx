@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, MessageCircle, FileText, Palette, Code, Rocket, RefreshCw } from 'lucide-react'
 import { useSEO } from '@/lib/useSEO'
+import { GlowCard } from '@/components/ui/spotlight-card'
+
+const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
+  c === '#7c3aed' ? 'purple' : c === '#059669' ? 'green' : c === '#e11d48' ? 'red' : c === '#f59e0b' ? 'orange' : 'blue'
 
 const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
-function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div style={{ background:T.card, backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', border:`1px solid ${T.border}`, borderRadius:20, ...style }} {...p}>{children}</div>
-}
 
 const STEPS = [
   { Icon:MessageCircle, color:T.blue,   n:'01', title:'Book a Free Demo Call', time:'Day 0',        desc:'We jump on a 20-minute video call. I review your current online presence, ask about your specialty, and show you mockups. Zero obligation. Zero pressure.', bullet:['20-minute video call','Review of your current presence','Specialty-matched mockup examples','Exact pricing - no hidden fees'] },
@@ -52,14 +53,15 @@ function FaqSection() {
             const accent  = FAQ_COLORS[i % FAQ_COLORS.length]
             return (
               <motion.div key={faq.q} {...fadeUp(i * 0.06)}>
-                <div
+                <GlowCard
+                  customSize
+                  glowColor={toGlow(accent)}
                   onClick={() => setOpen(isOpen ? null : i)}
                   style={{
                     position:'relative', overflow:'hidden',
-                    background: isOpen ? 'rgba(255,255,255,0.07)' : T.card,
-                    border:`1px solid ${isOpen ? accent + '45' : T.border}`,
-                    borderRadius:16, cursor:'pointer',
-                    transition:'background .2s, border-color .2s',
+                    background: isOpen ? 'rgba(255,255,255,0.09)' : undefined,
+                    cursor:'pointer',
+                    transition:'background .2s',
                   }}
                 >
                   {/* Left accent bar */}
@@ -118,7 +120,7 @@ function FaqSection() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </GlowCard>
               </motion.div>
             )
           })}
@@ -184,11 +186,7 @@ export default function HowItWorksPage() {
                 {i < STEPS.length - 1 && <div style={{ width:2,flex:1,minHeight:32,background:`linear-gradient(180deg,${s.color}50,transparent)`,margin:'6px 0' }}/>}
               </div>
               {/* Card */}
-              <Glass style={{
-                flex:1,padding:'24px 28px',marginBottom:20,
-                border:`1px solid ${s.color}18`,
-                background:`linear-gradient(135deg,${s.color}05,${T.card})`,
-              }}>
+              <GlowCard customSize glowColor={toGlow(s.color)} className="p-7 mb-5" style={{ flex:1 }}>
                 <div style={{ display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10,flexWrap:'wrap',gap:8 }}>
                   <div>
                     <div style={{ fontSize:40,fontWeight:900,color:`${s.color}20`,lineHeight:1,letterSpacing:'-2px',marginBottom:2 }}>{s.n}</div>
@@ -205,7 +203,7 @@ export default function HowItWorksPage() {
                     </div>
                   ))}
                 </div>
-              </Glass>
+              </GlowCard>
             </motion.div>
           ))}
         </div>

@@ -1,5 +1,12 @@
 import { useState, useRef } from 'react'
 import { useSEO } from '@/lib/useSEO'
+import { GlowCard } from '@/components/ui/spotlight-card'
+
+const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
+  c === '#7c3aed' ? 'purple' :
+  c === '#059669' ? 'green'  :
+  c === '#e11d48' ? 'red'    :
+  c === '#f59e0b' ? 'orange' : 'blue'
 import { motion } from 'framer-motion'
 import { Mail, Clock, CheckCircle2, Send, Calendar, Shield } from 'lucide-react'
 import { Input } from '@/components/ui/input'
@@ -104,7 +111,7 @@ export default function ContactPage() {
 
             {/* Calendly card */}
             <motion.div {...fadeUp(0.15)}>
-              <Glass style={{ display:'inline-flex',alignItems:'center',gap:20,padding:'18px 24px',flexWrap:'wrap' }}>
+              <GlowCard customSize glowColor="blue" className="inline-flex items-center gap-5 flex-wrap" style={{ padding:'18px 24px' }}>
                 <div style={{ display:'flex',alignItems:'center',gap:12 }}>
                   <div style={{ width:44,height:44,borderRadius:'50%',background:`linear-gradient(135deg,${T.blue},${T.violet})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:800,color:'#fff',flexShrink:0 }}>R</div>
                   <div>
@@ -117,7 +124,7 @@ export default function ContactPage() {
                   style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:14,padding:'11px 22px',borderRadius:12,boxShadow:`0 4px 20px rgba(37,99,235,0.35)`,whiteSpace:'nowrap',textDecoration:'none' }}>
                   <Calendar size={15}/> Book a Free Call
                 </a>
-              </Glass>
+              </GlowCard>
               <div style={{ fontSize:12,color:T.muted,marginTop:10 }}>Or fill the form below ↓</div>
             </motion.div>
           </motion.div>
@@ -131,15 +138,15 @@ export default function ContactPage() {
           {/* Form */}
           <motion.div {...fadeUp()}>
             {sent ? (
-              <Glass style={{ padding:48,textAlign:'center',border:`1px solid ${T.green}25`,background:`linear-gradient(135deg,${T.green}07,${T.card})` }}>
+              <GlowCard customSize glowColor="green" className="p-12 text-center">
                 <CheckCircle2 size={48} style={{ color:T.green,margin:'0 auto 20px',display:'block' }}/>
                 <h2 style={{ fontSize:24,fontWeight:800,marginBottom:12 }}>Message sent!</h2>
                 <p style={{ fontSize:15,color:T.muted,lineHeight:1.75 }}>
                   Thanks {form.name.split(' ')[0]}! I'll review your details and reply within 2 hours with a personalised demo. Check your email inbox.
                 </p>
-              </Glass>
+              </GlowCard>
             ) : (
-              <Glass style={{ padding:'clamp(28px,4vw,40px)' }}>
+              <GlowCard customSize glowColor="blue" style={{ padding:'clamp(28px,4vw,40px)' }}>
                 <h2 style={{ fontSize:22,fontWeight:800,marginBottom:28 }}>Book Your Free Demo</h2>
                 <form onSubmit={handleSubmit}>
                   <input type="checkbox" name="botcheck" style={{ display:'none' }} />
@@ -212,7 +219,7 @@ export default function ContactPage() {
                   </button>
                   <p style={{ fontSize:12,color:T.muted,textAlign:'center',marginTop:14 }}>No spam, no hard sell. Just your demo.</p>
                 </form>
-              </Glass>
+              </GlowCard>
             )}
           </motion.div>
 
@@ -225,7 +232,7 @@ export default function ContactPage() {
               { Icon:Shield,   color:T.green,  title:'7-Day Guarantee',            body:'Your site goes live in 7 days or you get a full refund. Secure payment via Stripe or PayPal.' },
             ].map((item,i) => (
               <motion.div key={i} {...fadeUp(0.1*i)}>
-                <Glass style={{ padding:'18px 20px',display:'flex',gap:14,alignItems:'flex-start',border:`1px solid ${item.color}18` }}>
+                <GlowCard customSize glowColor={toGlow(item.color)} className="p-5 flex gap-3.5 items-start">
                   <div style={{ width:36,height:36,borderRadius:10,background:`${item.color}15`,border:`1px solid ${item.color}30`,display:'flex',alignItems:'center',justifyContent:'center',color:item.color,flexShrink:0 }}>
                     <item.Icon size={16}/>
                   </div>
@@ -234,12 +241,12 @@ export default function ContactPage() {
                     <div style={{ fontSize:13,color:T.muted,lineHeight:1.6 }}>{item.body}</div>
                     {item.link && <a href={item.link} target="_blank" rel="noreferrer" style={{ fontSize:13,color:T.blue,marginTop:6,display:'inline-block',fontWeight:600 }}>{item.linkLabel}</a>}
                   </div>
-                </Glass>
+                </GlowCard>
               </motion.div>
             ))}
 
             {/* What happens next */}
-            <Glass style={{ padding:'20px 22px' }}>
+            <GlowCard customSize glowColor="blue" className="p-5">
               <div style={{ fontSize:13,fontWeight:700,color:T.text,marginBottom:14 }}>What happens next?</div>
               {[
                 'I review your form and current online presence',
@@ -252,7 +259,7 @@ export default function ContactPage() {
                   <span style={{ fontSize:13,color:T.muted,lineHeight:1.5 }}>{step}</span>
                 </div>
               ))}
-            </Glass>
+            </GlowCard>
           </motion.div>
         </div>
       </section>

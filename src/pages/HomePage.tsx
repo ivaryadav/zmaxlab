@@ -9,6 +9,13 @@ import {
 } from 'lucide-react'
 import { useSEO } from '@/lib/useSEO'
 import { SparklesCore } from '@/components/ui/sparkles'
+import { GlowCard } from '@/components/ui/spotlight-card'
+
+const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
+  c === T.violet ? 'purple' :
+  c === T.green  ? 'green'  :
+  c === T.rose   ? 'red'    :
+  c === T.amber  ? 'orange' : 'blue'
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const T = {
@@ -58,19 +65,6 @@ function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string
   return <span ref={ref}>{prefix}{val}{suffix}</span>
 }
 
-// ─── Glass Card ───────────────────────────────────────────────────────────────
-function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div style={{
-      background: T.card,
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
-      border: `1px solid ${T.border}`,
-      borderRadius: 20,
-      ...style,
-    }} {...p}>{children}</div>
-  )
-}
 
 // ─── Hero Dashboard Mockup ────────────────────────────────────────────────────
 function Dashboard() {
@@ -82,7 +76,7 @@ function Dashboard() {
       transition={{ duration: 1.1, delay: 0.5, ease: EASE }}
       style={{ position: 'relative', width: '100%', maxWidth: 420 }}
     >
-      <Glass style={{ padding: 22, boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07)' }}>
+      <GlowCard customSize glowColor="blue" className="p-[22px]" style={{ boxShadow: '0 40px 100px rgba(0,0,0,0.7)' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -144,7 +138,7 @@ function Dashboard() {
             <span style={{ fontSize: 10, color: T.muted }}>{a.t} ago</span>
           </div>
         ))}
-      </Glass>
+      </GlowCard>
 
       {/* Floating badges */}
       <motion.div
@@ -407,13 +401,13 @@ export default function HomePage() {
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 20 }}>
           {STATS.map((s, i) => (
             <motion.div key={s.label} {...fadeUp(i * 0.1)}>
-              <Glass style={{ padding: '28px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+              <GlowCard customSize glowColor={toGlow(s.color)} className="p-7 text-center relative overflow-hidden">
                 <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 0%,${s.color}12,transparent 70%)`, pointerEvents: 'none' }} />
                 <div style={{ fontSize: 'clamp(36px,4vw,52px)', fontWeight: 900, color: s.color, lineHeight: 1, marginBottom: 8 }}>
                   <Counter to={s.n} prefix={s.prefix} suffix={s.suffix} />
                 </div>
                 <div style={{ fontSize: 13, color: T.muted, fontWeight: 500 }}>{s.label}</div>
-              </Glass>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -430,22 +424,29 @@ export default function HomePage() {
             <p style={{ fontSize: 16, color: T.muted, maxWidth: 580, margin: '0 auto' }}>Not a generic template. Every site is built around the nuances of your specialty, credentials, and the patients you actually want to attract - whether you're a solo NP or a 10-provider clinic.</p>
           </motion.div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 18 }}>
-            {SPECIALTIES.map((s, i) => (
-              <motion.div key={s.title} {...fadeUp(i * 0.08)} whileHover={{ y: -6, transition: { duration: 0.25 } }}>
-                <Glass style={{ padding: '28px 24px', height: '100%', cursor: 'default', border: `1px solid ${s.color}18` }}>
-                  <div style={{
-                    width: 48, height: 48, borderRadius: 14, marginBottom: 16,
-                    background: `${s.color}15`, border: `1px solid ${s.color}30`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color,
-                  }}>
-                    <s.Icon size={22} />
-                  </div>
-                  <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{s.title}</h3>
-                  <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.65, marginBottom: 14 }}>{s.desc}</p>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: 1 }}>{s.stat}</div>
-                </Glass>
-              </motion.div>
-            ))}
+            {SPECIALTIES.map((s, i) => {
+              const glowColor = s.color === T.violet ? 'purple'
+                : s.color === T.green  ? 'green'
+                : s.color === T.rose   ? 'red'
+                : s.color === T.amber  ? 'orange'
+                : 'blue'
+              return (
+                <motion.div key={s.title} {...fadeUp(i * 0.08)} style={{ height: '100%' }}>
+                  <GlowCard customSize glowColor={glowColor} className="h-full cursor-default p-7">
+                    <div style={{
+                      width: 48, height: 48, borderRadius: 14, marginBottom: 16,
+                      background: `${s.color}15`, border: `1px solid ${s.color}30`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color,
+                    }}>
+                      <s.Icon size={22} />
+                    </div>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8, color: T.text }}>{s.title}</h3>
+                    <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.65, marginBottom: 14 }}>{s.desc}</p>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: 1 }}>{s.stat}</div>
+                  </GlowCard>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -485,12 +486,7 @@ export default function HomePage() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.35, ease: EASE }}
               >
-              <Glass style={{
-                padding: '40px', maxWidth: 740, margin: '0 auto',
-                border: `1px solid ${tool.color}25`,
-                background: `linear-gradient(135deg,${tool.color}07,${T.card})`,
-                boxShadow: `0 0 60px ${tool.color}15`,
-              }}>
+              <GlowCard customSize glowColor={toGlow(tool.color)} className="p-10 max-w-185 mx-auto">
                 <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
                   <div style={{
                     width: 64, height: 64, borderRadius: 18, flexShrink: 0,
@@ -511,7 +507,7 @@ export default function HomePage() {
                     <p style={{ fontSize: 15, color: T.muted, lineHeight: 1.7 }}>{tool.desc}</p>
                   </div>
                 </div>
-              </Glass>
+              </GlowCard>
               </motion.div>
               )
             })()}
@@ -547,18 +543,14 @@ export default function HomePage() {
                 )}
               </div>
               {/* Card */}
-              <Glass style={{
-                flex: 1, padding: '20px 24px', marginBottom: 20,
-                border: `1px solid ${s.color}20`,
-                background: `linear-gradient(135deg,${s.color}06,${T.card})`,
-              }}>
+              <GlowCard customSize glowColor={toGlow(s.color)} className="p-5 mb-5" style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                   <span style={{ fontSize: 10, color: s.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, background: `${s.color}18`, padding: '2px 9px', borderRadius: 999 }}>{s.day}</span>
                   <span style={{ fontSize: 11, color: T.muted }}>Step {s.n}</span>
                 </div>
                 <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
                 <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.65 }}>{s.desc}</p>
-              </Glass>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
@@ -595,7 +587,7 @@ export default function HomePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
             {BEFORE_AFTER.map((item, i) => (
               <motion.div key={item.label} {...fadeUp(i * 0.08)}>
-                <Glass style={{ padding: '28px 20px', textAlign: 'center' }}>
+                <GlowCard customSize glowColor="blue" className="p-7 text-center">
                   <div style={{ fontSize: 12, color: T.muted, marginBottom: 14, fontWeight: 500 }}>{item.label}</div>
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -620,7 +612,7 @@ export default function HomePage() {
                       border: `1px solid ${T.green}33`,
                     }}>{item.pct}</motion.div>
                   )}
-                </Glass>
+                </GlowCard>
               </motion.div>
             ))}
           </div>
@@ -645,11 +637,11 @@ export default function HomePage() {
               { Icon: Award,         label: '$500 Flat',    sub: 'No Hidden Fees',     color: T.cyan   },
             ].map((b, i) => (
               <motion.div key={b.label} {...fadeUp(i * 0.08)}>
-                <Glass style={{ padding: '20px 24px', textAlign: 'center', minWidth: 140 }}>
+                <GlowCard customSize glowColor={toGlow(b.color)} className="p-5 text-center" style={{ minWidth: 140 }}>
                   <div style={{ color: b.color, display: 'flex', justifyContent: 'center', marginBottom: 8 }}><b.Icon size={22} /></div>
                   <div style={{ fontSize: 14, fontWeight: 800, color: T.text }}>{b.label}</div>
                   <div style={{ fontSize: 11, color: T.muted }}>{b.sub}</div>
-                </Glass>
+                </GlowCard>
               </motion.div>
             ))}
           </div>
@@ -678,11 +670,7 @@ export default function HomePage() {
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.4, ease: EASE }}
               >
-                <Glass style={{
-                  padding: '40px',
-                  border: `1px solid ${TESTIMONIALS[tIdx].color}22`,
-                  background: `linear-gradient(135deg,${TESTIMONIALS[tIdx].color}06,${T.card})`,
-                }}>
+                <GlowCard customSize glowColor={toGlow(TESTIMONIALS[tIdx].color)} className="p-10">
                   <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
                     {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={16} fill={T.amber} color={T.amber} />)}
                   </div>
@@ -709,7 +697,7 @@ export default function HomePage() {
                       fontSize: 13, fontWeight: 800, color: TESTIMONIALS[tIdx].color,
                     }}>{TESTIMONIALS[tIdx].result}</div>
                   </div>
-                </Glass>
+                </GlowCard>
               </motion.div>
             </AnimatePresence>
 
