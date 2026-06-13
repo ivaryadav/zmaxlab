@@ -7,7 +7,7 @@ const GS = { fontFamily: "'Space Grotesk',sans-serif" }
 const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 28 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
 
 const VALUES = [
-  { icon: <Heart size={20}/>, color: '#f472b6', title: 'Healthcare First', desc: 'Every decision â design, copy, features â is made through the lens of what helps practitioners get more patients.' },
+  { icon: <Heart size={20}/>, color: '#f472b6', title: 'Healthcare First', desc: 'Every decision Ã¢ÂÂ design, copy, features Ã¢ÂÂ is made through the lens of what helps practitioners get more patients.' },
   { icon: <Code size={20}/>, color: '#1b6fff', title: 'Hand-Coded Quality', desc: 'No WordPress, no templates, no page builders. Every line of code is written for your specific practice.' },
   { icon: <Globe size={20}/>, color: '#00c896', title: 'Transparent Pricing', desc: 'One price. No surprises. No hidden fees, no upsells on calls, no nickel-and-diming. $500 is $500.' },
 ]
@@ -15,8 +15,8 @@ const VALUES = [
 export default function AboutPage() {
   const aboutSchema = [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer & NPI Website Specialist","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. 60+ sites delivered. $500 flat fee. 7-day guarantee.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"knowsAbout":["Healthcare Website Design","NPI Practitioner Websites","Nurse Practitioner Websites","Medical SEO","HIPAA-Aware Web Design"]}]
     useSEO({
-        title: 'About Ravi â Healthcare Web Designer for Nurse Practitioners & NPI Practitioners | ZmaxLab',
-            description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners â nurse practitioners, PAs, mental health providers. 60+ sites. 7-day guarantee.',
+        title: 'About Ravi Ã¢ÂÂ Healthcare Web Designer for Nurse Practitioners & NPI Practitioners | ZmaxLab',
+            description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners Ã¢ÂÂ nurse practitioners, PAs, mental health providers. 60+ sites. 7-day guarantee.',
                 canonical: 'https://zmaxlab.site/about',
                     schema: aboutSchema
                       })
@@ -36,7 +36,7 @@ export default function AboutPage() {
                 <span style={{ background: 'linear-gradient(135deg,#1b6fff,#00c896)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>I build websites for healthcare practitioners.</span>
               </h1>
               <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, marginBottom: 16 }}>
-                I've spent years watching brilliant healthcare practitioners struggle to get found online â not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.
+                I've spent years watching brilliant healthcare practitioners struggle to get found online Ã¢ÂÂ not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.
               </p>
               <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, marginBottom: 28 }}>
                 ZmaxLab exists to fix that. One person, one mission: give every NPI-registered practitioner across all 50 US states a website that actually works.
@@ -92,10 +92,10 @@ export default function AboutPage() {
             <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px', marginBottom: 28 }}>Why I built ZmaxLab</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               {[
-                'A nurse practitioner I knew had just opened her own practice after 10 years working in a hospital. She was incredible at her job â patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.',
+                'A nurse practitioner I knew had just opened her own practice after 10 years working in a hospital. She was incredible at her job Ã¢ÂÂ patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.',
                 'She went to a local web agency. They quoted her $6,500 for a basic website and $800/month for "digital marketing." She turned them down. She tried Squarespace. She spent 3 weekends on it and ended up with something that looked like a 2012 company intranet.',
-                'That\'s when I stepped in. I built her a custom website in 5 days for $500. Within 3 months, she was ranking #3 for "family nurse practitioner [city]" and getting 4â6 new patient inquiries per week from Google alone.',
-                'She told two colleagues. Then three more. Then I realised this was a real problem â and I was in a unique position to solve it for a lot of practitioners who had the same story.',
+                'That\'s when I stepped in. I built her a custom website in 5 days for $500. Within 3 months, she was ranking #3 for "family nurse practitioner [city]" and getting 4Ã¢ÂÂ6 new patient inquiries per week from Google alone.',
+                'She told two colleagues. Then three more. Then I realised this was a real problem Ã¢ÂÂ and I was in a unique position to solve it for a lot of practitioners who had the same story.',
                 'That\'s ZmaxLab. No frills. No inflated agency pricing. Just one person who builds every single website personally, with deep knowledge of what makes healthcare practitioners get found and chosen by patients.',
               ].map((p, i) => (
                 <motion.p key={i} {...fadeUp(i * 0.07)} style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)', lineHeight: 1.85 }}>{p}</motion.p>
@@ -146,11 +146,11 @@ export default function AboutPage() {
             <h2 style={{ ...GS, fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px', marginBottom: 20 }}>My promise to every practitioner</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
               {[
-                'I will personally build every page of your website â nothing is outsourced',
+                'I will personally build every page of your website Ã¢ÂÂ nothing is outsourced',
                 'I will respond to every email within 2 hours during US business hours (EST/CST/PST)',
                 'If your site isn\'t live in 7 days, you get a full refund, no questions asked',
                 'I will never recommend a service you don\'t genuinely need',
-                'You will own your website completely â source code, hosting, everything',
+                'You will own your website completely Ã¢ÂÂ source code, hosting, everything',
               ].map(p => (
                 <div key={p} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                   <CheckCircle2 size={16} style={{ color: '#00c896', flexShrink: 0, marginTop: 2 }}/>
