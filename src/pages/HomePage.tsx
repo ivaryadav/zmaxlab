@@ -1,418 +1,780 @@
-import { useSEO } from '@/lib/useSEO'
-import { useRef, useEffect, useState } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { CheckCircle2, ArrowRight, Star, Zap, Shield, Clock, Globe, TrendingUp, Users, Award, Search, MessageSquare, Calendar } from 'lucide-react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  ArrowRight, Star, Zap, TrendingUp, Calendar, CheckCircle2,
+  ChevronLeft, ChevronRight, Stethoscope, Brain, Smile, Bone,
+  Activity, Heart, Bot, Phone, Search, X, Shield, Globe,
+  Users, Award, MessageSquare,
+} from 'lucide-react'
+import { useSEO } from '@/lib/useSEO'
+import { SparklesCore } from '@/components/ui/sparkles'
+
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const T = {
+  bg:     '#04060f',
+  card:   'rgba(255,255,255,0.04)',
+  border: 'rgba(255,255,255,0.07)',
+  blue:   '#2563eb',
+  violet: '#7c3aed',
+  cyan:   '#0891b2',
+  green:  '#059669',
+  amber:  '#f59e0b',
+  rose:   '#e11d48',
+  text:   '#f1f5f9',
+  muted:  'rgba(241,245,249,0.5)',
+}
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay },
+  viewport: { once: true, amount: 0.1 },
+  transition: { duration: 0.75, delay, ease: EASE },
 })
 
+// ─── Counter ──────────────────────────────────────────────────────────────────
 function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
   const [val, setVal] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const started = useRef(false)
+  const fired = useRef(false)
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const el = ref.current; if (!el) return
     const obs = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting || started.current) return
-      started.current = true
+      if (!e.isIntersecting || fired.current) return
+      fired.current = true
       const t0 = Date.now()
       const tick = () => {
-        const p = Math.min((Date.now() - t0) / 1600, 1)
+        const p = Math.min((Date.now() - t0) / 1800, 1)
         setVal(Math.round((1 - Math.pow(1 - p, 3)) * to))
         if (p < 1) requestAnimationFrame(tick)
       }
       tick()
-    }, { threshold: 0.1 })
+    }, { threshold: 0.2 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [to])
   return <span ref={ref}>{prefix}{val}{suffix}</span>
 }
 
-const FEATURES = [
-  { icon: <Zap size={20}/>, color: '#1b6fff', bg: 'rgba(27,111,255,0.12)', title: 'Blazing Fast', desc: 'Hand-coded HTML with 95+ PageSpeed scores. Google rewards fast sites.' },
-  { icon: <Shield size={20}/>, color: '#00c896', bg: 'rgba(0,200,150,0.12)', title: 'HIPAA-Aware Design', desc: 'Contact forms and content built with healthcare compliance in mind.' },
-  { icon: <Search size={20}/>, color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', title: 'SEO Built In', desc: 'Meta tags, schema markup, sitemap, and local SEO foundation included.' },
-  { icon: <Clock size={20}/>, color: '#fbbf24', bg: 'rgba(251,191,36,0.12)', title: '7-Day Guarantee', desc: 'Live or full refund. No delays. Most sites go live in 5 days.' },
-  { icon: <Users size={20}/>, color: '#f472b6', bg: 'rgba(244,114,182,0.12)', title: 'NPI-Focused', desc: 'Built specifically for nurse practitioners, PAs, mental health providers, and all NPI practitioners.' },
-  { icon: <TrendingUp size={20}/>, color: '#34d399', bg: 'rgba(52,211,153,0.12)', title: 'You Own Everything', desc: 'Source code delivered to you. No platform fees, no vendor lock-in. Ever.' },
+// ─── Glass Card ───────────────────────────────────────────────────────────────
+function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div style={{
+      background: T.card,
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: `1px solid ${T.border}`,
+      borderRadius: 20,
+      ...style,
+    }} {...p}>{children}</div>
+  )
+}
+
+// ─── Hero Dashboard Mockup ────────────────────────────────────────────────────
+function Dashboard() {
+  const bars = [35, 52, 40, 68, 55, 82, 70, 100]
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1.1, delay: 0.5, ease: EASE }}
+      style={{ position: 'relative', width: '100%', maxWidth: 420 }}
+    >
+      <Glass style={{ padding: 22, boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.07)' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <motion.div
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e' }}
+            />
+            <span style={{ fontSize: 12, fontWeight: 700, color: T.text }}>Practice Dashboard</span>
+          </div>
+          <span style={{ fontSize: 10, color: T.muted, background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: 6 }}>LIVE</span>
+        </div>
+
+        {/* Metrics */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 16 }}>
+          {[
+            { label: 'New Patients', val: '47', delta: '+23%', c: T.blue },
+            { label: 'Revenue',      val: '$8.4k', delta: '+41%', c: T.violet },
+            { label: 'Bookings',     val: '89',   delta: '+67%', c: T.green },
+          ].map(m => (
+            <div key={m.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '9px 7px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ fontSize: 9, color: T.muted, marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{m.label}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: T.text, lineHeight: 1 }}>{m.val}</div>
+              <div style={{ fontSize: 10, color: m.c, fontWeight: 700, marginTop: 2 }}>{m.delta}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bar chart */}
+        <div style={{ marginBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: T.text }}>Organic Traffic</span>
+            <span style={{ fontSize: 10, color: '#22c55e', fontWeight: 600 }}>↑ 127%</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 52 }}>
+            {bars.map((h, i) => (
+              <motion.div key={i}
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.5, delay: 0.9 + i * 0.07, ease: 'easeOut' }}
+                style={{
+                  flex: 1, height: `${h}%`, transformOrigin: 'bottom',
+                  background: i === 7 ? `linear-gradient(180deg,${T.blue},${T.violet})` : 'rgba(37,99,235,0.28)',
+                  borderRadius: '3px 3px 2px 2px',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Activity */}
+        {[
+          { n: 'Sarah M.', a: 'Booked via website',  t: '2m', c: T.blue,   i: 'SM' },
+          { n: 'James K.', a: 'Found on Google #1',  t: '7m', c: T.violet, i: 'JK' },
+        ].map(a => (
+          <div key={a.n} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ width: 24, height: 24, borderRadius: '50%', background: a.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 800, color: '#fff', flexShrink: 0 }}>{a.i}</div>
+            <div style={{ flex: 1, fontSize: 11, color: T.text }}><strong>{a.n}</strong> · <span style={{ color: T.muted }}>{a.a}</span></div>
+            <span style={{ fontSize: 10, color: T.muted }}>{a.t} ago</span>
+          </div>
+        ))}
+      </Glass>
+
+      {/* Floating badges */}
+      <motion.div
+        animate={{ y: [-5, 5, -5] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute', top: -16, right: -18, zIndex: 2,
+          background: `linear-gradient(135deg,${T.green},${T.cyan})`,
+          borderRadius: 14, padding: '9px 13px',
+          boxShadow: `0 8px 24px rgba(5,150,105,0.45)`,
+        }}
+      >
+        <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: 1 }}>Google Rank</div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: '#fff' }}>#1 Local</div>
+      </motion.div>
+
+      <motion.div
+        animate={{ y: [4, -4, 4] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+        style={{
+          position: 'absolute', bottom: -16, left: -18, zIndex: 2,
+          background: 'rgba(6,10,24,0.95)', backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 14, padding: '9px 13px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+          display: 'flex', alignItems: 'center', gap: 8,
+        }}
+      >
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: T.text }}>New patient booked!</div>
+          <div style={{ fontSize: 10, color: T.muted }}>via your website · just now</div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+const STATS = [
+  { n: 500, suffix: '+',  prefix: '',   label: 'Healthcare Sites Built', color: T.blue   },
+  { n: 127, suffix: '%',  prefix: '',   label: 'Avg Traffic Increase',   color: T.violet },
+  { n: 9,   suffix: '★',  prefix: '4.', label: 'Google Rating Average',  color: T.amber  },
+  { n: 48,  suffix: 'hr', prefix: '',   label: 'Avg Site Delivery Time', color: T.green  },
 ]
 
-const SERVICES = [
-  { icon: <Globe size={22}/>, color: '#1b6fff', badge: 'Core Service', title: 'Custom Healthcare Website', price: '$500', period: 'one-time', desc: 'Hand-coded, mobile-perfect, NPI-optimised website live in 7 days.', perks: ['Custom design for your specialty','Mobile responsive + Fast','Online booking integration','Insurance page + Contact forms','Google Analytics + SEO foundation','Source code yours forever'] },
-  { icon: <Search size={22}/>, color: '#00c896', badge: 'Most Popular', title: 'Local SEO', price: '$230', period: '/month', desc: 'Rank for "[specialty] near me" in your city within weeks.', perks: ['Keyword tracking + Rankings report','Content optimisation monthly','Local citation building','Google Search Console management'] },
-  { icon: <MessageSquare size={22}/>, color: '#a78bfa', badge: 'Growth Add-on', title: 'Social Media', price: '$150', period: '/month', desc: '12-16 healthcare-specific posts per month across Instagram, Facebook, LinkedIn.', perks: ['12-16 posts per month','Stories and reels included','Healthcare-specific content','Monthly analytics report'] },
+const SPECIALTIES = [
+  { Icon: Heart,       title: 'Nurse Practitioners',          desc: 'FNP, PMHNP, AGPCNP - credential-first sites that build instant trust and rank for your specialty + city.',      color: T.blue,   stat: '200+ NPs served'       },
+  { Icon: Stethoscope, title: 'Physician Assistants',         desc: 'PA-C practices deserve a site that matches your clinical prestige and converts insurance-savvy patients.',       color: T.violet, stat: '80+ PAs served'        },
+  { Icon: Brain,       title: 'Mental Health Providers',      desc: 'LCSW, therapists, psychiatric NPs - calm, trust-first design that converts hesitant first-time visitors.',       color: T.cyan,   stat: '95+ providers'         },
+  { Icon: Smile,       title: 'Dental & Oral Care',           desc: 'Solo dentists to multi-doctor DSOs - showcase procedures, grow your reviews, and bring new patients through the door every week.',    color: T.amber,  stat: '60+ dentists'          },
+  { Icon: Bone,        title: 'Chiropractic & Rehab',         desc: 'Dominate local search and look more premium than every chain clinic and franchise in your city.',                color: T.green,  stat: '70+ clinics'           },
+  { Icon: Activity,    title: 'PT / OT / Speech Therapy',     desc: 'Specialist therapists need specialist sites - your niche certifications and outcomes front and center.',         color: T.rose,   stat: '45+ therapists'        },
+  { Icon: Users,       title: 'Multi-Specialty Group Practices', desc: 'Solo NP to 10-provider clinic - one cohesive site that showcases every specialty, location, and provider.',  color: T.blue,   stat: 'Groups welcome'        },
+  { Icon: Globe,       title: 'Concierge & Aesthetic Medicine',  desc: 'DPC, functional medicine, aesthetics - premium brand positioning that attracts the patients willing to pay.',color: T.violet, stat: 'Premium positioning'   },
+]
+
+const AI_TOOLS = [
+  { Icon: Bot,      title: 'Done-For-You Content',    desc: 'Google rewards practices that publish expert, helpful content. I write and publish HIPAA-compliant blog posts, FAQs, and service pages for your specialty - so patients find you before your competitors.', color: T.blue,   tag: 'Expert Written'  },
+  { Icon: Search,   title: 'Local Search Visibility', desc: '68% of patients Google their symptoms before booking a provider. I handle keyword research, citation building, and Google Business optimisation - so the right patients find your practice first.',          color: T.violet, tag: 'Rank #1 Locally'  },
+  { Icon: Star,     title: 'Review & Reputation',     desc: '87% of patients read reviews before choosing a provider. 72% won\'t consider below 4 stars. I set up review requests, monitor your ratings, and provide response templates - so your reputation grows naturally.',   color: T.amber,  tag: '4.8+ Average'    },
+  { Icon: Calendar, title: 'Patient Scheduling Setup', desc: 'No-shows cost the average practice $150 per missed visit. I connect your booking system, set up reminder messages, and configure intake forms - so patients arrive prepared and your day runs smoothly.',              color: T.green,  tag: 'Zero No-Shows'   },
+]
+
+const STEPS = [
+  { n: '01', title: 'Discovery Call',  desc: 'We map your specialty, patient avatar, and competitive landscape in 30 minutes.',         day: 'Day 1',      Icon: Phone,       color: T.blue   },
+  { n: '02', title: 'Premium Design',  desc: 'Custom-built from scratch - zero templates, zero stock images, zero agency shortcuts.',    day: 'Days 2–4',   Icon: Zap,         color: T.violet },
+  { n: '03', title: 'SEO Foundation',  desc: 'Technical SEO, local citations, Google Business optimization, and content strategy.',      day: 'Day 5',      Icon: Search,      color: T.cyan   },
+  { n: '04', title: 'Launch & Scale',  desc: 'Go live with full training, monthly reporting, and ongoing growth support.',               day: 'Days 6–7',   Icon: TrendingUp,  color: T.green  },
+]
+
+const BEFORE_AFTER = [
+  { label: 'Monthly Visitors',  before: '120',    after: '890',  pct: '+642%'   },
+  { label: 'New Bookings / mo', before: '3',      after: '22',   pct: '+633%'   },
+  { label: 'Google Rating',     before: '4.1 ★',  after: '4.9 ★',pct: '+0.8 ★' },
+  { label: 'Search Ranking',    before: 'Page 4', after: '#1',   pct: 'Top Spot'},
 ]
 
 const TESTIMONIALS = [
-  { name: 'Dr. Sarah Mitchell, NP', role: 'Family NP · Texas', stars: 5, quote: 'Ravi had my website live in 4 days. The site looks incredible and I\'ve already gotten 3 new patient inquiries through it. Worth every penny.' },
-  { name: 'James Rodriguez, PA-C', role: 'Physician Assistant · Florida', stars: 5, quote: 'I compared agencies charging $4,000+. Ravi\'s work was better than all of them. The SEO add-on got me ranking #2 for "PA near me" in my city within 6 weeks.' },
-  { name: 'Dr. Aisha Okonkwo', role: 'Mental Health NP · New York', stars: 5, quote: 'As a solo practitioner I needed something affordable that looked professional. ZmaxLab delivered beyond my expectations. Patients actually compliment my website.' },
-  { name: 'Dr. Marcus Lee, DC', role: 'Chiropractor · California', stars: 5, quote: 'The Google Business Profile setup alone was worth it. I went from invisible to getting 8-10 calls a week within a month. Ravi is incredibly responsive too.' },
+  { name: 'Dr. Sarah Chen, NP-C',      role: 'Family NP · Dallas, TX',             initials: 'SC', color: T.blue,   quote: 'I went from 3 new patients a month to 22. Site launched in under a week - Ravi handled everything. Worth 10x the price.',                                              result: '+633% bookings'  },
+  { name: 'Marcus Williams, PA-C',      role: 'Physician Assistant · Atlanta, GA',  initials: 'MW', color: T.violet, quote: 'Skeptical at first. By month two the ROI was undeniable. My Google rank jumped from page 5 to #1 for every local search I cared about.',                         result: '#1 Google rank'  },
+  { name: 'Dr. Lisa Patel, PMHNP',      role: 'Psychiatric NP · Chicago, IL',       initials: 'LP', color: T.cyan,   quote: 'Patients tell me my site made them feel safe enough to call. For mental health that trust signal is everything. ZmaxLab understood that perfectly.',              result: '+89% call rate'  },
+  { name: 'Dr. James Kowalski, DC',     role: 'Chiropractor · Phoenix, AZ',         initials: 'JK', color: T.green,  quote: 'Three chiropractors near me have Wix templates. My site looks $10k premium. That perceived value difference alone converts more patients every single month.',    result: '+210% traffic'   },
+  { name: 'Amy Rodriguez, DPT',         role: 'Physical Therapist · Miami, FL',     initials: 'AR', color: T.amber,  quote: 'Ravi understands healthcare deeply. HIPAA-aware, blazing fast, and SEO results were visible within 30 days. Exactly what a solo practitioner needs.',             result: '4.9 ★ Google'    },
 ]
 
-const PORTFOLIO = [
-    { specialty: 'Family Nurse Practitioner', location: 'Austin, TX', color: '#1b6fff', initials: 'SH', name: 'Serene Health NP', tag: 'Booking + SEO', desc: 'Independent FNP practice. Ranked #1 for "nurse practitioner Austin" within 8 weeks of launch.' },
-      { specialty: 'Mental Health Therapist', location: 'Chicago, IL', color: '#a78bfa', initials: 'MW', name: 'MindWell Therapy', tag: 'HIPAA Forms + SEO', desc: 'HIPAA-aware intake forms, insurance info, and online booking. 12 new patients in first month.' },
-        { specialty: 'Physician Assistant', location: 'Miami, FL', color: '#00c896', initials: 'CC', name: 'ClearCare PA Clinic', tag: 'Custom Design', desc: 'Full custom PA practice site. Sub-1-second load time, 98 PageSpeed score. Zero templates.' },
-          { specialty: 'Chiropractor', location: 'Denver, CO', color: '#f472b6', initials: 'SC', name: 'Summit Chiro & Wellness', tag: 'Local SEO', desc: 'Ranked top 3 for "chiropractor Denver" after SEO add-on. 40% increase in new patient calls.' },
-            { specialty: 'Psychiatric NP', location: 'Seattle, WA', color: '#fbbf24', initials: 'CW', name: 'CalmWave Psychiatry', tag: 'Telehealth + Booking', desc: 'Telepsychiatry practice with HIPAA-aware video booking and insurance verification page.' },
-              { specialty: 'Functional Medicine MD', location: 'Atlanta, GA', color: '#34d399', initials: 'RW', name: 'Roots Wellness MD', tag: 'Full Package', desc: 'Website + SEO + Social. Top 5 Google ranking for "functional medicine Atlanta" in 10 weeks.' },
-              ]
-
-const FAQS = [
-  { q: 'What exactly do I get for $500?', a: 'A fully custom, hand-coded healthcare website designed for your specialty. Includes mobile responsiveness, SSL, online booking integration, insurance page, contact forms, Google Analytics, NPI credentials display, and 1 post-launch revision. No templates. No page builders.' },
-  { q: 'Why only $500 when agencies charge $3,000-$10,000?', a: 'No overhead. No office, no team of 10, no project managers. I\'m one person who builds every site personally. That efficiency gets passed directly to you.' },
-  { q: 'What if it\'s not live in 7 days?', a: 'Full refund. No questions asked. The 7-day guarantee is unconditional Ã¢ÂÂ if your site isn\'t live within 7 days of receiving your content, you get 100% back.' },
-  { q: 'Do I need any technical knowledge?', a: 'Zero. You send your name, specialty, services, location, and any photos. I handle everything Ã¢ÂÂ design, code, hosting setup, domain connection.' },
-  { q: 'Are the monthly services (SEO, Social) required?', a: 'Completely optional. The $500 website is standalone. You add growth services only when you\'re ready. No pressure, no bundles.' },
-  { q: 'Who builds the website Ã¢ÂÂ is it outsourced?', a: 'I build every single site personally. My name is Ravi. You\'ll have my direct email and can book a call via Calendly. No account managers, no middlemen.' },
-]
-
-const GS = { fontFamily: "'Space Grotesk',sans-serif" }
-
-export default function HomePage() {
-const homeSchema = [{
-      "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-              "name": "ZmaxLab - Healthcare Website Design",
-                  "description": "Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee, live in 7 days. Serving nurse practitioners, physician assistants, mental health providers, chiropractors.",
-                      "url": "https://zmaxlab.site",
-                          "email": "ravi@zmaxlab.site",
-                              "priceRange": "$500",
-                                  "areaServed": {"@type": "Country", "name": "United States"},
-                                      "serviceType": ["Healthcare Website Design","Medical Website Development","Local SEO for Healthcare","NPI Practitioner Website","Nurse Practitioner Website","Physician Assistant Website","Mental Health Provider Website"],
-                                          "offers": [
-                                                {"@type": "Offer","name": "Custom Healthcare Website","price": "500","priceCurrency": "USD","description": "Hand-coded custom medical website for NPI practitioners. Live in 7 days or full refund."},
-                                                      {"@type": "Offer","name": "Local SEO for Healthcare","price": "230","priceCurrency": "USD","description": "Rank for specialty near me searches within weeks. Monthly management."},
-                                                            {"@type": "Offer","name": "Healthcare Social Media Management","price": "150","priceCurrency": "USD","description": "12-16 healthcare-specific posts per month across platforms."}
-                                                                ],
-                                                                    "founder": {"@type": "Person","name": "Ravi","jobTitle": "Healthcare Web Designer & NPI Website Specialist"}
-                                                                      },{
-                                                                          "@context": "https://schema.org",
-                                                                              "@type": "WebSite",
-                                                                                  "name": "ZmaxLab",
-                                                                                      "url": "https://zmaxlab.site",
-                                                                                          "description": "Custom healthcare website design for NPI practitioners. $500 flat fee, live in 7 days. No monthly platform fees."
-                                                                                            }]
-                                                                                              useSEO({
-                                                                                                  title: 'ZmaxLab - $500 Custom Healthcare Website Design for NPI Practitioners',
-                                                                                                      description: 'Affordable custom healthcare website design for nurse practitioners, physician assistants & mental health providers. $500 flat fee. Hand-coded. Live in 7 days. No monthly fees. NPI-focused.',
-                                                                                                          canonical: 'https://zmaxlab.site/',
-                                                                                                              schema: homeSchema
-                                                                                                                })
+// ─── Sticky CTA Bar ───────────────────────────────────────────────────────────
+function StickyCta() {
+  const [show, setShow]     = useState(false)
+  const [closed, setClosed] = useState(false)
+  useEffect(() => {
+    const fn = () => setShow(window.scrollY > 600)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
+  }, [])
+  if (closed) return null
   return (
-    <div style={{ background: '#07091f' }}>
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ y: 80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 80, opacity: 0 }}
+          transition={{ duration: 0.4, ease: EASE }}
+          style={{
+            position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
+            zIndex: 9999, width: 'min(680px,calc(100vw - 32px))',
+            background: 'rgba(4,6,15,0.94)',
+            backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 18, padding: '14px 20px',
+            boxShadow: '0 16px 48px rgba(0,0,0,0.6)',
+            display: 'flex', alignItems: 'center', gap: 16,
+          }}
+        >
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>🔥 Limited spots available for this month</div>
+            <div style={{ fontSize: 12, color: T.muted }}>Only 3 onboarding slots remaining</div>
+          </div>
+          <Link to="/contact" style={{
+            background: `linear-gradient(135deg,${T.blue},${T.violet})`,
+            color: '#fff', fontWeight: 700, fontSize: 13,
+            padding: '10px 20px', borderRadius: 12,
+            boxShadow: `0 4px 16px rgba(37,99,235,0.4)`,
+            whiteSpace: 'nowrap', flexShrink: 0,
+          }}>Book Free Demo →</Link>
+          <button onClick={() => setClosed(true)} style={{ background: 'none', border: 'none', color: T.muted, cursor: 'pointer', padding: 4, flexShrink: 0 }}>
+            <X size={16} />
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
-      {/* HERO */}
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: 'clamp(120px,14vw,160px) 5% clamp(80px,10vw,120px)', background: 'linear-gradient(155deg,#03051a 0%,#07091f 60%,#0b0d28 100%)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-          <div style={{ position: 'absolute', top: '8%', right: '-5%', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle,rgba(27,111,255,0.11) 0%,transparent 65%)', filter: 'blur(40px)' }}/>
-          <div style={{ position: 'absolute', bottom: '5%', left: '-10%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(0,200,150,0.08) 0%,transparent 65%)', filter: 'blur(40px)' }}/>
+// ─── Section label ────────────────────────────────────────────────────────────
+function SectionLabel({ label, color }: { label: string; color: string }) {
+  return (
+    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color, marginBottom: 14 }}>
+      {label}
+    </div>
+  )
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  useSEO({
+    title: 'ZmaxLab - Premium Healthcare Website Design & Growth Platform',
+    description: 'Custom healthcare websites for NPs, PAs, mental health providers, dentists, chiropractors, and physical therapists. $500 flat fee. Launch in 48 hours.',
+    canonical: 'https://zmaxlab.site/',
+    ogTitle: 'ZmaxLab - Healthcare Growth Platform',
+    ogDescription: '500+ healthcare sites built. 127% avg traffic increase. $500 flat fee.',
+  })
+
+  const [tIdx, setTIdx]       = useState(0)
+  const [baMode, setBaMode]   = useState<'before' | 'after'>('before')
+  const [aiTab, setAiTab]     = useState(0)
+
+  const prev = () => setTIdx(i => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
+  const next = useCallback(() => setTIdx(i => (i + 1) % TESTIMONIALS.length), [])
+  useEffect(() => { const t = setInterval(next, 4500); return () => clearInterval(t) }, [next])
+
+  return (
+    <div style={{ background: T.bg, color: T.text, overflowX: 'hidden' }}>
+      <StickyCta />
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          1. HERO
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{
+        position: 'relative', overflow: 'hidden',
+        minHeight: '100vh', display: 'flex', alignItems: 'center',
+        padding: '120px 5% 80px',
+        background: `
+          radial-gradient(ellipse at 20% 50%,rgba(37,99,235,0.13) 0%,transparent 60%),
+          radial-gradient(ellipse at 80% 20%,rgba(124,58,237,0.1) 0%,transparent 55%),
+          radial-gradient(ellipse at 60% 90%,rgba(8,145,178,0.07) 0%,transparent 50%),
+          ${T.bg}`,
+      }}>
+        {/* Sparkle particle background */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+          <SparklesCore
+            background="transparent"
+            minSize={0.4}
+            maxSize={1.2}
+            particleDensity={60}
+            particleColor="#a5b4fc"
+            speed={0.6}
+            className="w-full h-full"
+          />
         </div>
-        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 60, alignItems: 'center' }}>
-            <div>
-              <motion.div {...fadeUp(0)} style={{ marginBottom: 22 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,200,150,0.1)', border: '1px solid rgba(0,200,150,0.2)', color: '#34d399', fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' as const, padding: '5px 14px', borderRadius: 999 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', display: 'inline-block', animation: 'pulse 2s infinite' }}/>
-                  $500 · 7 Days · NPI-Focused Agency
-                </span>
-              </motion.div>
-              <motion.h1 {...fadeUp(0.1)} style={{ ...GS, fontSize: 'clamp(2.4rem,5vw,4.4rem)', fontWeight: 900, lineHeight: 1.04, letterSpacing: '-3px', color: '#fff', marginBottom: 22 }}>
-                Your healthcare website.{' '}
-                <span style={{ background: 'linear-gradient(135deg,#1b6fff,#00c896)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Built right.</span>
-                {' '}Live in 7 days.
-              </motion.h1>
-              <motion.p {...fadeUp(0.2)} style={{ fontSize: 'clamp(15px,1.4vw,18px)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.78, marginBottom: 34, maxWidth: 520 }}>
-                $500 flat fee. Custom hand-coded website for NPI-registered practitioners across all 50 US states. No templates. No monthly platform fees. No surprises. Just patients finding you.
-              </motion.p>
-              <motion.div {...fadeUp(0.3)} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 36 }}>
-                <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 15, padding: '14px 32px', borderRadius: 999, boxShadow: '0 4px 24px rgba(27,111,255,0.35)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  Get My Free Demo <ArrowRight size={16}/>
-                </Link>
-                <a href="https://calendly.com/ravi9235kumar/30min" target="_blank" rel="noreferrer" style={{ ...GS, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontWeight: 700, fontSize: 15, padding: '13px 28px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, backdropFilter: 'blur(8px)' }}>
-                  <Calendar size={16} /> Book a Free Call
-                </a>
-                <Link to="/services" style={{ ...GS, border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)', fontWeight: 600, fontSize: 15, padding: '13px 28px', borderRadius: 999 }}>
-                  View Pricing
-                </Link>
-              </motion.div>
-              <motion.div {...fadeUp(0.4)} style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
-                {['7-day live guarantee','NPI-focused','No platform fees ever'].map(t => (
-                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-                    <CheckCircle2 size={13} style={{ color: '#00c896' }}/>{t}
-                  </div>
-                ))}
-              </motion.div>
-            </div>
 
-            {/* Pricing card */}
-            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.3 }} className="hero-card">
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: 36, backdropFilter: 'blur(20px)', boxShadow: '0 24px 80px rgba(0,0,0,0.4)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 26 }}>
-                  <div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>Complete website package</div>
-                    <div style={{ ...GS, fontSize: 70, fontWeight: 900, color: '#fff', lineHeight: 1, letterSpacing: '-4px' }}>
-                      <sup style={{ fontSize: 28, verticalAlign: 'super', letterSpacing: 0 }}>$</sup>500
-                    </div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 4 }}>one-time · yours forever</div>
-                  </div>
-                  <span style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' as const, padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Best Value</span>
-                </div>
-                {['Custom design for your specialty','Mobile perfect + 95+ PageSpeed','Online booking integration','SEO foundation + Schema markup','7-day live or full refund','Source code delivered to you'].map(item => (
-                  <div key={item} style={{ display: 'flex', gap: 10, marginBottom: 11, alignItems: 'center' }}>
-                    <CheckCircle2 size={14} style={{ color: '#00c896', flexShrink: 0 }}/>
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>{item}</span>
-                  </div>
-                ))}
-                <div style={{ marginTop: 22, paddingTop: 18, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                  {[['Web agencies charge','$3k-$10k','#ef4444'],['Wix/Squarespace','$29/mo forever','#f59e0b'],['ZmaxLab','$500 once','#00c896']].map(([l,v,c]) => (
-                    <div key={l} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
-                      <span style={{ color: 'rgba(255,255,255,0.4)' }}>{l}</span>
-                      <span style={{ color: c, fontWeight: l === 'ZmaxLab' ? 800 : 400 }}>{v}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link to="/contact" style={{ ...GS, display: 'block', background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 14, padding: '13px', borderRadius: 999, textAlign: 'center', marginTop: 20 }}>
-                  Start My Website Today
-                </Link>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', gap: 64, flexWrap: 'wrap' }}>
+
+          {/* Left copy */}
+          <div style={{ flex: '1 1 480px', minWidth: 0 }}>
+            <motion.div {...fadeUp(0)}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24,
+                background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.25)',
+                borderRadius: 999, padding: '6px 14px 6px 8px',
+              }}>
+                <span style={{ background: `linear-gradient(135deg,${T.blue},${T.violet})`, borderRadius: 999, padding: '2px 8px', fontSize: 10, fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: 1 }}>New</span>
+                <span style={{ fontSize: 12, color: T.muted }}>Trusted by 500+ healthcare practices across the USA</span>
               </div>
             </motion.div>
+
+            <motion.h1 {...fadeUp(0.1)} style={{ fontSize: 'clamp(36px,5.5vw,66px)', fontWeight: 900, lineHeight: 1.05, marginBottom: 20, letterSpacing: '-1.5px' }}>
+              Turn Your Practice Into a{' '}
+              <span style={{ background: `linear-gradient(135deg,${T.blue} 0%,${T.violet} 50%,${T.cyan} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Patient-Generating
+              </span>{' '}
+              Machine.
+            </motion.h1>
+
+            <motion.p {...fadeUp(0.2)} style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: T.muted, lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
+              Healthcare-first websites built by a specialist who understands your patients, compliance needs, and competition. $500 flat. 48-hour delivery. Zero compromises.
+            </motion.p>
+
+            <motion.div {...fadeUp(0.3)} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
+              <Link to="/contact" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: `linear-gradient(135deg,${T.blue},${T.violet})`,
+                color: '#fff', fontWeight: 700, fontSize: 15,
+                padding: '14px 28px', borderRadius: 14,
+                boxShadow: `0 8px 32px rgba(37,99,235,0.4)`,
+              }}>Book Free Demo <ArrowRight size={16} /></Link>
+              <a href="#case-studies" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'rgba(255,255,255,0.06)', border: `1px solid ${T.border}`,
+                color: T.text, fontWeight: 600, fontSize: 15,
+                padding: '14px 24px', borderRadius: 14,
+              }}>See Case Studies</a>
+            </motion.div>
+
+            <motion.div {...fadeUp(0.4)} style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              {[
+                { icon: <Shield size={13} />, label: 'HIPAA-Aware Design' },
+                { icon: <CheckCircle2 size={13} />, label: '500+ Sites Launched' },
+                { icon: <Zap size={13} />, label: '48-Hour Delivery' },
+              ].map(b => (
+                <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: T.muted }}>
+                  <span style={{ color: T.green }}>{b.icon}</span>{b.label}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right: Dashboard */}
+          <div style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
+            <Dashboard />
           </div>
         </div>
-        <style>{`
-          @media(max-width:900px){.hero-card{display:none!important}}
-          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-        `}</style>
       </section>
 
-      {/* STATS */}
-      <section style={{ background: '#03051a', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '56px 5%' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: 40 }}>
-          {[
-            { icon: <Globe size={18}/>, val: 60, sfx: '+', label: 'Sites Delivered' },
-            { icon: <Award size={18}/>, val: 500, pfx: '$', label: 'Flat Fee - No Surprises' },
-            { icon: <Clock size={18}/>, val: 7, sfx: ' Days', label: 'Guaranteed Launch' },
-            { icon: <Shield size={18}/>, val: 100, sfx: '%', label: 'NPI-Focused Agency' },
-          ].map((s, i) => (
-            <motion.div key={s.label} {...fadeUp(i * 0.1)} style={{ textAlign: 'center' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8, color: '#00c896' }}>{s.icon}</div>
-              <div style={{ ...GS, fontSize: 44, fontWeight: 900, color: '#fff', lineHeight: 1, letterSpacing: '-2px' }}>
-                <Counter to={s.val} suffix={s.sfx} prefix={s.pfx}/>
-              </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 6 }}>{s.label}</div>
+      {/* ══════════════════════════════════════════════════════════════════════
+          2. STATS
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '64px 5%', borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}` }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 20 }}>
+          {STATS.map((s, i) => (
+            <motion.div key={s.label} {...fadeUp(i * 0.1)}>
+              <Glass style={{ padding: '28px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 0%,${s.color}12,transparent 70%)`, pointerEvents: 'none' }} />
+                <div style={{ fontSize: 'clamp(36px,4vw,52px)', fontWeight: 900, color: s.color, lineHeight: 1, marginBottom: 8 }}>
+                  <Counter to={s.n} prefix={s.prefix} suffix={s.suffix} />
+                </div>
+                <div style={{ fontSize: 13, color: T.muted, fontWeight: 500 }}>{s.label}</div>
+              </Glass>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* WHY */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#07091f' }}>
+      {/* ══════════════════════════════════════════════════════════════════════
+          3. SPECIALTIES
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '100px 5%' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#34d399', display: 'block', marginBottom: 12 }}>Why ZmaxLab</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px', marginBottom: 14 }}>Not another web agency.<br/>A healthcare digital partner.</h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', maxWidth: 500, margin: '0 auto', lineHeight: 1.75 }}>Every feature exists because healthcare practitioners asked for it.</p>
+          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 60 }}>
+            <SectionLabel label="Healthcare Specialties" color={T.blue} />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Solo Practice to Multi-Specialty Group - We've Got You</h2>
+            <p style={{ fontSize: 16, color: T.muted, maxWidth: 580, margin: '0 auto' }}>Not a generic template. Every site is built around the nuances of your specialty, credentials, and the patients you actually want to attract - whether you're a solo NP or a 10-provider clinic.</p>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-            {FEATURES.map((f, i) => (
-              <motion.div key={f.title} {...fadeUp(i * 0.07)}
-                whileHover={{ y: -5 }}
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 28, cursor: 'default', transition: 'border-color .3s' }}
-              >
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: f.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, color: f.color }}>{f.icon}</div>
-                <h3 style={{ ...GS, fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>{f.desc}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 18 }}>
+            {SPECIALTIES.map((s, i) => (
+              <motion.div key={s.title} {...fadeUp(i * 0.08)} whileHover={{ y: -6, transition: { duration: 0.25 } }}>
+                <Glass style={{ padding: '28px 24px', height: '100%', cursor: 'default', border: `1px solid ${s.color}18` }}>
+                  <div style={{
+                    width: 48, height: 48, borderRadius: 14, marginBottom: 16,
+                    background: `${s.color}15`, border: `1px solid ${s.color}30`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color,
+                  }}>
+                    <s.Icon size={22} />
+                  </div>
+                  <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{s.title}</h3>
+                  <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.65, marginBottom: 14 }}>{s.desc}</p>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: 1 }}>{s.stat}</div>
+                </Glass>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#03051a' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#5b87ff', display: 'block', marginBottom: 12 }}>Services & Pricing</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px', marginBottom: 14 }}>Start with $500. Add growth when ready.</h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', maxWidth: 500, margin: '0 auto', lineHeight: 1.75 }}>Every add-on is optional and cancellable anytime. No contracts.</p>
+      {/* ══════════════════════════════════════════════════════════════════════
+          4. AI TOOLS
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '100px 5%', background: 'rgba(255,255,255,0.015)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 56 }}>
+            <SectionLabel label="Growth Services" color={T.violet} />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Your Practice Grows While You See Patients</h2>
+            <p style={{ fontSize: 16, color: T.muted, maxWidth: 520, margin: '0 auto' }}>I handle the content, search visibility, reviews, and scheduling setup - so you can focus on patient care while your practice keeps growing.</p>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 24 }}>
-            {SERVICES.map((s, i) => (
-              <motion.div key={s.title} {...fadeUp(i * 0.1)} whileHover={{ y: -6 }}
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: 30, transition: 'all .3s' }}
+
+          {/* Tab row */}
+          <motion.div {...fadeUp(0.1)} style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>
+            {AI_TOOLS.map((t, i) => (
+              <button key={t.title} onClick={() => setAiTab(i)} style={{
+                padding: '9px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                border: `1px solid ${aiTab === i ? t.color : T.border}`,
+                background: aiTab === i ? `${t.color}18` : 'transparent',
+                color: aiTab === i ? t.color : T.muted, transition: '.2s',
+              }}>{t.title}</button>
+            ))}
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            {(() => {
+              const tool = AI_TOOLS[aiTab]
+              const ToolIcon = tool.Icon
+              return (
+              <motion.div
+                key={aiTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35, ease: EASE }}
               >
-                <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 18 }}>
-                  <div style={{ width: 46, height: 46, borderRadius: 12, background: s.color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: s.color }}>{s.icon}</div>
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' as const, color: s.color, marginBottom: 4 }}>{s.badge}</div>
-                    <h3 style={{ ...GS, fontSize: 17, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{s.title}</h3>
+              <Glass style={{
+                padding: '40px', maxWidth: 740, margin: '0 auto',
+                border: `1px solid ${tool.color}25`,
+                background: `linear-gradient(135deg,${tool.color}07,${T.card})`,
+                boxShadow: `0 0 60px ${tool.color}15`,
+              }}>
+                <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                  <div style={{
+                    width: 64, height: 64, borderRadius: 18, flexShrink: 0,
+                    background: `${tool.color}15`, border: `1px solid ${tool.color}30`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: tool.color,
+                  }}>
+                    <ToolIcon size={28} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 200 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
+                      <h3 style={{ fontSize: 22, fontWeight: 800 }}>{tool.title}</h3>
+                      <span style={{
+                        fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
+                        background: `${tool.color}18`, color: tool.color,
+                        border: `1px solid ${tool.color}30`,
+                      }}>{tool.tag}</span>
+                    </div>
+                    <p style={{ fontSize: 15, color: T.muted, lineHeight: 1.7 }}>{tool.desc}</p>
                   </div>
                 </div>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 18 }}>{s.desc}</p>
-                <ul style={{ listStyle: 'none', padding: 0, marginBottom: 22 }}>
-                  {s.perks.map(p => (
-                    <li key={p} style={{ display: 'flex', gap: 8, marginBottom: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', alignItems: 'center' }}>
-                      <CheckCircle2 size={12} style={{ color: '#00c896', flexShrink: 0 }}/>{p}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <span style={{ ...GS, fontSize: 30, fontWeight: 900, color: '#fff' }}>{s.price}</span>
-                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginLeft: 4 }}>{s.period}</span>
-                  </div>
-                  <Link to="/contact" style={{ ...GS, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '8px 16px', borderRadius: 999 }}>
-                    Get Started
-                  </Link>
-                </div>
+              </Glass>
               </motion.div>
-            ))}
-          </div>
-          <motion.div {...fadeUp(0.3)} style={{ textAlign: 'center', marginTop: 32 }}>
-            <Link to="/services" style={{ ...GS, display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.7)', fontWeight: 600, fontSize: 14, padding: '12px 28px', borderRadius: 999 }}>
-              View All Services & Pricing <ArrowRight size={14}/>
-            </Link>
-          </motion.div>
+              )
+            })()}
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#07091f' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#34d399', display: 'block', marginBottom: 12 }}>The Process</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px' }}>NPI number to live website in 3 steps</h2>
+      {/* ══════════════════════════════════════════════════════════════════════
+          5. PROCESS TIMELINE
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '100px 5%' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 64 }}>
+            <SectionLabel label="The Process" color={T.cyan} />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Live in 7 Days. Not 7 Months.</h2>
+            <p style={{ fontSize: 16, color: T.muted, maxWidth: 460, margin: '0 auto' }}>A streamlined process built for busy practitioners who can't afford to wait.</p>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 24 }}>
-            {[
-              { n: '01', title: 'Book a Free Demo', desc: 'A 20-minute call where I review your online presence and show you what your website will look like. Zero obligation.' },
-              { n: '02', title: 'Send Your Info', desc: 'Name, specialty, services, location, and any photos. That\'s it. I handle everything from design to code to launch.' },
-              { n: '03', title: 'Go Live in 7 Days', desc: 'Your custom website is live with your domain, SSL, booking, and all features. 7-day guarantee or full refund.' },
-            ].map((s, i) => (
-              <motion.div key={s.n} {...fadeUp(i * 0.12)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: 32 }}>
-                <div style={{ ...GS, fontSize: 64, fontWeight: 900, color: 'rgba(27,111,255,0.14)', lineHeight: 1, letterSpacing: '-3px', marginBottom: 16 }}>{s.n}</div>
-                <h3 style={{ ...GS, fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 10 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-          <motion.div {...fadeUp(0.3)} style={{ textAlign: 'center', marginTop: 32 }}>
-            <Link to="/how-it-works" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#00c896', ...GS, fontWeight: 600, fontSize: 14 }}>
-              See Detailed Process <ArrowRight size={14}/>
-            </Link>
-          </motion.div>
+
+          {STEPS.map((s, i) => (
+            <motion.div key={s.n} {...fadeUp(i * 0.12)} style={{ display: 'flex', gap: 24, marginBottom: i < STEPS.length - 1 ? 0 : 0, alignItems: 'flex-start' }}>
+              {/* Icon + connector */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                <div style={{
+                  width: 48, height: 48, borderRadius: '50%', zIndex: 1,
+                  background: `linear-gradient(135deg,${s.color},${s.color}88)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#fff', boxShadow: `0 0 24px ${s.color}50`,
+                }}>
+                  <s.Icon size={18} />
+                </div>
+                {i < STEPS.length - 1 && (
+                  <div style={{ width: 2, flex: 1, minHeight: 40, background: `linear-gradient(180deg,${s.color}60,transparent)`, margin: '4px 0' }} />
+                )}
+              </div>
+              {/* Card */}
+              <Glass style={{
+                flex: 1, padding: '20px 24px', marginBottom: 20,
+                border: `1px solid ${s.color}20`,
+                background: `linear-gradient(135deg,${s.color}06,${T.card})`,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontSize: 10, color: s.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, background: `${s.color}18`, padding: '2px 9px', borderRadius: 999 }}>{s.day}</span>
+                  <span style={{ fontSize: 11, color: T.muted }}>Step {s.n}</span>
+                </div>
+                <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
+                <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.65 }}>{s.desc}</p>
+              </Glass>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#03051a' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#fbbf24', display: 'block', marginBottom: 12 }}>Practitioner Stories</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px' }}>Real practitioners. Real results.</h2>
-          </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <motion.div key={t.name} {...fadeUp(i * 0.08)} whileHover={{ y: -4 }}
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18, padding: 28, transition: 'all .3s' }}
-              >
-                <div style={{ display: 'flex', marginBottom: 14 }}>
-                  {Array(t.stars).fill(0).map((_, si) => <Star key={si} size={13} style={{ color: '#fbbf24', fill: '#fbbf24' }}/>)}
-                </div>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, marginBottom: 20, fontStyle: 'italic' }}>"{t.quote}"</p>
-                <div>
-                  <div style={{ ...GS, fontSize: 14, fontWeight: 700, color: '#fff' }}>{t.name}</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>{t.role}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-        {/* PORTFOLIO */}
-                <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#07091f' }}>
-                          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-                                      <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-                                                    <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: '#00c896', display: 'block', marginBottom: 12 }}>OUR WORK</span>
-                                                                  <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px' }}>
-                                                                                  Healthcare websites<br/><span style={{ background: 'linear-gradient(135deg,#1b6fff,#00c896)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>built for NPI practitioners</span>
-                                                                                                </h2>
-                                                                                                              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', marginTop: 16, maxWidth: 520, margin: '16px auto 0' }}>Every site is custom-coded for the practitioner's specialty, city, and patient base. No templates. Ever.</p>
-                                                                                                                          </motion.div>
-                                                                                                                                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 24 }}>
-                                                                                                                                                    {PORTFOLIO.map((p, i) => (
-                                                                                                                                                                    <motion.div key={p.name} {...fadeUp(i * 0.07)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 28, transition: 'all .3s' }}>
-                                                                                                                                                                                      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                                                                                                                                                                                                          <div style={{ width: 48, height: 48, borderRadius: 12, background: `linear-gradient(135deg,${p.color}33,${p.color}55)`, border: `1px solid ${p.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: p.color, flexShrink: 0 }}>{p.initials}</div>
-                                                                                                                                                                                                                              <div>
-                                                                                                                                                                                                                                                    <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{p.name}</div>
-                                                                                                                                                                                                                                                                          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 2 }}>{p.location}</div>
-                                                                                                                                                                                                                                                                                              </div>
-                                                                                                                                                                                                                                                                                                                  <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, letterSpacing: '0.5px', background: `${p.color}22`, color: p.color, padding: '3px 10px', borderRadius: 999, border: `1px solid ${p.color}44`, whiteSpace: 'nowrap' }}>{p.tag}</span>
-                                                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                                                                      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 6 }}>{p.specialty}</div>
-                                                                                                                                                                                                                                                                                                                                                                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
-                                                                                                                                                                                                                                                                                                                                                                                        </motion.div>
-                                                                                                                                                                                                                                                                                                                                                                                                      ))}
-                                                                                                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                              <motion.div {...fadeUp(0.3)} style={{ textAlign: 'center', marginTop: 40 }}>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <Link to="/contact" style={{ ...GS, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(27,111,255,0.12)', border: '1px solid rgba(27,111,255,0.3)', color: '#1b6fff', fontWeight: 600, fontSize: 14, padding: '11px 28px', borderRadius: 999, textDecoration: 'none' }}>Want your practice on this list? Get started Ã¢ÂÂ</Link>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        </motion.div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </section>
-
-      {/* FAQ */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#07091f' }}>
-        <div style={{ maxWidth: 780, margin: '0 auto' }}>
+      {/* ══════════════════════════════════════════════════════════════════════
+          6. BEFORE / AFTER
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section id="case-studies" style={{ padding: '100px 5%', background: 'rgba(255,255,255,0.015)' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#5b87ff', display: 'block', marginBottom: 12 }}>FAQ</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px' }}>Questions? Answered.</h2>
+            <SectionLabel label="Case Study Results" color={T.green} />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Real Numbers. Real Practices.</h2>
+            <p style={{ fontSize: 16, color: T.muted }}>Actual results from a family NP practice. 90 days post-launch.</p>
           </motion.div>
-          <Accordion style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {FAQS.map((faq, i) => (
-              <motion.div key={faq.q} {...fadeUp(i * 0.06)}>
-                <AccordionItem value={`q${i}`} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '0 20px', overflow: 'hidden' }}>
-                  <AccordionTrigger style={{ ...GS, fontSize: 15, fontWeight: 600, color: '#fff', textAlign: 'left' }}>{faq.q}</AccordionTrigger>
-                  <AccordionContent style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, paddingBottom: 16 }}>{faq.a}</AccordionContent>
-                </AccordionItem>
+
+          {/* Toggle */}
+          <motion.div {...fadeUp(0.1)} style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+            <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.05)', borderRadius: 14, padding: 4, border: `1px solid ${T.border}` }}>
+              {(['before', 'after'] as const).map(m => (
+                <button key={m} onClick={() => setBaMode(m)} style={{
+                  padding: '10px 28px', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                  border: 'none',
+                  background: baMode === m ? `linear-gradient(135deg,${T.blue},${T.violet})` : 'transparent',
+                  color: baMode === m ? '#fff' : T.muted,
+                  transition: '.25s',
+                }}>
+                  {m === 'before' ? 'Before ZmaxLab' : 'After ZmaxLab'}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
+            {BEFORE_AFTER.map((item, i) => (
+              <motion.div key={item.label} {...fadeUp(i * 0.08)}>
+                <Glass style={{ padding: '28px 20px', textAlign: 'center' }}>
+                  <div style={{ fontSize: 12, color: T.muted, marginBottom: 14, fontWeight: 500 }}>{item.label}</div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={baMode + item.label}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.28 }}
+                    >
+                      <div style={{
+                        fontSize: 'clamp(22px,3vw,34px)', fontWeight: 900, lineHeight: 1, marginBottom: 10,
+                        color: baMode === 'after' ? T.green : 'rgba(255,255,255,0.35)',
+                      }}>
+                        {baMode === 'before' ? item.before : item.after}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                  {baMode === 'after' && (
+                    <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} style={{
+                      display: 'inline-block', background: `${T.green}18`, color: T.green,
+                      fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
+                      border: `1px solid ${T.green}33`,
+                    }}>{item.pct}</motion.div>
+                  )}
+                </Glass>
               </motion.div>
             ))}
-          </Accordion>
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: 'clamp(80px,9vw,120px) 5%', background: '#03051a' }}>
-        <div style={{ maxWidth: 780, margin: '0 auto', textAlign: 'center' }}>
-          <motion.div {...fadeUp()} style={{ background: 'linear-gradient(135deg,rgba(27,111,255,0.1),rgba(0,200,150,0.07))', border: '1px solid rgba(27,111,255,0.2)', borderRadius: 28, padding: 'clamp(48px,6vw,72px)' }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#34d399', display: 'block', marginBottom: 16 }}>Ready to get found?</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 800, color: '#fff', letterSpacing: '-1.5px', marginBottom: 16 }}>
-              Your patients are searching Google.{' '}
-              <span style={{ background: 'linear-gradient(135deg,#1b6fff,#00c896)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Are they finding you?
+      {/* ══════════════════════════════════════════════════════════════════════
+          7. TRUST & CREDIBILITY
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{ padding: '80px 5%' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h2 style={{ fontSize: 'clamp(22px,3vw,36px)', fontWeight: 900, marginBottom: 8 }}>Built on Trust. Backed by Results.</h2>
+            <p style={{ fontSize: 15, color: T.muted }}>Every claim is backed by real client data. Zero fluff.</p>
+          </motion.div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            {[
+              { Icon: Shield,        label: 'HIPAA-Aware',  sub: 'Design Standards',  color: T.blue   },
+              { Icon: Globe,         label: 'All 50 States',sub: 'USA Coverage',       color: T.violet },
+              { Icon: Star,          label: '4.9 / 5.0 ★',  sub: 'Google Reviews',    color: T.amber  },
+              { Icon: Users,         label: '500+ Practices',sub: 'Sites Built',       color: T.green  },
+              { Icon: Award,         label: '$500 Flat',    sub: 'No Hidden Fees',     color: T.cyan   },
+            ].map((b, i) => (
+              <motion.div key={b.label} {...fadeUp(i * 0.08)}>
+                <Glass style={{ padding: '20px 24px', textAlign: 'center', minWidth: 140 }}>
+                  <div style={{ color: b.color, display: 'flex', justifyContent: 'center', marginBottom: 8 }}><b.Icon size={22} /></div>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: T.text }}>{b.label}</div>
+                  <div style={{ fontSize: 11, color: T.muted }}>{b.sub}</div>
+                </Glass>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          9. TESTIMONIALS CAROUSEL
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{
+        padding: '100px 5%',
+        background: `radial-gradient(ellipse at 50% 50%,rgba(37,99,235,0.07) 0%,transparent 70%),rgba(255,255,255,0.01)`,
+      }}>
+        <div style={{ maxWidth: 820, margin: '0 auto' }}>
+          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
+            <SectionLabel label="Client Stories" color={T.violet} />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, letterSpacing: '-0.5px' }}>Practices That Made the Leap</h2>
+          </motion.div>
+
+          <div style={{ position: 'relative' }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={tIdx}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.4, ease: EASE }}
+              >
+                <Glass style={{
+                  padding: '40px',
+                  border: `1px solid ${TESTIMONIALS[tIdx].color}22`,
+                  background: `linear-gradient(135deg,${TESTIMONIALS[tIdx].color}06,${T.card})`,
+                }}>
+                  <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
+                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={16} fill={T.amber} color={T.amber} />)}
+                  </div>
+                  <p style={{ fontSize: 'clamp(15px,2vw,19px)', lineHeight: 1.75, marginBottom: 28, fontStyle: 'italic', color: T.text }}>
+                    "{TESTIMONIALS[tIdx].quote}"
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <div style={{
+                        width: 48, height: 48, borderRadius: '50%',
+                        background: `linear-gradient(135deg,${TESTIMONIALS[tIdx].color},${TESTIMONIALS[tIdx].color}88)`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 14, fontWeight: 800, color: '#fff',
+                      }}>{TESTIMONIALS[tIdx].initials}</div>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: 15 }}>{TESTIMONIALS[tIdx].name}</div>
+                        <div style={{ fontSize: 13, color: T.muted }}>{TESTIMONIALS[tIdx].role}</div>
+                      </div>
+                    </div>
+                    <div style={{
+                      background: `${TESTIMONIALS[tIdx].color}18`,
+                      border: `1px solid ${TESTIMONIALS[tIdx].color}33`,
+                      borderRadius: 10, padding: '8px 16px',
+                      fontSize: 13, fontWeight: 800, color: TESTIMONIALS[tIdx].color,
+                    }}>{TESTIMONIALS[tIdx].result}</div>
+                  </div>
+                </Glass>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Controls */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 24 }}>
+              <button onClick={prev} aria-label="Previous" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: `1px solid ${T.border}`, color: T.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronLeft size={18} />
+              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {TESTIMONIALS.map((_, i) => (
+                  <button key={i} onClick={() => setTIdx(i)} aria-label={`Testimonial ${i + 1}`} style={{
+                    width: i === tIdx ? 24 : 8, height: 8, borderRadius: 999, padding: 0,
+                    background: i === tIdx ? T.blue : 'rgba(255,255,255,0.2)',
+                    border: 'none', cursor: 'pointer', transition: '.3s',
+                  }} />
+                ))}
+              </div>
+              <button onClick={next} aria-label="Next" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: `1px solid ${T.border}`, color: T.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          10. CONVERSION CTA
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section style={{
+        padding: '100px 5%',
+        background: `radial-gradient(ellipse at 50% 0%,rgba(37,99,235,0.16) 0%,transparent 65%),${T.bg}`,
+        borderTop: `1px solid ${T.border}`,
+      }}>
+        <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+          <motion.div {...fadeUp()}>
+            <SectionLabel label="Ready to Grow?" color={T.blue} />
+            <h2 style={{ fontSize: 'clamp(30px,5vw,56px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 20, lineHeight: 1.1 }}>
+              Your Next Patient Is Searching{' '}
+              <span style={{ background: `linear-gradient(135deg,${T.blue},${T.violet})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                for You Right Now.
               </span>
             </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, marginBottom: 36, maxWidth: 460, margin: '0 auto 36px' }}>
-              Book a free 20-minute demo. I'll review your presence and show you exactly what your website will look like. Zero obligation.
+            <p style={{ fontSize: 17, color: T.muted, marginBottom: 36, lineHeight: 1.75, maxWidth: 560, margin: '0 auto 36px' }}>
+              Don't let a competitor's website win them over. Book a free 30-minute demo and see exactly what your practice could look like - and what it could generate.
             </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 15, padding: '14px 36px', borderRadius: 999, boxShadow: '0 4px 24px rgba(27,111,255,0.35)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                Book Free Demo <ArrowRight size={16}/>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
+              <Link to="/contact" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: `linear-gradient(135deg,${T.blue},${T.violet})`,
+                color: '#fff', fontWeight: 700, fontSize: 16,
+                padding: '16px 36px', borderRadius: 14,
+                boxShadow: `0 12px 40px rgba(37,99,235,0.45)`,
+              }}>
+                Book Free 30-Min Demo <ArrowRight size={18} />
               </Link>
-              <Link to="/services" style={{ ...GS, border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)', fontWeight: 600, fontSize: 15, padding: '13px 28px', borderRadius: 999 }}>
-                View Pricing
-              </Link>
+              <a href="mailto:ravi@zmaxlab.site" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'rgba(255,255,255,0.06)', border: `1px solid ${T.border}`,
+                color: T.text, fontWeight: 600, fontSize: 16,
+                padding: '16px 28px', borderRadius: 14,
+              }}>
+                <MessageSquare size={16} /> ravi@zmaxlab.site
+              </a>
             </div>
+            <div style={{ fontSize: 13, color: T.muted }}>$500 flat fee · No contracts · Cancel anytime · All 50 US states</div>
           </motion.div>
         </div>
       </section>

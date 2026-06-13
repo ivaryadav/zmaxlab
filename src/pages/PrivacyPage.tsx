@@ -8,7 +8,7 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { 
 
 export default function PrivacyPage() {
   useSEO({
-    title: 'Privacy Policy | ZmaxLab - Healthcare Website Design',
+    title: 'Privacy Policy | ZmaxLab – Healthcare Website Design',
     description: 'Privacy Policy for ZmaxLab - custom healthcare website design for NPI practitioners. How we collect, use, and protect your information.',
     canonical: 'https://zmaxlab.site/privacy',
   })

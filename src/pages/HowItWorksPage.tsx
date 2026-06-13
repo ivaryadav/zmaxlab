@@ -1,123 +1,225 @@
-import { useSEO } from '@/lib/useSEO'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, MessageCircle, FileText, Palette, Code, Rocket, RefreshCw } from 'lucide-react'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { useSEO } from '@/lib/useSEO'
 
-const GS = { fontFamily: "'Space Grotesk',sans-serif" }
-const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 28 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
+const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
+
+function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div style={{ background:T.card, backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', border:`1px solid ${T.border}`, borderRadius:20, ...style }} {...p}>{children}</div>
+}
 
 const STEPS = [
-  { icon: <MessageCircle size={24}/>, color: '#1b6fff', n: '01', title: 'Book a Free Demo Call', time: 'Day 0', desc: 'We jump on a 20-minute video call. I review your current online presence (or lack of one), ask about your specialty and patient base, and show you mockups of what your website will look like. Zero obligation. Zero pressure.', bullet: ['20-minute video call','I review your online presence','See mockup examples for your specialty','Get exact pricing, no hidden fees'] },
-  { icon: <FileText size={24}/>, color: '#00c896', n: '02', title: 'Send Your Content', time: 'Day 1', desc: 'After you book, I send you a simple Google Form. Fill in your name, specialty, services, location, and upload any photos you have. No photos? No problem - I source professional healthcare stock images for you.', bullet: ['Simple Google Form (15 mins to complete)','Name, specialty, services, location','Photos optional - I source if needed','Your NPI number and credentials'] },
-  { icon: <Palette size={24}/>, color: '#a78bfa', n: '03', title: 'Design Approval', time: 'Day 2-3', desc: 'I build a full design mockup and send it to you for approval via WhatsApp or email. You see the entire homepage layout before a single line of code is written. This is where you can request changes to colours, layout, or content.', bullet: ['Full homepage design mockup','Review via WhatsApp or email','Request changes before coding','Typical approval within 24 hours'] },
-  { icon: <Code size={24}/>, color: '#fbbf24', n: '04', title: 'Build & Code', time: 'Day 3-5', desc: 'Once approved, I hand-code your entire website. No WordPress. No page builders. Clean, semantic HTML/CSS that loads in under 1 second. Every page is built specifically for healthcare SEO and patient conversion.', bullet: ['Hand-coded HTML/CSS - no page builders','All pages built and linked','Booking integration configured','SEO meta tags, schema, sitemap added'] },
-  { icon: <Rocket size={24}/>, color: '#34d399', n: '05', title: 'Launch & Deliver', time: 'Day 5-7', desc: 'Your website goes live on your domain with full SSL. I connect your hosting, set up redirects, verify Google Search Console, submit your sitemap, and hand over all source files. You own everything completely.', bullet: ['Live on your domain with SSL','Google Search Console verified','Sitemap submitted to Google','Full source code delivered to you'] },
-  { icon: <RefreshCw size={24}/>, color: '#f472b6', n: '06', title: 'Post-Launch Support', time: 'After Launch', desc: 'One free revision is included after launch. I stay available via WhatsApp for 30 days post-launch to answer any questions. Optional monthly support and SEO plans available if you want ongoing help.', bullet: ['1 free post-launch revision','30-day WhatsApp support included','Optional monthly maintenance plans','SEO and social media add-ons available'] },
+  { Icon:MessageCircle, color:T.blue,   n:'01', title:'Book a Free Demo Call', time:'Day 0',        desc:'We jump on a 20-minute video call. I review your current online presence, ask about your specialty, and show you mockups. Zero obligation. Zero pressure.', bullet:['20-minute video call','Review of your current presence','Specialty-matched mockup examples','Exact pricing - no hidden fees'] },
+  { Icon:FileText,      color:T.green,  n:'02', title:'Send Your Content',      time:'Day 1',        desc:'I send you a simple Google Form. Fill in your specialty, services, location, and upload any photos. No photos? I source professional healthcare imagery for free.', bullet:['Simple Google Form - 15 mins','Name, specialty, services, location','Photos optional - I source if needed','Your NPI number and credentials'] },
+  { Icon:Palette,       color:T.violet, n:'03', title:'Design Approval',        time:'Days 2–3',     desc:'I build a full design mockup and send it for approval via WhatsApp or email. You see the entire homepage layout before a single line of code is written.', bullet:['Full homepage design mockup','Review via WhatsApp or email','Request changes before coding','Typical approval within 24 hours'] },
+  { Icon:Code,          color:T.amber,  n:'04', title:'Build & Code',           time:'Days 3–5',     desc:'Once approved, I hand-code your entire site. No WordPress. No page builders. Clean, fast HTML/CSS - built specifically for healthcare SEO and patient conversion.', bullet:['Hand-coded - no page builders','All pages built and linked','Booking integration configured','SEO meta, schema, sitemap added'] },
+  { Icon:Rocket,        color:T.cyan,   n:'05', title:'Launch & Deliver',       time:'Days 5–7',     desc:'Your website goes live on your domain with full SSL. I connect hosting, set up Google Search Console, submit your sitemap, and hand over all source files. You own everything.', bullet:['Live on your domain with SSL','Google Search Console verified','Sitemap submitted to Google','Full source code delivered to you'] },
+  { Icon:RefreshCw,     color:'#e11d48',n:'06', title:'Post-Launch Support',    time:'After Launch', desc:'One free revision included after launch. I stay available via WhatsApp for 30 days post-launch. Optional monthly support and SEO plans available.', bullet:['1 free post-launch revision','30-day WhatsApp support included','Optional monthly maintenance plans','SEO and social media add-ons available'] },
 ]
 
 const FAQS = [
-  { q: 'What do I need to provide?', a: 'Just your name, practice name, specialty, services list, location, phone number, and any photos you have. I handle everything else - design, copywriting, code, and launch.' },
-  { q: 'What if I don\'t have photos?', a: 'No problem. I source professional healthcare stock photography that matches your specialty and location. It looks great and costs you nothing extra.' },
-  { q: 'How does payment work?', a: '50% upfront ($250) to start the project, 50% ($250) on launch day after you approve the live site. For monthly services, first month is due at signup, then monthly billing.' },
-  { q: 'Can I make changes after launch?', a: 'Yes - you get 1 free revision after launch. Additional edits are available at $50/hour or via the monthly support plan ($200/month) which includes unlimited small updates.' },
-  { q: 'How do I connect my domain?', a: 'If you have a domain already, I\'ll walk you through updating your DNS (takes 5 minutes). If you don\'t have a domain, I\'ll recommend where to buy one and handle the setup.' },
-  { q: 'What hosting do I need?', a: 'Any basic shared hosting works - SiteGround, Hostinger, or Namecheap all cost $3-6/month. I\'ll help you choose and set it up. The website is static HTML so it runs on the cheapest plans.' },
-  { q: 'What if I want changes to the design?', a: 'You review the full design mockup before coding begins. You can request any changes at that stage - colors, layout, content. Once you approve, we move to build.' },
+  { q:'What do I need to provide?',      a:'Just your name, practice name, specialty, services list, location, phone number, and any photos you have. I handle everything else - design, copywriting, code, and launch.' },
+  { q:"What if I don't have photos?",    a:'No problem. I source professional healthcare stock photography that matches your specialty and location. It looks great and costs you nothing extra.' },
+  { q:'How does payment work?',          a:'50% upfront ($250) to start the project, 50% ($250) on launch day after you approve the live site. For monthly services, first month is due at signup, then monthly billing.' },
+  { q:'Can I make changes after launch?',a:'Yes - you get 1 free revision after launch. Additional edits at $50/hour or via the monthly support plan ($200/month) which includes unlimited small updates.' },
+  { q:'How do I connect my domain?',     a:"If you have a domain already, I'll walk you through updating your DNS (5 minutes). If not, I'll recommend where to buy one and handle the setup entirely." },
+  { q:'What hosting do I need?',         a:"Any basic shared hosting works - SiteGround, Hostinger, or Namecheap ($3–6/month). I'll help you choose and set it up. The site is static HTML so it runs on the cheapest plans." },
+  { q:'What if I want design changes?',  a:'You review the full design mockup before coding begins. Request any changes at that stage - colours, layout, content. Once you approve, we move to build.' },
 ]
 
-export default function HowItWorksPage() {
-  const howItWorksSchema = [{"@context":"https://schema.org","@type":"HowTo","name":"How to Get a Custom Healthcare Website in 7 Days","description":"ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. Here is the 6-step process from demo call to live website.","totalTime":"P7D","supply":[{"@type":"HowToSupply","name":"Practice information (name, specialty, services, location)"},{"@type":"HowToSupply","name":"Photos (optional - stock photography provided free)"}],"step":[{"@type":"HowToStep","name":"Book a Free Demo Call","text":"Schedule a 30-minute call to discuss your practice and goals."},{"@type":"HowToStep","name":"Send Your Content","text":"Provide your practice details, services, and any photos on Day 1."},{"@type":"HowToStep","name":"Design Approval","text":"Review and approve the full design mockup before coding begins on Day 2-3."},{"@type":"HowToStep","name":"Build & Code","text":"Your custom healthcare website is hand-coded on Day 3-5."},{"@type":"HowToStep","name":"Launch & Deliver","text":"Your website goes live with SEO setup complete on Day 5-7."},{"@type":"HowToStep","name":"Post-Launch Support","text":"30 days of WhatsApp support included after launch."}]}]
-    useSEO({
-        title: 'How It Works - Get a Custom Nurse Practitioner Website in 7 Days | ZmaxLab $500',
-            description: 'See how ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. 6-step process: demo call â content â design approval â build â launch â support. Nurse practitioners, PAs, mental health providers.',
-                canonical: 'https://zmaxlab.site/how-it-works',
-                    schema: howItWorksSchema
-                      })
+const FAQ_COLORS = [T.blue, T.violet, T.cyan, T.green, T.amber, '#e11d48', T.violet]
+
+function FaqSection() {
+  const [open, setOpen] = useState<number | null>(0)
+
   return (
-    <div style={{ background: '#07091f' }}>
-      {/* HERO */}
-      <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)', background: 'linear-gradient(155deg,#03051a,#07091f)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 50% 80% at 70% 40%,rgba(0,200,150,0.1) 0%,transparent 65%)' }}/>
-        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative' }}>
+    <section style={{ padding:'80px 5%', background:'rgba(255,255,255,0.015)', borderTop:`1px solid ${T.border}` }}>
+      <div style={{ maxWidth:780, margin:'0 auto' }}>
+
+        <motion.div {...fadeUp()} style={{ textAlign:'center', marginBottom:52 }}>
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:'2px', textTransform:'uppercase', color:T.violet, marginBottom:12 }}>FAQ</div>
+          <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)', fontWeight:900, letterSpacing:'-0.5px' }}>Process Questions</h2>
+          <p style={{ fontSize:15, color:T.muted, marginTop:12 }}>Everything you need to know before we start.</p>
+        </motion.div>
+
+        <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+          {FAQS.map((faq, i) => {
+            const isOpen  = open === i
+            const accent  = FAQ_COLORS[i % FAQ_COLORS.length]
+            return (
+              <motion.div key={faq.q} {...fadeUp(i * 0.06)}>
+                <div
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  style={{
+                    position:'relative', overflow:'hidden',
+                    background: isOpen ? 'rgba(255,255,255,0.07)' : T.card,
+                    border:`1px solid ${isOpen ? accent + '45' : T.border}`,
+                    borderRadius:16, cursor:'pointer',
+                    transition:'background .2s, border-color .2s',
+                  }}
+                >
+                  {/* Left accent bar */}
+                  {isOpen && (
+                    <div style={{
+                      position:'absolute', left:0, top:0, bottom:0, width:3,
+                      background:`linear-gradient(180deg,${accent},transparent)`,
+                      borderRadius:'16px 0 0 16px',
+                    }}/>
+                  )}
+
+                  {/* Question row */}
+                  <div style={{ display:'flex', alignItems:'center', gap:14, padding:'18px 22px' }}>
+                    <div style={{
+                      width:34, height:34, borderRadius:10, flexShrink:0,
+                      background: isOpen ? `${accent}20` : 'rgba(255,255,255,0.05)',
+                      border:`1px solid ${isOpen ? accent + '50' : 'rgba(255,255,255,0.08)'}`,
+                      display:'flex', alignItems:'center', justifyContent:'center',
+                      fontSize:11, fontWeight:800, letterSpacing:'0.5px',
+                      color: isOpen ? accent : T.muted,
+                      transition:'all .2s',
+                    }}>
+                      {String(i + 1).padStart(2,'0')}
+                    </div>
+
+                    <span style={{ flex:1, fontSize:15, fontWeight:600, color: isOpen ? T.text : 'rgba(241,245,249,0.8)', lineHeight:1.4 }}>
+                      {faq.q}
+                    </span>
+
+                    <motion.div
+                      animate={{ rotate: isOpen ? 45 : 0 }}
+                      transition={{ duration:0.22, ease:'easeOut' }}
+                      style={{ fontSize:22, fontWeight:300, color: isOpen ? accent : T.muted, lineHeight:1, userSelect:'none', flexShrink:0 }}
+                    >
+                      +
+                    </motion.div>
+                  </div>
+
+                  {/* Answer */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="answer"
+                        initial={{ height:0, opacity:0 }}
+                        animate={{ height:'auto', opacity:1 }}
+                        exit={{ height:0, opacity:0 }}
+                        transition={{ duration:0.28, ease:EASE }}
+                        style={{ overflow:'hidden' }}
+                      >
+                        <p style={{
+                          margin:'0 22px 20px 70px',
+                          fontSize:14, color:T.muted, lineHeight:1.85,
+                        }}>
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default function HowItWorksPage() {
+  const howItWorksSchema = [{"@context":"https://schema.org","@type":"HowTo","name":"How to Get a Custom Healthcare Website in 7 Days","description":"ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days.","totalTime":"P7D","step":[{"@type":"HowToStep","name":"Book a Free Demo Call"},{"@type":"HowToStep","name":"Send Your Content"},{"@type":"HowToStep","name":"Design Approval"},{"@type":"HowToStep","name":"Build & Code"},{"@type":"HowToStep","name":"Launch & Deliver"},{"@type":"HowToStep","name":"Post-Launch Support"}]}]
+  useSEO({
+    title: 'How It Works – Custom Healthcare Website in 7 Days | ZmaxLab $500',
+    description: 'See how ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. 6-step process: demo → content → design → build → launch → support.',
+    canonical: 'https://zmaxlab.site/how-it-works',
+    schema: howItWorksSchema,
+  })
+
+  return (
+    <div style={{ background:T.bg, color:T.text, overflowX:'hidden' }}>
+
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section style={{
+        padding:'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)',
+        background:`radial-gradient(ellipse at 70% 40%,rgba(8,145,178,0.1) 0%,transparent 60%),${T.bg}`,
+      }}>
+        <div style={{ maxWidth:1100,margin:'0 auto' }}>
           <motion.div {...fadeUp()}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,200,150,0.1)', border: '1px solid rgba(0,200,150,0.2)', color: '#34d399', fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' as const, padding: '5px 14px', borderRadius: 999, marginBottom: 20 }}>
-              Simple Process
-            </span>
-            <h1 style={{ ...GS, fontSize: 'clamp(2.2rem,5vw,4rem)', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 18 }}>
+            <div style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(8,145,178,0.1)',border:'1px solid rgba(8,145,178,0.25)',borderRadius:999,padding:'5px 14px',marginBottom:22 }}>
+              <span style={{ fontSize:10,fontWeight:800,letterSpacing:1,textTransform:'uppercase',color:T.cyan }}>Simple Process</span>
+            </div>
+            <h1 style={{ fontSize:'clamp(2.2rem,5vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-2px',marginBottom:18 }}>
               NPI number to live website.<br/>
-              <span style={{ color: '#00c896' }}>In 7 days. Guaranteed.</span>
+              <span style={{ background:`linear-gradient(135deg,${T.cyan},${T.green})`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text' }}>
+                In 7 days. Guaranteed.
+              </span>
             </h1>
-            <p style={{ fontSize: 'clamp(15px,1.5vw,18px)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 560, marginBottom: 28 }}>
-              A clear, transparent process from first call to live website. No surprises. No technical jargon.
+            <p style={{ fontSize:'clamp(15px,1.5vw,18px)',color:T.muted,lineHeight:1.75,maxWidth:540,marginBottom:32 }}>
+              A clear, transparent process from first call to live website. No surprises. No technical jargon. No delays.
             </p>
-            <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 14, padding: '13px 28px', borderRadius: 999, boxShadow: '0 4px 20px rgba(27,111,255,0.3)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'13px 28px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
               Start the Process <ArrowRight size={15}/>
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* STEPS */}
-      <section style={{ padding: 'clamp(72px,9vw,112px) 5%', background: '#07091f' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {STEPS.map((s, i) => (
-              <motion.div key={s.n} {...fadeUp(i * 0.08)} style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: 28, alignItems: 'flex-start' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: s.color + '18', border: `2px solid ${s.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color, flexShrink: 0 }}>{s.icon}</div>
-                  {i < STEPS.length - 1 && <div style={{ width: 2, flex: 1, minHeight: 40, background: 'rgba(255,255,255,0.06)', marginTop: 12 }}/>}
+      {/* ── STEPS TIMELINE ───────────────────────────────────────────── */}
+      <section style={{ padding:'80px 5%' }}>
+        <div style={{ maxWidth:820,margin:'0 auto' }}>
+          {STEPS.map((s,i) => (
+            <motion.div key={s.n} {...fadeUp(i*0.1)} style={{ display:'flex',gap:22,alignItems:'flex-start' }}>
+              {/* Icon + connector */}
+              <div style={{ display:'flex',flexDirection:'column',alignItems:'center',flexShrink:0 }}>
+                <div style={{
+                  width:52,height:52,borderRadius:'50%',
+                  background:`${s.color}15`,border:`2px solid ${s.color}40`,
+                  display:'flex',alignItems:'center',justifyContent:'center',color:s.color,
+                  boxShadow:`0 0 20px ${s.color}25`,
+                }}>
+                  <s.Icon size={22}/>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 28, marginBottom: i < STEPS.length - 1 ? 0 : 0 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-                    <div>
-                      <div style={{ ...GS, fontSize: 48, fontWeight: 900, color: s.color + '22', lineHeight: 1, letterSpacing: '-2px', marginBottom: 4 }}>{s.n}</div>
-                      <h3 style={{ ...GS, fontSize: 20, fontWeight: 700, color: '#fff' }}>{s.title}</h3>
+                {i < STEPS.length - 1 && <div style={{ width:2,flex:1,minHeight:32,background:`linear-gradient(180deg,${s.color}50,transparent)`,margin:'6px 0' }}/>}
+              </div>
+              {/* Card */}
+              <Glass style={{
+                flex:1,padding:'24px 28px',marginBottom:20,
+                border:`1px solid ${s.color}18`,
+                background:`linear-gradient(135deg,${s.color}05,${T.card})`,
+              }}>
+                <div style={{ display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10,flexWrap:'wrap',gap:8 }}>
+                  <div>
+                    <div style={{ fontSize:40,fontWeight:900,color:`${s.color}20`,lineHeight:1,letterSpacing:'-2px',marginBottom:2 }}>{s.n}</div>
+                    <h3 style={{ fontSize:19,fontWeight:800,color:T.text }}>{s.title}</h3>
+                  </div>
+                  <span style={{ background:`${s.color}15`,border:`1px solid ${s.color}30`,color:s.color,fontSize:11,fontWeight:700,padding:'4px 12px',borderRadius:999,whiteSpace:'nowrap' }}>{s.time}</span>
+                </div>
+                <p style={{ fontSize:14,color:T.muted,lineHeight:1.75,marginBottom:18 }}>{s.desc}</p>
+                <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:8 }}>
+                  {s.bullet.map(b => (
+                    <div key={b} style={{ display:'flex',gap:8,alignItems:'center',fontSize:13,color:T.muted }}>
+                      <span style={{ width:6,height:6,borderRadius:'50%',background:s.color,flexShrink:0 }}/>
+                      {b}
                     </div>
-                    <span style={{ background: s.color + '15', border: `1px solid ${s.color}30`, color: s.color, fontSize: 11, fontWeight: 700, padding: '4px 12px', borderRadius: 999, whiteSpace: 'nowrap' as const }}>{s.time}</span>
-                  </div>
-                  <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, marginBottom: 20 }}>{s.desc}</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 8 }}>
-                    {s.bullet.map(b => (
-                      <div key={b} style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: s.color, flexShrink: 0 }}/>
-                        {b}
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </Glass>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" style={{ padding: 'clamp(72px,9vw,112px) 5%', background: '#03051a' }}>
-        <div style={{ maxWidth: 780, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#5b87ff', display: 'block', marginBottom: 12 }}>FAQ</span>
-            <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px' }}>Process Questions</h2>
-          </motion.div>
-          <Accordion style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {FAQS.map((faq, i) => (
-              <motion.div key={faq.q} {...fadeUp(i * 0.06)}>
-                <AccordionItem value={`fq${i}`} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '0 20px', overflow: 'hidden' }}>
-                  <AccordionTrigger style={{ ...GS, fontSize: 15, fontWeight: 600, color: '#fff', textAlign: 'left' }}>{faq.q}</AccordionTrigger>
-                  <AccordionContent style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, paddingBottom: 16 }}>{faq.a}</AccordionContent>
-                </AccordionItem>
-              </motion.div>
-            ))}
-          </Accordion>
-        </div>
-      </section>
+      {/* ── FAQ ──────────────────────────────────────────────────────── */}
+      <FaqSection />
 
-      {/* CTA */}
-      <section style={{ padding: 'clamp(72px,9vw,112px) 5%', background: '#07091f', textAlign: 'center' }}>
-        <motion.div {...fadeUp()} style={{ maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{ ...GS, fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 700, color: '#fff', letterSpacing: '-1px', marginBottom: 14 }}>Ready to start?</h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginBottom: 32, lineHeight: 1.75 }}>Book your free demo call today. I'll review your presence and show you what your website will look like - no commitment required.</p>
-          <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 15, padding: '14px 36px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, boxShadow: '0 4px 24px rgba(27,111,255,0.3)' }}>
+      {/* ── CTA ──────────────────────────────────────────────────────── */}
+      <section style={{ padding:'80px 5%',textAlign:'center',borderTop:`1px solid ${T.border}` }}>
+        <motion.div {...fadeUp()} style={{ maxWidth:600,margin:'0 auto' }}>
+          <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Ready to start?</h2>
+          <p style={{ fontSize:15,color:T.muted,marginBottom:32,lineHeight:1.75 }}>Book your free demo call. I'll review your presence and show you what your website could look like - no commitment required.</p>
+          <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
             Book Free Demo <ArrowRight size={16}/>
           </Link>
         </motion.div>

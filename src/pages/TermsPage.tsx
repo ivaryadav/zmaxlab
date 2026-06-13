@@ -8,7 +8,7 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { 
 
 export default function TermsPage() {
   useSEO({
-    title: 'Terms of Service | ZmaxLab - Healthcare Website Design',
+    title: 'Terms of Service | ZmaxLab – Healthcare Website Design',
     description: 'Terms of Service for ZmaxLab - custom healthcare website design for NPI practitioners. $500 flat fee. 7-day delivery guarantee.',
     canonical: 'https://zmaxlab.site/terms',
   })
@@ -19,7 +19,7 @@ export default function TermsPage() {
       body: `ZmaxLab (operated by Ravi Kumar) provides custom website design, local SEO, social media management, and related digital marketing services to NPI-registered healthcare practitioners in the United States. By engaging ZmaxLab, you agree to these Terms of Service.`
     },
     {
-      title: '2. Website Package - $500 Flat Fee',
+      title: '2. Website Package – $500 Flat Fee',
       body: `The $500 website package includes a custom, hand-coded website delivered within 7 business days of receiving all required content from the client. The package includes custom design, mobile responsiveness, SSL setup, SEO foundation (meta tags, schema markup, sitemap), online booking integration, contact form, Google Analytics setup, and 1 post-launch revision. The $500 fee covers a single website build. Revisions beyond the included revision are billed at $75/hour.`
     },
     {
@@ -28,7 +28,7 @@ export default function TermsPage() {
     },
     {
       title: '4. Payment Terms',
-      body: `Payment is accepted via Stripe or PayPal. For the $500 website package, 50% is due upfront to begin work, and 50% is due upon completion and approval before the site goes live. Alternatively, the full $500 may be paid upfront. Monthly services (SEO, Social Media, etc.) are billed in advance on a monthly basis and may be cancelled at any time with 30 daysâ notice. No refunds are issued for completed monthly service periods.`
+      body: `Payment is accepted via Stripe or PayPal. For the $500 website package, 50% is due upfront to begin work, and 50% is due upon completion and approval before the site goes live. Alternatively, the full $500 may be paid upfront. Monthly services (SEO, Social Media, etc.) are billed in advance on a monthly basis and may be cancelled at any time with 30 days’ notice. No refunds are issued for completed monthly service periods.`
     },
     {
       title: '5. Client Responsibilities',
@@ -52,11 +52,11 @@ export default function TermsPage() {
     },
     {
       title: '10. Termination',
-      body: `Either party may terminate monthly services with 30 daysâ written notice via email to ravi@zmaxlab.site. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
+      body: `Either party may terminate monthly services with 30 days’ written notice via email to ravi@zmaxlab.site. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
     },
     {
       title: '11. Governing Law',
-      body: `These terms are governed by the laws applicable to the service providerâs jurisdiction. Any disputes will be resolved through good-faith negotiation first. If unresolved, disputes will be submitted to binding arbitration.`
+      body: `These terms are governed by the laws applicable to the service provider’s jurisdiction. Any disputes will be resolved through good-faith negotiation first. If unresolved, disputes will be submitted to binding arbitration.`
     },
     {
       title: '12. Contact',
@@ -80,7 +80,7 @@ export default function TermsPage() {
               Last updated: June 2026
             </p>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 680 }}>
-              These terms govern your use of ZmaxLabâs services. By placing an order or submitting a contact form, you agree to these terms. Please read them carefully.
+              These terms govern your use of ZmaxLab’s services. By placing an order or submitting a contact form, you agree to these terms. Please read them carefully.
             </p>
           </motion.div>
         </div>
@@ -100,7 +100,7 @@ export default function TermsPage() {
             <div>
               <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Questions about these terms?</div>
               <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, marginBottom: 12 }}>
-                Email <a href="mailto:ravi@zmaxlab.site" style={{ color: '#00c896' }}>ravi@zmaxlab.site</a> and weâll respond within 2 business days.
+                Email <a href="mailto:ravi@zmaxlab.site" style={{ color: '#00c896' }}>ravi@zmaxlab.site</a> and we’ll respond within 2 business days.
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 13, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
