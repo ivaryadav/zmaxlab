@@ -217,9 +217,14 @@ export default function HowItWorksPage() {
         <motion.div {...fadeUp()} style={{ maxWidth:600,margin:'0 auto' }}>
           <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Ready to start?</h2>
           <p style={{ fontSize:15,color:T.muted,marginBottom:32,lineHeight:1.75 }}>Book your free demo call. I'll review your presence and show you what your website could look like - no commitment required.</p>
-          <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-            Book Free Demo <ArrowRight size={16}/>
-          </Link>
+          <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
+            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
+              Book Free Demo <ArrowRight size={16}/>
+            </Link>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+              See Case Studies
+            </Link>
+          </div>
         </motion.div>
       </section>
     </div>

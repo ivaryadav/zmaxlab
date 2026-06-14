@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Mail, Home, Package, Layers, User, MessageSquare } from 'lucide-react'
 import { NavBar } from '@/components/ui/tubelight-navbar'
 import type { NavItem } from '@/components/ui/tubelight-navbar'
+import LogoCircle from './LogoCircle'
 
 const T = { blue:'#2563eb', violet:'#7c3aed', text:'#f1f5f9', muted:'rgba(241,245,249,0.55)', border:'rgba(255,255,255,0.07)' }
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -56,9 +57,48 @@ export default function Navbar() {
           transition: 'padding .35s, background .35s, border-color .35s',
         }}
       >
-        {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          <img src="/logo.svg" alt="ZmaxLab" style={{ display: 'block', height: 36, width: 'auto' }} />
+        {/* Logo — circular glass icon + wordmark */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0, textDecoration: 'none' }}>
+          {/* Circular icon with glow ring */}
+          <motion.div
+            style={{ position: 'relative', flexShrink: 0 }}
+            whileHover={{ y: -2, scale: 1.06 }}
+            transition={{ duration: 0.32, ease: EASE }}
+          >
+            <motion.div
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{
+                position: 'absolute', inset: -6, borderRadius: '50%', pointerEvents: 'none',
+                boxShadow: '0 0 20px rgba(0,230,118,0.5), 0 0 44px rgba(0,230,118,0.18)',
+              }}
+            />
+            {/* Natural eye-blink — fast close, brief hold, smooth spring open */}
+            <motion.div
+              style={{ transformOrigin: 'center center', lineHeight: 0 }}
+              animate={{ scaleY: [1, 1, 0.03, 0.03, 1] }}
+              transition={{
+                duration: 0.42,
+                times: [0, 0.45, 0.62, 0.74, 1],
+                ease: ['linear', [0.4, 0, 1, 1], 'linear', [0, 0, 0.3, 1]],
+                repeat: Infinity,
+                repeatDelay: 1.4,
+              }}
+            >
+              <LogoCircle size={42} />
+            </motion.div>
+          </motion.div>
+
+          {/* Wordmark — separate from icon */}
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <span style={{ fontSize: 21, fontWeight: 800, letterSpacing: '-0.6px', color: '#ddeeff', whiteSpace: 'nowrap' }}>
+              Zmax
+              <span style={{ background: 'linear-gradient(90deg,#00d4a8,#1a8eff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Lab</span>
+            </span>
+            <span style={{ fontSize: 8, letterSpacing: '1.6px', color: 'rgba(241,245,249,0.32)', fontWeight: 500, textTransform: 'uppercase', marginTop: 3 }}>
+              HEALTHCARE WEBSITES
+            </span>
+          </div>
         </Link>
 
         {/* Desktop nav links - tubelight pill */}

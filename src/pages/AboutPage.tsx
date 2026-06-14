@@ -14,9 +14,6 @@ const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,25
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
-function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div style={{ background:T.card, backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', border:`1px solid ${T.border}`, borderRadius:20, ...style }} {...p}>{children}</div>
-}
 
 const VALUES = [
   { Icon:Heart,  color:'#e11d48', title:'Healthcare First',       desc:'Every decision - design, copy, features - is made through the lens of what helps practitioners get more patients.' },
@@ -90,14 +87,17 @@ export default function AboutPage() {
             style={{ flex:'0 0 auto' }}
           >
             <GlowCard customSize glowColor="purple" className="p-8 text-center" style={{ minWidth:240 }}>
-              <div style={{
-                width:96,height:96,borderRadius:'50%',
-                background:`linear-gradient(135deg,${T.blue},${T.violet})`,
-                display:'flex',alignItems:'center',justifyContent:'center',
-                fontSize:32,fontWeight:900,color:'#fff',
-                margin:'0 auto 16px',
-                boxShadow:`0 8px 32px rgba(37,99,235,0.4)`,
-              }}>R</div>
+              <img
+                src="/ravi.jpg"
+                alt="Ravi – Founder of ZmaxLab"
+                style={{
+                  width:96,height:96,borderRadius:'50%',
+                  objectFit:'cover',objectPosition:'center top',
+                  display:'block',margin:'0 auto 16px',
+                  border:`2px solid ${T.violet}40`,
+                  boxShadow:`0 8px 32px rgba(124,58,237,0.35)`,
+                }}
+              />
               <div style={{ fontSize:18,fontWeight:800,color:T.text }}>Ravi</div>
               <div style={{ fontSize:13,color:T.muted,marginBottom:16 }}>Founder & Builder</div>
               <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
@@ -134,19 +134,59 @@ export default function AboutPage() {
             <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.blue,marginBottom:12 }}>The Story</div>
             <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)',fontWeight:900,letterSpacing:'-0.5px' }}>Why I Started ZmaxLab</h2>
           </motion.div>
-          <Glass style={{ padding:'clamp(28px,4vw,48px)' }}>
-            {[
-              "I've spent years watching brilliant healthcare practitioners struggle to get found online - not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.",
-              "ZmaxLab exists to fix that. One person, one mission: give every NPI-registered practitioner across all 50 US states a website that actually works.",
-              "A nurse practitioner I knew had just opened her own practice after 10 years in a hospital. She was incredible at her job - patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.",
-              "That's when I stepped in. I built her a custom website in 5 days for $500. Within 3 months, she was ranking #3 for 'family nurse practitioner [city]' and getting 4-6 new patient inquiries per week from Google alone.",
-              "She told two colleagues. Then three more. Then I realised this was a real problem - and I was in a unique position to solve it for a lot of practitioners who had the same story.",
-            ].map((para,i) => (
-              <motion.p key={i} {...fadeUp(i*0.08)} style={{ fontSize:'clamp(14px,1.4vw,16px)',color:i===0||i===1 ? T.text : T.muted,lineHeight:1.85,marginBottom:i<4?20:0,fontStyle:i===0?'normal':'normal' }}>
-                {para}
-              </motion.p>
-            ))}
-          </Glass>
+          <GlowCard customSize glowColor="blue" style={{ padding:'clamp(28px,4vw,48px)' }}>
+
+            {/* Opening */}
+            <motion.p {...fadeUp(0.05)} style={{ fontSize:'clamp(15px,1.4vw,17px)',color:T.text,lineHeight:1.85,marginBottom:24 }}>
+              I've spent years watching brilliant healthcare practitioners struggle to get found online — not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.
+            </motion.p>
+
+            {/* Mission pull-quote */}
+            <motion.div {...fadeUp(0.1)} style={{
+              borderLeft:`3px solid ${T.blue}`,
+              background:'rgba(37,99,235,0.07)',
+              borderRadius:'0 12px 12px 0',
+              padding:'16px 22px',
+              marginBottom:28,
+            }}>
+              <p style={{ fontSize:'clamp(15px,1.5vw,18px)',fontWeight:700,color:T.text,lineHeight:1.7,margin:0 }}>
+                ZmaxLab exists to fix that. One person, one mission: give every NPI-registered practitioner across all 50 US states a website that actually works.
+              </p>
+            </motion.div>
+
+            {/* Story */}
+            <motion.p {...fadeUp(0.15)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,marginBottom:20 }}>
+              A nurse practitioner I knew had just opened her own practice after 10 years in a hospital. She was incredible at her job — patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.
+            </motion.p>
+
+            <motion.p {...fadeUp(0.18)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,marginBottom:20 }}>
+              That's when I stepped in.
+            </motion.p>
+
+            {/* Result stats */}
+            <motion.div {...fadeUp(0.22)} style={{ display:'flex',gap:12,flexWrap:'wrap',marginBottom:22 }}>
+              {[
+                { val:'5 days', label:'Website built'       },
+                { val:'$500',   label:'Flat fee'            },
+                { val:'#3',     label:'Google ranking'      },
+                { val:'4-6/wk', label:'New patient leads'   },
+              ].map(s => (
+                <div key={s.label} style={{
+                  background:`${T.green}12`,border:`1px solid ${T.green}30`,
+                  borderRadius:12,padding:'10px 18px',textAlign:'center',minWidth:88,
+                }}>
+                  <div style={{ fontSize:22,fontWeight:900,color:T.green,lineHeight:1 }}>{s.val}</div>
+                  <div style={{ fontSize:11,color:T.muted,marginTop:4,whiteSpace:'nowrap' }}>{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Conclusion */}
+            <motion.p {...fadeUp(0.27)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,margin:0 }}>
+              She told two colleagues. Then three more. Then I realised this was a real problem — and I was in a unique position to solve it for a lot of practitioners who had the same story.
+            </motion.p>
+
+          </GlowCard>
         </div>
       </section>
 
@@ -180,14 +220,30 @@ export default function AboutPage() {
             <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.green,marginBottom:12 }}>My Commitment</div>
             <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)',fontWeight:900,letterSpacing:'-0.5px' }}>What I Promise Every Client</h2>
           </motion.div>
-          <Glass style={{ padding:'clamp(28px,4vw,40px)' }}>
+          <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
             {PROMISES.map((p,i) => (
-              <motion.div key={i} {...fadeUp(i*0.08)} style={{ display:'flex',gap:14,alignItems:'flex-start',padding:'14px 0',borderBottom:i<PROMISES.length-1 ? `1px solid ${T.border}` : 'none' }}>
-                <CheckCircle2 size={18} style={{ color:T.green,flexShrink:0,marginTop:2 }}/>
-                <span style={{ fontSize:15,color:T.text,lineHeight:1.65 }}>{p}</span>
+              <motion.div key={i} {...fadeUp(i*0.07)}>
+                <GlowCard customSize glowColor="green" className="p-5">
+                  <div style={{ display:'flex',gap:16,alignItems:'flex-start' }}>
+                    {/* Numbered badge */}
+                    <div style={{
+                      width:40,height:40,borderRadius:12,flexShrink:0,
+                      background:`${T.green}18`,border:`1px solid ${T.green}40`,
+                      display:'flex',alignItems:'center',justifyContent:'center',
+                    }}>
+                      <CheckCircle2 size={20} style={{ color:T.green }}/>
+                    </div>
+                    <div style={{ paddingTop:2 }}>
+                      <div style={{ fontSize:10,fontWeight:700,letterSpacing:'1.5px',textTransform:'uppercase',color:T.green,marginBottom:4 }}>
+                        Promise {String(i+1).padStart(2,'0')}
+                      </div>
+                      <p style={{ fontSize:15,color:T.text,lineHeight:1.65,margin:0 }}>{p}</p>
+                    </div>
+                  </div>
+                </GlowCard>
               </motion.div>
             ))}
-          </Glass>
+          </div>
         </div>
       </section>
 
@@ -196,9 +252,14 @@ export default function AboutPage() {
         <motion.div {...fadeUp()} style={{ maxWidth:600,margin:'0 auto' }}>
           <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Let's build your practice's future online.</h2>
           <p style={{ fontSize:15,color:T.muted,marginBottom:32,lineHeight:1.75 }}>Book a free 30-minute call. I'll review your current presence and show you exactly what your website could look like.</p>
-          <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-            Book Free Demo <ArrowRight size={16}/>
-          </Link>
+          <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
+            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
+              Book Free Demo <ArrowRight size={16}/>
+            </Link>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+              See Case Studies
+            </Link>
+          </div>
         </motion.div>
       </section>
     </div>

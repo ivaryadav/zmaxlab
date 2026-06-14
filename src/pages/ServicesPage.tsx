@@ -15,10 +15,6 @@ const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,25
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
-function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div style={{ background:T.card, backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', border:`1px solid ${T.border}`, borderRadius:20, ...style }} {...p}>{children}</div>
-}
-
 const MONTHLY = [
   { color:'#2563eb', title:'Local SEO', price:'$230', sub:'/month', desc:'68% of patients Google their symptoms before booking. We get your practice to the top of local search - for your specialty and city - before your competition.', perks:['20+ specialty + city keyword targets','Google Maps (3-pack) optimisation','Monthly ranking & traffic report','Local citation & NPI directory building','Competitor gap analysis included'] },
   { color:'#7c3aed', title:'Social Media Marketing', price:'$150', sub:'/month', desc:'Patients don\'t book on the first visit to your profile. Consistent, expert content keeps your practice top-of-mind - so when they\'re ready, they choose you, not the practice down the road.', perks:['12-16 HIPAA-compliant posts/month','Instagram, Facebook & LinkedIn','Patient education + trust content','Stories, reels & highlight covers','Monthly performance analytics'] },
@@ -257,9 +253,14 @@ export default function ServicesPage() {
         <motion.div {...fadeUp()} style={{ maxWidth:560,margin:'0 auto' }}>
           <h2 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Not sure what you need?</h2>
           <p style={{ fontSize:15,color:T.muted,marginBottom:28,lineHeight:1.75 }}>Message me. I'll review your current presence and tell you exactly what's missing - free, no obligation.</p>
-          <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-            Get a Free Audit <ArrowRight size={15}/>
-          </Link>
+          <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
+            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
+              Get a Free Audit <ArrowRight size={15}/>
+            </Link>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+              See Case Studies
+            </Link>
+          </div>
         </motion.div>
       </section>
     </div>
