@@ -17,9 +17,6 @@ const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,25
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
-function Glass({ children, style, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div style={{ background:T.card, backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', border:`1px solid ${T.border}`, borderRadius:20, ...style }} {...p}>{children}</div>
-}
 
 const SPECIALTIES = ['Nurse Practitioner','Physician Assistant','Mental Health NP / Therapist','Chiropractor','Dentist','Physical Therapist','Occupational Therapist','Psychiatric NP','Functional Medicine MD','LCSW / Mental Health Therapist','Other NPI Practitioner']
 const US_STATES   = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
