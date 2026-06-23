@@ -291,6 +291,16 @@ export default function HomePage() {
     canonical: 'https://zmaxlab.site/',
     ogTitle: 'ZmaxLab | $500 Healthcare Websites for NPI Practitioners',
     ogDescription: '$500 flat fee. 500+ NPI healthcare sites built. Launch in 7 days. HIPAA-aware, SEO-optimized, all 50 US states.',
+    schema: [{
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ZmaxLab",
+      "url": "https://zmaxlab.site",
+      "logo": "https://zmaxlab.site/logo-icon.svg",
+      "description": "Custom healthcare website design for NPI practitioners. $500 flat fee, 7-day delivery, SEO-ready.",
+      "areaServed": "United States",
+      "sameAs": ["https://www.instagram.com/zmaxlab/"]
+    }],
   })
 
   const [tIdx, setTIdx]       = useState(0)
