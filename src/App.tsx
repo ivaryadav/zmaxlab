@@ -1,14 +1,15 @@
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/layout/Layout'
-import HomePage from './pages/HomePage'
-import ServicesPage from './pages/ServicesPage'
-import HowItWorksPage from './pages/HowItWorksPage'
-import AboutPage from './pages/AboutPage'
-import ContactPage from './pages/ContactPage'
-import BlogPage from './pages/BlogPage'
-import PrivacyPage from './pages/PrivacyPage'
-import TermsPage from './pages/TermsPage'
+
+const HomePage = lazy(() => import('./pages/HomePage'))
+const ServicesPage = lazy(() => import('./pages/ServicesPage'))
+const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const BlogPage = lazy(() => import('./pages/BlogPage'))
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
+const TermsPage = lazy(() => import('./pages/TermsPage'))
 
 const PAGE_CATEGORIES: Record<string, string> = {
   '/': 'home',
@@ -40,18 +41,20 @@ export default function App() {
   return (
     <BrowserRouter>
       <PageViewTracker />
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
