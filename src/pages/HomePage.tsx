@@ -170,28 +170,28 @@ function SitePreview() {
 }
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const STATS = [
-  { n: 500, suffix: '+',  prefix: '',   label: 'Healthcare Sites Built', color: T.blue   },
-  { n: 127, suffix: '%',  prefix: '',   label: 'Avg Traffic Increase',   color: T.violet },
-  { n: 9,   suffix: '★',  prefix: '4.', label: 'Google Rating Average',  color: T.amber  },
-  { n: 48,  suffix: 'hr', prefix: '',   label: 'Avg Site Delivery Time', color: T.green  },
+  { n: 500, suffix: '',   prefix: '$',  label: 'Flat Fee, No Hidden Costs',      color: T.blue   },
+  { n: 7,   suffix: '',   prefix: '',   label: 'Day Delivery Guarantee',         color: T.violet },
+  { n: 100, suffix: '%',  prefix: '',   label: 'Custom-Coded, Zero Templates',   color: T.cyan   },
+  { n: 8,   suffix: '+',  prefix: '',   label: 'Specialties Supported',          color: T.amber  },
 ]
 
 const SPECIALTIES = [
-  { Icon: Heart,       title: 'Nurse Practitioners',          desc: 'FNP, PMHNP, AGPCNP - credential-first sites that build instant trust and rank for your specialty + city.',      color: T.blue,   stat: '200+ NPs served'       },
-  { Icon: Stethoscope, title: 'Physician Assistants',         desc: 'PA-C practices deserve a site that matches your clinical prestige and converts insurance-savvy patients.',       color: T.violet, stat: '80+ PAs served'        },
-  { Icon: Brain,       title: 'Mental Health Providers',      desc: 'LCSW, therapists, psychiatric NPs - calm, trust-first design that converts hesitant first-time visitors.',       color: T.cyan,   stat: '95+ providers'         },
-  { Icon: Smile,       title: 'Dental & Oral Care',           desc: 'Solo dentists to multi-doctor DSOs - showcase procedures, grow your reviews, and bring new patients through the door every week.',    color: T.amber,  stat: '60+ dentists'          },
-  { Icon: Bone,        title: 'Chiropractic & Rehab',         desc: 'A professional website that helps your practice stand out from chain clinics and franchises in local search results.',                color: T.green,  stat: '70+ clinics'           },
-  { Icon: Activity,    title: 'PT / OT / Speech Therapy',     desc: 'Specialist therapists need specialist sites - your niche certifications and outcomes front and center.',         color: T.rose,   stat: '45+ therapists'        },
+  { Icon: Heart,       title: 'Nurse Practitioners',          desc: 'FNP, PMHNP, AGPCNP - credential-first sites that build instant trust and rank for your specialty + city.',      color: T.blue,   stat: 'Credential-First Design'  },
+  { Icon: Stethoscope, title: 'Physician Assistants',         desc: 'PA-C practices deserve a site that matches your clinical prestige and converts insurance-savvy patients.',       color: T.violet, stat: 'Built for PA-C Practices' },
+  { Icon: Brain,       title: 'Mental Health Providers',      desc: 'LCSW, therapists, psychiatric NPs - calm, trust-first design that converts hesitant first-time visitors.',       color: T.cyan,   stat: 'Calm, Trust-First Design' },
+  { Icon: Smile,       title: 'Dental & Oral Care',           desc: 'Solo dentists to multi-doctor DSOs - showcase procedures, grow your reviews, and bring new patients through the door every week.',    color: T.amber,  stat: 'Procedure-Ready Layouts'  },
+  { Icon: Bone,        title: 'Chiropractic & Rehab',         desc: 'A professional website that helps your practice stand out from chain clinics and franchises in local search results.',                color: T.green,  stat: 'Local Search Focus'       },
+  { Icon: Activity,    title: 'PT / OT / Speech Therapy',     desc: 'Specialist therapists need specialist sites - your niche certifications and outcomes front and center.',         color: T.rose,   stat: 'Outcomes Front and Center' },
   { Icon: Users,       title: 'Multi-Specialty Group Practices', desc: 'Solo NP to 10-provider clinic - one cohesive site that showcases every specialty, location, and provider.',  color: T.blue,   stat: 'Groups welcome'        },
   { Icon: Globe,       title: 'Concierge & Aesthetic Medicine',  desc: 'DPC, functional medicine, aesthetics - premium brand positioning that attracts the patients willing to pay.',color: T.violet, stat: 'Premium positioning'   },
 ]
 
 const AI_TOOLS = [
   { Icon: Bot,      title: 'Done-For-You Content',    desc: 'Google rewards practices that publish expert, helpful content. I write and publish HIPAA-compliant blog posts, FAQs, and service pages for your specialty - so patients find you before your competitors.', color: T.blue,   tag: 'Expert Written'  },
-  { Icon: Search,   title: 'Local Search Visibility', desc: '68% of patients Google their symptoms before booking a provider. I handle keyword research, citation building, and Google Business optimisation - so the right patients find your practice first.',          color: T.violet, tag: 'Local Visibility'  },
-  { Icon: Star,     title: 'Review & Reputation',     desc: '87% of patients read reviews before choosing a provider. 72% won\'t consider below 4 stars. I set up review requests, monitor your ratings, and provide response templates - so your reputation grows naturally.',   color: T.amber,  tag: '4.8+ Average'    },
-  { Icon: Calendar, title: 'Patient Scheduling Setup', desc: 'No-shows cost the average practice $150 per missed visit. I connect your booking system, set up reminder messages, and configure intake forms - so patients arrive prepared and your day runs smoothly.',              color: T.green,  tag: 'Fewer No-Shows'   },
+  { Icon: Search,   title: 'Local Search Visibility', desc: 'Most patients search online before booking a provider. I handle keyword research, citation building, and Google Business optimisation - so the right patients find your practice first.',          color: T.violet, tag: 'Local Visibility'  },
+  { Icon: Star,     title: 'Review & Reputation',     desc: 'Online reviews are often the deciding factor between two similar practices. I set up review requests, monitor your ratings, and provide response templates - so your reputation grows naturally.',   color: T.amber,  tag: 'Reputation Growth'    },
+  { Icon: Calendar, title: 'Patient Scheduling Setup', desc: 'Missed visits cost practices real revenue. I connect your booking system, set up reminder messages, and configure intake forms - so patients arrive prepared and your day runs smoothly.',              color: T.green,  tag: 'Fewer No-Shows'   },
 ]
 
 const STEPS = [
