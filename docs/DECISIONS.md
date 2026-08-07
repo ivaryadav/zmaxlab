@@ -24,3 +24,6 @@
 
 ## D8 — Did not touch pricing, service structure, or business positioning
 **Why:** Not requested. Redesign is visual/copy-tone only; the underlying offer ($500 flat fee, monthly add-ons) is unchanged.
+
+## D9 — Testimonials stay illustrative for now, explicitly labeled
+**Why:** No real client logos, quotes, or case studies exist yet (confirmed with Ravi). Decision: keep placeholder testimonials but ensure they're framed as representative/illustrative rather than implying verified reviews, until real client proof is available. Revisit once real clients can be showcased.
