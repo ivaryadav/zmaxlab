@@ -29,3 +29,12 @@
 - Pricing, service list, business copy/offer structure
 - Sitemap / page structure / routing
 - Deploy pipeline (GitHub Actions + FTP + webhook)
+
+## 2026-08-08 (pt.2) — Phase 1 quick wins
+### Added
+- `public/og-image.png` — real branded 1200x630 social share image (was referenced in meta tags but didn't exist as a file; broken share previews on LinkedIn/Facebook/Twitter/iMessage are now fixed once deployed).
+- Testimonials section now carries an explicit UI disclaimer ("Illustrative examples... not yet verified client reviews") rather than relying on copy tone alone to signal they aren't real reviews.
+- `sitemap.xml` now includes `/privacy` and `/terms` (previously missing).
+
+### Known limitation
+- This sandbox has no headless browser, so `npm run build`'s Puppeteer prerender step can't run here. The committed `dist/` folder's compiled JS/HTML was **not** regenerated this pass — only unhashed static passthrough assets (`og-image.png`, `sitemap.xml`) were copied into `dist/` directly, since those are safe to copy verbatim. The `src/pages/HomePage.tsx` testimonial-label text change will appear correctly once a real build environment (e.g. the GitHub Actions CI pipeline, which has full internet/Chrome access) rebuilds `dist/` from source — which happens automatically on merge to `main` per `.github/workflows/deploy.yml`.

@@ -644,7 +644,10 @@ export default function HomePage() {
         <div style={{ maxWidth: 820, margin: '0 auto' }}>
           <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
             <SectionLabel label="Client Stories" color={T.violet} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, letterSpacing: '-0.5px' }}>Practices That Made the Leap</h2>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, letterSpacing: '-0.5px', marginBottom: 10 }}>What Working Together Can Look Like</h2>
+            <p style={{ fontSize: 14, color: T.muted, maxWidth: 480, margin: '0 auto' }}>
+              Illustrative examples reflecting the kind of feedback this process is designed to earn — not yet verified client reviews.
+            </p>
           </motion.div>
 
           <div style={{ position: 'relative' }}>
