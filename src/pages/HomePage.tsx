@@ -531,7 +531,7 @@ export default function HomePage() {
               {/* Card */}
               <GlowCard customSize glowColor={toGlow(s.color)} className="p-5 mb-5" style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 10, color: s.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, background: `${s.color}18`, padding: '2px 9px', borderRadius: 999 }}>{s.day}</span>
+                  <span style={{ fontFamily: "'JetBrains Mono',ui-monospace,monospace", fontSize: 10, color: s.color, fontWeight: 600, letterSpacing: 0.5, background: `${s.color}18`, padding: '2px 9px', borderRadius: 999 }}>{s.day}</span>
                   <span style={{ fontSize: 11, color: T.muted }}>Step {s.n}</span>
                 </div>
                 <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
@@ -616,20 +616,22 @@ export default function HomePage() {
           </motion.div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             {[
-              { Icon: Shield,        label: 'HIPAA-Aware',  sub: 'Design Standards',  color: T.blue   },
-              { Icon: Globe,         label: 'All 50 States',sub: 'USA Coverage',       color: T.violet },
-              { Icon: Star,          label: '4.9 / 5.0 ★',  sub: 'Google Reviews',    color: T.amber  },
-              { Icon: Users,         label: '500+ Practices',sub: 'Sites Built',       color: T.green  },
-              { Icon: Award,         label: '$500 Flat',    sub: 'No Hidden Fees',     color: T.cyan   },
-            ].map((b, i) => (
+              { Icon: Shield,        label: 'HIPAA-Aware',    sub: 'Design Standards' },
+              { Icon: Zap,           label: '7-Day Delivery', sub: 'Or Fully Refunded' },
+              { Icon: Users,         label: 'Founder-Built',  sub: 'Every Site, Personally' },
+              { Icon: Globe,         label: 'Custom-Coded',   sub: 'Not a Template' },
+              { Icon: Award,         label: '$500 Flat',      sub: 'No Hidden Fees' },
+            ].map((b, i) => {
+              const color = T.blue
+              return (
               <motion.div key={b.label} {...fadeUp(i * 0.08)}>
-                <GlowCard customSize glowColor={toGlow(b.color)} className="p-5 text-center" style={{ minWidth: 140 }}>
-                  <div style={{ color: b.color, display: 'flex', justifyContent: 'center', marginBottom: 8 }}><b.Icon size={22} /></div>
+                <GlowCard customSize glowColor={toGlow(color)} className="p-5 text-center" style={{ minWidth: 140 }}>
+                  <div style={{ color, display: 'flex', justifyContent: 'center', marginBottom: 8 }}><b.Icon size={22} /></div>
                   <div style={{ fontSize: 14, fontWeight: 800, color: T.text }}>{b.label}</div>
                   <div style={{ fontSize: 11, color: T.muted }}>{b.sub}</div>
                 </GlowCard>
               </motion.div>
-            ))}
+            )})}
           </div>
         </div>
       </section>
