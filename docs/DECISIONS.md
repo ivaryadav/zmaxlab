@@ -27,3 +27,6 @@
 
 ## D9 — Testimonials stay illustrative for now, explicitly labeled
 **Why:** No real client logos, quotes, or case studies exist yet (confirmed with Ravi). Decision: keep placeholder testimonials but ensure they're framed as representative/illustrative rather than implying verified reviews, until real client proof is available. Revisit once real clients can be showcased.
+
+## D10 — Visual direction locked: "Approachable Precision" + 3 borrows
+**Why:** After a full creative-director exploration (5 concepts benchmarked against Apple/Stripe/Linear/Framer/Vercel/Innovaccer/Health Catalyst), Ravi confirmed "Approachable Precision" (evolves the existing light/blue system) over his own initially-suggested "Executive Healthcare" navy/gradient direction, on the reasoning that the enterprise-health-tech visual language is built for a different buyer (hospital CIOs, six-figure contracts) than ZmaxLab actually has (solo NPs, $500 flat/no-contract). Three elements borrowed from other concepts: Manrope/Plus Jakarta Sans + Inter typography, emerald reserved strictly as a success-state accent (not a dominant color), and a monospace treatment for the 7-day delivery timeline. See `docs/design/DESIGN_DIRECTION_EXPLORATION.md` for full reasoning.
