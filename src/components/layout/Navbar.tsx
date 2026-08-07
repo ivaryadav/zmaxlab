@@ -5,8 +5,8 @@ import { Menu, X, Mail, Home, Package, Layers, User, MessageSquare } from 'lucid
 import { NavBar } from '@/components/ui/tubelight-navbar'
 import type { NavItem } from '@/components/ui/tubelight-navbar'
 import LogoCircle from './LogoCircle'
+import { T } from '@/lib/theme'
 
-const T = { blue:'#2563eb', violet:'#7c3aed', text:'#f1f5f9', muted:'rgba(241,245,249,0.55)', border:'rgba(255,255,255,0.07)' }
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
 const links = [
@@ -49,59 +49,38 @@ export default function Navbar() {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9000,
           padding: scrolled ? '10px 5%' : '18px 5%',
-          background: scrolled ? 'rgba(4,6,15,0.97)' : 'rgba(4,6,15,0.8)',
-          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-          borderBottom: `1px solid ${scrolled ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)'}`,
+          background: scrolled ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: `1px solid ${scrolled ? T.border : 'rgba(11,18,32,0.04)'}`,
+          boxShadow: scrolled ? T.shadowSm : 'none',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
           overflow: 'visible',
-          transition: 'padding .35s, background .35s, border-color .35s',
+          transition: 'padding .35s, background .35s, border-color .35s, box-shadow .35s',
         }}
       >
         {/* Logo — circular glass icon + wordmark */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0, textDecoration: 'none' }}>
-          {/* Circular icon with glow ring */}
           <motion.div
             style={{ position: 'relative', flexShrink: 0 }}
             whileHover={{ y: -2, scale: 1.06 }}
             transition={{ duration: 0.32, ease: EASE }}
           >
-            <motion.div
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
-              style={{
-                position: 'absolute', inset: -6, borderRadius: '50%', pointerEvents: 'none',
-                boxShadow: '0 0 20px rgba(0,230,118,0.5), 0 0 44px rgba(0,230,118,0.18)',
-              }}
-            />
-            {/* Natural eye-blink — fast close, brief hold, smooth spring open */}
-            <motion.div
-              style={{ transformOrigin: 'center center', lineHeight: 0 }}
-              animate={{ scaleY: [1, 1, 0.03, 0.03, 1] }}
-              transition={{
-                duration: 0.42,
-                times: [0, 0.45, 0.62, 0.74, 1],
-                ease: ['linear', [0.4, 0, 1, 1], 'linear', [0, 0, 0.3, 1]],
-                repeat: Infinity,
-                repeatDelay: 1.4,
-              }}
-            >
-              <LogoCircle size={42} />
-            </motion.div>
+            <LogoCircle size={40} />
           </motion.div>
 
-          {/* Wordmark — separate from icon */}
+          {/* Wordmark */}
           <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-            <span style={{ fontSize: 21, fontWeight: 800, letterSpacing: '-0.6px', color: '#ddeeff', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: 21, fontWeight: 800, letterSpacing: '-0.6px', color: T.ink, whiteSpace: 'nowrap' }}>
               Zmax
-              <span style={{ background: 'linear-gradient(90deg,#00d4a8,#1a8eff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Lab</span>
+              <span style={{ color: T.blue }}>Lab</span>
             </span>
-            <span style={{ fontSize: 8, letterSpacing: '1.6px', color: 'rgba(241,245,249,0.32)', fontWeight: 500, textTransform: 'uppercase', marginTop: 3 }}>
+            <span style={{ fontSize: 8, letterSpacing: '1.6px', color: T.faint, fontWeight: 600, textTransform: 'uppercase', marginTop: 3 }}>
               HEALTHCARE WEBSITES
             </span>
           </div>
         </Link>
 
-        {/* Desktop nav links - tubelight pill */}
+        {/* Desktop nav links - pill */}
         <div className="nav-links">
           <NavBar items={NAV_ITEMS} />
         </div>
@@ -115,10 +94,10 @@ export default function Navbar() {
             <Mail size={12} />ravi@zmaxlab.site
           </a>
           <Link to="/contact" style={{
-            background: `linear-gradient(135deg,${T.blue},${T.violet})`,
+            background: T.blue,
             color: '#fff', fontSize: 13, fontWeight: 700,
-            padding: '9px 20px', borderRadius: 999,
-            boxShadow: `0 4px 16px rgba(37,99,235,0.35)`,
+            padding: '10px 20px', borderRadius: 999,
+            boxShadow: `0 4px 14px rgba(29,78,216,0.28)`,
             whiteSpace: 'nowrap', textDecoration: 'none',
           }}>
             Free Demo →
@@ -141,16 +120,17 @@ export default function Navbar() {
             transition={{ duration: 0.22, ease: EASE }}
             style={{
               position: 'fixed', top: 64, left: 0, right: 0, zIndex: 8999,
-              background: 'rgba(4,6,15,0.98)', backdropFilter: 'blur(24px)',
+              background: 'rgba(255,255,255,0.99)', backdropFilter: 'blur(20px)',
               padding: '16px 5% 24px',
               borderBottom: `1px solid ${T.border}`,
+              boxShadow: T.shadowMd,
             }}
           >
             {links.map(l => (
               <Link key={l.to} to={l.to} style={{
                 display: 'block', padding: '13px 0', fontSize: 16, fontWeight: 600,
-                color: isActive(l.to) ? T.blue : T.muted,
-                borderBottom: `1px solid rgba(255,255,255,0.05)`,
+                color: isActive(l.to) ? T.blue : T.text,
+                borderBottom: `1px solid ${T.border}`,
                 textDecoration: 'none',
               }}>
                 {l.label}
@@ -159,13 +139,13 @@ export default function Navbar() {
             <a href="mailto:ravi@zmaxlab.site" style={{
               display: 'block', marginTop: 12, padding: '12px 0',
               fontSize: 14, fontWeight: 500, color: T.muted,
-              borderBottom: `1px solid rgba(255,255,255,0.05)`, textDecoration: 'none',
+              borderBottom: `1px solid ${T.border}`, textDecoration: 'none',
             }}>
               ravi@zmaxlab.site
             </a>
             <Link to="/contact" style={{
               display: 'block', marginTop: 16,
-              background: `linear-gradient(135deg,${T.blue},${T.violet})`,
+              background: T.blue,
               color: '#fff', fontWeight: 700, padding: '13px',
               borderRadius: 12, textAlign: 'center', textDecoration: 'none',
             }}>

@@ -57,44 +57,44 @@ export default function PrivacyPage() {
   ]
 
   return (
-    <div style={{ background: '#07091f' }}>
-      <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(48px,6vw,72px)', background: 'linear-gradient(155deg,#03051a,#07091f)' }}>
+    <div style={{ background: '#FFFFFF' }}>
+      <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(48px,6vw,72px)', background: `radial-gradient(ellipse at 30% 20%,rgba(29,78,216,0.06) 0%,transparent 60%),#FFFFFF` }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <motion.div {...fadeUp()}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-              <Shield size={20} style={{ color: '#00c896' }}/>
-              <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#34d399' }}>Privacy Policy</span>
+              <Shield size={20} style={{ color: '#0E9F6E' }}/>
+              <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' as const, color: '#0E9F6E' }}>Privacy Policy</span>
             </div>
-            <h1 style={{ ...GS, fontSize: 'clamp(2rem,4.5vw,3.2rem)', fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 16 }}>
+            <h1 style={{ ...GS, fontSize: 'clamp(2rem,4.5vw,3.2rem)', fontWeight: 800, color: '#0B1220', lineHeight: 1.1, letterSpacing: '-2px', marginBottom: 16 }}>
               Your privacy matters.
             </h1>
-            <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, marginBottom: 8 }}>
+            <p style={{ fontSize: 16, color: 'rgba(11,18,32,0.55)', lineHeight: 1.75, marginBottom: 8 }}>
               Last updated: June 2026
             </p>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 680 }}>
+            <p style={{ fontSize: 15, color: 'rgba(11,18,32,0.6)', lineHeight: 1.75, maxWidth: 680 }}>
               This policy explains how ZmaxLab collects, uses, and protects information when you visit zmaxlab.site or submit an enquiry. We are committed to protecting your privacy and being transparent about our data practices.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <section style={{ padding: 'clamp(48px,6vw,80px) 5% clamp(64px,8vw,96px)', background: '#07091f' }}>
+      <section style={{ padding: 'clamp(48px,6vw,80px) 5% clamp(64px,8vw,96px)', background: '#FFFFFF' }}>
         <div style={{ maxWidth: 860, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 36 }}>
           {SECTIONS.map((s, i) => (
-            <motion.div key={i} {...fadeUp(i * 0.04)} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 'clamp(24px,3vw,32px)' }}>
-              <h2 style={{ ...GS, fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 12 }}>{s.title}</h2>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.62)', lineHeight: 1.85 }}>{s.body}</p>
+            <motion.div key={i} {...fadeUp(i * 0.04)} style={{ background: '#F6F8FB', border: '1px solid rgba(11,18,32,0.09)', borderRadius: 16, padding: 'clamp(24px,3vw,32px)' }}>
+              <h2 style={{ ...GS, fontSize: 17, fontWeight: 700, color: '#0B1220', marginBottom: 12 }}>{s.title}</h2>
+              <p style={{ fontSize: 14, color: 'rgba(11,18,32,0.65)', lineHeight: 1.85 }}>{s.body}</p>
             </motion.div>
           ))}
 
-          <motion.div {...fadeUp(0.1)} style={{ background: 'linear-gradient(135deg,rgba(27,111,255,0.08),rgba(0,200,150,0.06))', border: '1px solid rgba(27,111,255,0.2)', borderRadius: 16, padding: 'clamp(24px,3vw,32px)', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-            <Mail size={20} style={{ color: '#00c896', marginTop: 2, flexShrink: 0 }}/>
+          <motion.div {...fadeUp(0.1)} style={{ background: 'linear-gradient(135deg,rgba(29,78,216,0.05),rgba(14,159,110,0.05))', border: '1px solid rgba(29,78,216,0.18)', borderRadius: 16, padding: 'clamp(24px,3vw,32px)', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+            <Mail size={20} style={{ color: '#0E9F6E', marginTop: 2, flexShrink: 0 }}/>
             <div>
-              <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Questions about this policy?</div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, marginBottom: 12 }}>
-                Email us at <a href="mailto:ravi@zmaxlab.site" style={{ color: '#00c896' }}>ravi@zmaxlab.site</a> and we'll respond within 2 business days.
+              <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#0B1220', marginBottom: 8 }}>Questions about this policy?</div>
+              <p style={{ fontSize: 14, color: 'rgba(11,18,32,0.6)', lineHeight: 1.75, marginBottom: 12 }}>
+                Email us at <a href="mailto:ravi@zmaxlab.site" style={{ color: '#1D4ED8', fontWeight: 600 }}>ravi@zmaxlab.site</a> and we'll respond within 2 business days.
               </p>
-              <Link to="/contact" style={{ ...GS, background: 'linear-gradient(135deg,#1b6fff,#00c896)', color: '#fff', fontWeight: 700, fontSize: 13, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+              <Link to="/contact" style={{ ...GS, background: '#1D4ED8', color: '#fff', fontWeight: 700, fontSize: 13, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
                 Contact Us
               </Link>
             </div>

@@ -6,30 +6,30 @@ import { useSEO } from '@/lib/useSEO'
 import { GlowCard } from '@/components/ui/spotlight-card'
 
 const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === '#7c3aed' ? 'purple' :
-  c === '#059669' ? 'green'  :
-  c === '#e11d48' ? 'red'    :
-  c === '#f59e0b' ? 'orange' : 'blue'
+  c === '#0B2E7A' ? 'purple' :
+  c === '#0E9F6E' ? 'green'  :
+  c === '#DC2626' ? 'red'    :
+  c === '#F5A524' ? 'orange' : 'blue'
 
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
+import { T } from '@/lib/theme'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
 const MONTHLY = [
-  { color:'#2563eb', title:'Local SEO', price:'$230', sub:'/month', desc:'68% of patients Google their symptoms before booking. We get your practice to the top of local search - for your specialty and city - before your competition.', perks:['20+ specialty + city keyword targets','Google Maps (3-pack) optimisation','Monthly ranking & traffic report','Local citation & NPI directory building','Competitor gap analysis included'] },
-  { color:'#7c3aed', title:'Social Media Marketing', price:'$150', sub:'/month', desc:'Patients don\'t book on the first visit to your profile. Consistent, expert content keeps your practice top-of-mind - so when they\'re ready, they choose you, not the practice down the road.', perks:['12-16 HIPAA-compliant posts/month','Instagram, Facebook & LinkedIn','Patient education + trust content','Stories, reels & highlight covers','Monthly performance analytics'] },
-  { color:'#f59e0b', title:'Reputation Management', price:'$100', sub:'/month', desc:'87% of patients read reviews before choosing a provider. 72% won\'t consider below 4 stars. I send review requests on your behalf and provide response templates - so your 5-star reputation grows while you focus on patient care.', perks:['Post-visit review requests we send for you','2-click SMS + email links for patients','Google & Healthgrades monitoring','Done-for-you response templates','Negative review alert & guidance'] },
-  { color:'#0891b2', title:'Performance Report', price:'$75', sub:'/month', desc:'See exactly where every new patient came from. Monthly analytics covering rankings, traffic, calls, and bookings - plus what your local competitors are doing differently this month.', perks:['Google ranking positions tracked','Monthly visitor & source analytics','Call & enquiry conversion tracking','Core Web Vitals performance score','Head-to-head competitor comparison'] },
-  { color:'#059669', title:'Website Support', price:'$200', sub:'/month', desc:'Your website is your hardest-working team member - it greets every patient, answers questions, and takes bookings around the clock. I keep it updated, secure, and performing so it never lets you down.', perks:['Unlimited text, image & page updates','Monthly performance review call','Priority 24-hour response time','Security scanning & uptime monitoring','Annual SEO health check included'] },
+  { color:'#1D4ED8', title:'Local SEO', price:'$230', sub:'/month', desc:'68% of patients Google their symptoms before booking. We get your practice to the top of local search - for your specialty and city - before your competition.', perks:['20+ specialty + city keyword targets','Google Maps (3-pack) optimisation','Monthly ranking & traffic report','Local citation & NPI directory building','Competitor gap analysis included'] },
+  { color:'#0B2E7A', title:'Social Media Marketing', price:'$150', sub:'/month', desc:'Patients don\'t book on the first visit to your profile. Consistent, expert content keeps your practice top-of-mind - so when they\'re ready, they choose you, not the practice down the road.', perks:['12-16 HIPAA-compliant posts/month','Instagram, Facebook & LinkedIn','Patient education + trust content','Stories, reels & highlight covers','Monthly performance analytics'] },
+  { color:'#F5A524', title:'Reputation Management', price:'$100', sub:'/month', desc:'87% of patients read reviews before choosing a provider. 72% won\'t consider below 4 stars. I send review requests on your behalf and provide response templates - so your 5-star reputation grows while you focus on patient care.', perks:['Post-visit review requests we send for you','2-click SMS + email links for patients','Google & Healthgrades monitoring','Done-for-you response templates','Negative review alert & guidance'] },
+  { color:'#0E7C86', title:'Performance Report', price:'$75', sub:'/month', desc:'See exactly where every new patient came from. Monthly analytics covering rankings, traffic, calls, and bookings - plus what your local competitors are doing differently this month.', perks:['Google ranking positions tracked','Monthly visitor & source analytics','Call & enquiry conversion tracking','Core Web Vitals performance score','Head-to-head competitor comparison'] },
+  { color:'#0E9F6E', title:'Website Support', price:'$200', sub:'/month', desc:'Your website is your hardest-working team member - it greets every patient, answers questions, and takes bookings around the clock. I keep it updated, secure, and performing so it never lets you down.', perks:['Unlimited text, image & page updates','Monthly performance review call','Priority 24-hour response time','Security scanning & uptime monitoring','Annual SEO health check included'] },
 ]
 
 const ONE_TIME = [
-  { color:'#2563eb', label:'Setup',      title:'Google Business Profile',  price:'$150', desc:'86% of people use Google Maps to find local businesses. We verify and fully optimise your GBP so patients searching "[specialty] near me" find you - not your competitor.' },
-  { color:'#7c3aed', label:'Setup',      title:'NPI Directory Listings',    price:'$75',  desc:'Patients Google your name before booking. We list and optimise your profile on 7 major directories: Healthgrades, Zocdoc, Vitals, WebMD, Psychology Today, US News & NPI Registry.' },
-  { color:'#059669', label:'Setup',      title:'HIPAA Patient Intake Forms', price:'$100', desc:'Replace paper clipboards with secure, HIPAA-aware digital intake forms. Collect patient history before they walk in - delivered directly to your inbox or EHR.' },
-  { color:'#0891b2', label:'Setup',      title:'Telehealth Page Setup',     price:'$100', desc:'Patients expect virtual care options. We build a professional telehealth booking page with your state coverage map, platform links, and insurance info - ready in 48 hours.' },
-  { color:'#e11d48', label:'Content',    title:'Blog Content Starter',      price:'$150', desc:'Google rewards websites with fresh, expert content. 3 SEO-optimised blog posts targeting your specialty keywords - researched, written, published, and submitted to Google.' },
-  { color:'#f59e0b', label:'Automation', title:'Appointment Reminder Setup', price:'$75',  desc:'No-shows cost the average practice $150+ per missed appointment. I set up reminder messages that go out before every visit - reducing no-shows by up to 30%. Done once, works forever.' },
+  { color:'#1D4ED8', label:'Setup',      title:'Google Business Profile',  price:'$150', desc:'86% of people use Google Maps to find local businesses. We verify and fully optimise your GBP so patients searching "[specialty] near me" find you - not your competitor.' },
+  { color:'#0B2E7A', label:'Setup',      title:'NPI Directory Listings',    price:'$75',  desc:'Patients Google your name before booking. We list and optimise your profile on 7 major directories: Healthgrades, Zocdoc, Vitals, WebMD, Psychology Today, US News & NPI Registry.' },
+  { color:'#0E9F6E', label:'Setup',      title:'HIPAA Patient Intake Forms', price:'$100', desc:'Replace paper clipboards with secure, HIPAA-aware digital intake forms. Collect patient history before they walk in - delivered directly to your inbox or EHR.' },
+  { color:'#0E7C86', label:'Setup',      title:'Telehealth Page Setup',     price:'$100', desc:'Patients expect virtual care options. We build a professional telehealth booking page with your state coverage map, platform links, and insurance info - ready in 48 hours.' },
+  { color:'#DC2626', label:'Content',    title:'Blog Content Starter',      price:'$150', desc:'Google rewards websites with fresh, expert content. 3 SEO-optimised blog posts targeting your specialty keywords - researched, written, published, and submitted to Google.' },
+  { color:'#F5A524', label:'Automation', title:'Appointment Reminder Setup', price:'$75',  desc:'No-shows cost the average practice $150+ per missed appointment. I set up reminder messages that go out before every visit - reducing no-shows by up to 30%. Done once, works forever.' },
 ]
 
 const WEBSITE_FEATURES = [
@@ -67,19 +67,20 @@ export default function ServicesPage() {
               <span style={{ fontSize:10,fontWeight:800,letterSpacing:1,textTransform:'uppercase',color:T.green }}>Transparent Pricing</span>
             </div>
             <h1 style={{ fontSize:'clamp(2.2rem,5vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-2px',marginBottom:18 }}>
-              Everything your practice needs<br/>
-              <span style={{ background:`linear-gradient(135deg,${T.blue},${T.violet})`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text' }}>
-                to dominate local search.
-              </span>
+              Website design and{' '}
+              <span style={{ color:T.blue }}>
+                local SEO services
+              </span>{' '}
+              for healthcare practices.
             </h1>
             <p style={{ fontSize:'clamp(15px,1.5vw,18px)',color:T.muted,lineHeight:1.75,maxWidth:560,marginBottom:32 }}>
-              Start with a $500 custom website live in 7 days. Layer in SEO, social media, reputation management, and reporting - only when you're ready. No contracts. No lock-ins. No agency nonsense.
+              Start with a $500 custom website, live in 7 business days. Add local SEO, social media, reputation management, or reporting as separate services when you're ready. No contracts or bundling required.
             </p>
             <div style={{ display:'flex',gap:12,flexWrap:'wrap' }}>
               <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'13px 28px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
                 Get My Free Demo <ArrowRight size={15}/>
               </Link>
-              <Link to="/how-it-works" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
+              <Link to="/how-it-works" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
                 How It Works
               </Link>
             </div>
@@ -109,7 +110,7 @@ export default function ServicesPage() {
                 </p>
                 <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:10 }}>
                   {WEBSITE_FEATURES.map(f => (
-                    <div key={f} style={{ display:'flex',alignItems:'flex-start',gap:9,padding:'11px 13px',background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:12 }}>
+                    <div key={f} style={{ display:'flex',alignItems:'flex-start',gap:9,padding:'11px 13px',background:'rgba(11,18,32,0.04)',border:`1px solid ${T.border}`,borderRadius:12 }}>
                       <CheckCircle2 size={12} style={{ color:T.green,flexShrink:0,marginTop:2 }}/>
                       <span style={{ fontSize:12,color:T.muted }}>{f}</span>
                     </div>
@@ -118,7 +119,7 @@ export default function ServicesPage() {
               </div>
 
               {/* Price card */}
-              <div style={{ background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:18,padding:28,textAlign:'center',position:'sticky',top:96 }}>
+              <div style={{ background:'rgba(11,18,32,0.04)',border:`1px solid ${T.border}`,borderRadius:18,padding:28,textAlign:'center',position:'sticky',top:96 }}>
                 <div style={{ fontSize:11,color:T.muted,marginBottom:4 }}>Complete website</div>
                 <div style={{ fontSize:68,fontWeight:900,color:T.text,lineHeight:1,letterSpacing:'-4px' }}>
                   <sup style={{ fontSize:26,verticalAlign:'super',letterSpacing:0 }}>$</sup>500
@@ -128,7 +129,7 @@ export default function ServicesPage() {
                   Get My Free Demo
                 </Link>
                 <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:16,textAlign:'left' }}>
-                  {[['Web agency','$3k-$10k','#ef4444'],['Wix / Squarespace','$29/mo forever','#f59e0b'],['ZmaxLab','$500 once',T.green]].map(([l,v,c]) => (
+                  {[['Web agency','$3k-$10k','#ef4444'],['Wix / Squarespace','$29/mo forever','#F5A524'],['ZmaxLab','$500 once',T.green]].map(([l,v,c]) => (
                     <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,marginBottom:7 }}>
                       <span style={{ color:T.muted }}>{l}</span>
                       <span style={{ color:c,fontWeight:l==='ZmaxLab'?700:400 }}>{v}</span>
@@ -150,7 +151,7 @@ export default function ServicesPage() {
           </motion.div>
 
           {/* Tab bar */}
-          <motion.div {...fadeUp(0.1)} style={{ display:'flex',background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:14,padding:4,marginBottom:36,maxWidth:440,gap:4 }}>
+          <motion.div {...fadeUp(0.1)} style={{ display:'flex',background:'rgba(11,18,32,0.04)',border:`1px solid ${T.border}`,borderRadius:14,padding:4,marginBottom:36,maxWidth:440,gap:4 }}>
             {(['monthly','onetime','bundle'] as Tab[]).map(t => (
               <button key={t} onClick={() => setTab(t)} style={{
                 flex:1,padding:'10px 4px',borderRadius:10,border:'none',cursor:'pointer',
@@ -257,7 +258,7 @@ export default function ServicesPage() {
             <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
               Get a Free Audit <ArrowRight size={15}/>
             </Link>
-            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
               See Case Studies
             </Link>
           </div>

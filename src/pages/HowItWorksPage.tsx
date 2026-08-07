@@ -6,9 +6,9 @@ import { useSEO } from '@/lib/useSEO'
 import { GlowCard } from '@/components/ui/spotlight-card'
 
 const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === '#7c3aed' ? 'purple' : c === '#059669' ? 'green' : c === '#e11d48' ? 'red' : c === '#f59e0b' ? 'orange' : 'blue'
+  c === '#0B2E7A' ? 'purple' : c === '#0E9F6E' ? 'green' : c === '#DC2626' ? 'red' : c === '#F5A524' ? 'orange' : 'blue'
 
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
+import { T } from '@/lib/theme'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
@@ -19,7 +19,7 @@ const STEPS = [
   { Icon:Palette,       color:T.violet, n:'03', title:'Design Approval',        time:'Days 2-3',     desc:'I build a full design mockup and send it for approval via WhatsApp or email. You see the entire homepage layout before a single line of code is written.', bullet:['Full homepage design mockup','Review via WhatsApp or email','Request changes before coding','Typical approval within 24 hours'] },
   { Icon:Code,          color:T.amber,  n:'04', title:'Build & Code',           time:'Days 3-5',     desc:'Once approved, I hand-code your entire site. No WordPress. No page builders. Clean, fast HTML/CSS - built specifically for healthcare SEO and patient conversion.', bullet:['Hand-coded - no page builders','All pages built and linked','Booking integration configured','SEO meta, schema, sitemap added'] },
   { Icon:Rocket,        color:T.cyan,   n:'05', title:'Launch & Deliver',       time:'Days 5-7',     desc:'Your website goes live on your domain with full SSL. I connect hosting, set up Google Search Console, submit your sitemap, and hand over all source files. You own everything.', bullet:['Live on your domain with SSL','Google Search Console verified','Sitemap submitted to Google','Full source code delivered to you'] },
-  { Icon:RefreshCw,     color:'#e11d48',n:'06', title:'Post-Launch Support',    time:'After Launch', desc:'One free revision included after launch. I stay available via WhatsApp for 30 days post-launch. Optional monthly support and SEO plans available.', bullet:['1 free post-launch revision','30-day WhatsApp support included','Optional monthly maintenance plans','SEO and social media add-ons available'] },
+  { Icon:RefreshCw,     color:'#DC2626',n:'06', title:'Post-Launch Support',    time:'After Launch', desc:'One free revision included after launch. I stay available via WhatsApp for 30 days post-launch. Optional monthly support and SEO plans available.', bullet:['1 free post-launch revision','30-day WhatsApp support included','Optional monthly maintenance plans','SEO and social media add-ons available'] },
 ]
 
 const FAQS = [
@@ -32,13 +32,13 @@ const FAQS = [
   { q:'What if I want design changes?',  a:'You review the full design mockup before coding begins. Request any changes at that stage - colours, layout, content. Once you approve, we move to build.' },
 ]
 
-const FAQ_COLORS = [T.blue, T.violet, T.cyan, T.green, T.amber, '#e11d48', T.violet]
+const FAQ_COLORS = [T.blue, T.violet, T.cyan, T.green, T.amber, '#DC2626', T.violet]
 
 function FaqSection() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section style={{ padding:'80px 5%', background:'rgba(255,255,255,0.015)', borderTop:`1px solid ${T.border}` }}>
+    <section style={{ padding:'80px 5%', background:'#F6F8FB', borderTop:`1px solid ${T.border}` }}>
       <div style={{ maxWidth:780, margin:'0 auto' }}>
 
         <motion.div {...fadeUp()} style={{ textAlign:'center', marginBottom:52 }}>
@@ -59,7 +59,7 @@ function FaqSection() {
                   onClick={() => setOpen(isOpen ? null : i)}
                   style={{
                     position:'relative', overflow:'hidden',
-                    background: isOpen ? 'rgba(255,255,255,0.09)' : undefined,
+                    background: isOpen ? 'rgba(11,18,32,0.09)' : undefined,
                     cursor:'pointer',
                     transition:'background .2s',
                   }}
@@ -77,8 +77,8 @@ function FaqSection() {
                   <div style={{ display:'flex', alignItems:'center', gap:14, padding:'18px 22px' }}>
                     <div style={{
                       width:34, height:34, borderRadius:10, flexShrink:0,
-                      background: isOpen ? `${accent}20` : 'rgba(255,255,255,0.05)',
-                      border:`1px solid ${isOpen ? accent + '50' : 'rgba(255,255,255,0.08)'}`,
+                      background: isOpen ? `${accent}20` : 'rgba(11,18,32,0.05)',
+                      border:`1px solid ${isOpen ? accent + '50' : 'rgba(11,18,32,0.08)'}`,
                       display:'flex', alignItems:'center', justifyContent:'center',
                       fontSize:11, fontWeight:800, letterSpacing:'0.5px',
                       color: isOpen ? accent : T.muted,
@@ -87,7 +87,7 @@ function FaqSection() {
                       {String(i + 1).padStart(2,'0')}
                     </div>
 
-                    <span style={{ flex:1, fontSize:15, fontWeight:600, color: isOpen ? T.text : 'rgba(241,245,249,0.8)', lineHeight:1.4 }}>
+                    <span style={{ flex:1, fontSize:15, fontWeight:600, color: isOpen ? T.text : 'rgba(11,18,32,0.8)', lineHeight:1.4 }}>
                       {faq.q}
                     </span>
 
@@ -133,7 +133,7 @@ function FaqSection() {
 export default function HowItWorksPage() {
   const howItWorksSchema = [{"@context":"https://schema.org","@type":"HowTo","name":"How to Get a Custom Healthcare Website in 7 Days","description":"ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days.","totalTime":"P7D","step":[{"@type":"HowToStep","name":"Book a Free Demo Call"},{"@type":"HowToStep","name":"Send Your Content"},{"@type":"HowToStep","name":"Design Approval"},{"@type":"HowToStep","name":"Build & Code"},{"@type":"HowToStep","name":"Launch & Deliver"},{"@type":"HowToStep","name":"Post-Launch Support"}]}]
   useSEO({
-    title: 'How It Works - Custom Healthcare Website in 7 Days | ZmaxLab $500',
+    title: 'How It Works | Custom Healthcare Website Design – ZmaxLab',
     description: 'See how ZmaxLab builds custom $500 healthcare websites for NPI practitioners in 7 days. 6-step process: demo → content → design → build → launch → support.',
     canonical: 'https://zmaxlab.site/how-it-works',
     schema: howItWorksSchema,
@@ -221,7 +221,7 @@ export default function HowItWorksPage() {
             <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
               Book Free Demo <ArrowRight size={16}/>
             </Link>
-            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
               See Case Studies
             </Link>
           </div>

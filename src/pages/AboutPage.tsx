@@ -5,18 +5,18 @@ import { useSEO } from '@/lib/useSEO'
 import { GlowCard } from '@/components/ui/spotlight-card'
 
 const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === T.violet || c === '#7c3aed' ? 'purple' :
-  c === T.green  || c === '#059669' ? 'green'  :
-  c === '#e11d48'                   ? 'red'    :
-  c === T.amber  || c === '#f59e0b' ? 'orange' : 'blue'
+  c === T.violet || c === '#0B2E7A' ? 'purple' :
+  c === T.green  || c === '#0E9F6E' ? 'green'  :
+  c === '#DC2626'                   ? 'red'    :
+  c === T.amber  || c === '#F5A524' ? 'orange' : 'blue'
 
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
+import { T } from '@/lib/theme'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
 
 const VALUES = [
-  { Icon:Heart,  color:'#e11d48', title:'Healthcare First',       desc:'Every decision - design, copy, features - is made through the lens of what helps practitioners get more patients.' },
+  { Icon:Heart,  color:'#DC2626', title:'Healthcare First',       desc:'Every decision - design, copy, features - is made through the lens of what helps practitioners get more patients.' },
   { Icon:Code,   color:T.blue,   title:'Hand-Coded Quality',     desc:'No WordPress, no templates, no page builders. Every line of code is written for your specific practice.' },
   { Icon:Globe,  color:T.green,  title:'Transparent Pricing',    desc:'One price. No surprises. No hidden fees, no upsells on calls, no nickel-and-diming. $500 is $500.' },
 ]
@@ -72,7 +72,7 @@ export default function AboutPage() {
                 <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'13px 28px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
                   Work With Me <ArrowRight size={15}/>
                 </Link>
-                <a href="https://calendly.com/ravi9235kumar/30min" target="_blank" rel="noreferrer" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
+                <a href="https://calendly.com/ravi9235kumar/30min" target="_blank" rel="noreferrer" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
                   <Calendar size={15}/> Book a Call
                 </a>
               </div>
@@ -102,7 +102,7 @@ export default function AboutPage() {
               <div style={{ fontSize:13,color:T.muted,marginBottom:16 }}>Founder & Builder</div>
               <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
                 {[['500+','Sites delivered'],['4.9 ★','Google rating'],['48hr','Avg delivery']].map(([v,l]) => (
-                  <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,padding:'6px 10px',background:'rgba(255,255,255,0.04)',borderRadius:8 }}>
+                  <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,padding:'6px 10px',background:'rgba(11,18,32,0.04)',borderRadius:8 }}>
                     <span style={{ color:T.muted }}>{l}</span>
                     <span style={{ color:T.text,fontWeight:700 }}>{v}</span>
                   </div>
@@ -191,7 +191,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── VALUES ───────────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',background:'rgba(255,255,255,0.015)',borderTop:`1px solid ${T.border}` }}>
+      <section style={{ padding:'80px 5%',background:'#F6F8FB',borderTop:`1px solid ${T.border}` }}>
         <div style={{ maxWidth:1000,margin:'0 auto' }}>
           <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:48 }}>
             <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.violet,marginBottom:12 }}>What I Believe</div>
@@ -256,7 +256,7 @@ export default function AboutPage() {
             <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
               Book Free Demo <ArrowRight size={16}/>
             </Link>
-            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
+            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
               See Case Studies
             </Link>
           </div>

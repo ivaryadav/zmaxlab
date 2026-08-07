@@ -3,17 +3,17 @@ import { useSEO } from '@/lib/useSEO'
 import { GlowCard } from '@/components/ui/spotlight-card'
 
 const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === '#7c3aed' ? 'purple' :
-  c === '#059669' ? 'green'  :
-  c === '#e11d48' ? 'red'    :
-  c === '#f59e0b' ? 'orange' : 'blue'
+  c === '#0B2E7A' ? 'purple' :
+  c === '#0E9F6E' ? 'green'  :
+  c === '#DC2626' ? 'red'    :
+  c === '#F5A524' ? 'orange' : 'blue'
 import { motion } from 'framer-motion'
 import { Mail, Clock, CheckCircle2, Send, Calendar, Shield } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
+import { T } from '@/lib/theme'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
 
@@ -80,8 +80,8 @@ export default function ContactPage() {
     schema: contactSchema,
   })
 
-  const inputStyle = { background:'rgba(255,255,255,0.06)', border:`1px solid ${T.border}`, color:T.text, borderRadius:10, height:44 }
-  const selectStyle: React.CSSProperties = { width:'100%', background:'rgba(255,255,255,0.06)', border:`1px solid ${T.border}`, borderRadius:10, height:44, padding:'0 12px', fontSize:14, outline:'none', appearance:'none' }
+  const inputStyle = { background:'rgba(11,18,32,0.06)', border:`1px solid ${T.border}`, color:T.text, borderRadius:10, height:44 }
+  const selectStyle: React.CSSProperties = { width:'100%', background:'rgba(11,18,32,0.06)', border:`1px solid ${T.border}`, borderRadius:10, height:44, padding:'0 12px', fontSize:14, outline:'none', appearance:'none' }
 
   return (
     <div style={{ background:T.bg, color:T.text, overflowX:'hidden' }}>
@@ -163,15 +163,15 @@ export default function ContactPage() {
                     <div>
                       <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Specialty *</Label>
                       <select required value={form.specialty} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm(f => ({ ...f, specialty:e.target.value }))} style={{ ...selectStyle, color:form.specialty ? T.text : T.muted }}>
-                        <option value="" disabled style={{ background:'#07091f' }}>Select specialty</option>
-                        {SPECIALTIES.map(s => <option key={s} value={s} style={{ background:'#07091f',color:T.text }}>{s}</option>)}
+                        <option value="" disabled style={{ background:'#FFFFFF' }}>Select specialty</option>
+                        {SPECIALTIES.map(s => <option key={s} value={s} style={{ background:'#FFFFFF',color:T.text }}>{s}</option>)}
                       </select>
                     </div>
                     <div>
                       <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>US State *</Label>
                       <select required value={form.state} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm(f => ({ ...f, state:e.target.value }))} style={{ ...selectStyle, color:form.state ? T.text : T.muted }}>
-                        <option value="" disabled style={{ background:'#07091f' }}>Select your state</option>
-                        {US_STATES.map(s => <option key={s} value={s} style={{ background:'#07091f',color:T.text }}>{s}</option>)}
+                        <option value="" disabled style={{ background:'#FFFFFF' }}>Select your state</option>
+                        {US_STATES.map(s => <option key={s} value={s} style={{ background:'#FFFFFF',color:T.text }}>{s}</option>)}
                       </select>
                     </div>
                   </div>
@@ -188,7 +188,7 @@ export default function ContactPage() {
                         <button key={val} type="button" onClick={() => setForm(f => ({ ...f, service:val }))} style={{
                           padding:'7px 16px',borderRadius:999,fontSize:13,fontWeight:600,cursor:'pointer',
                           border:`1px solid ${form.service===val ? T.blue : T.border}`,
-                          background: form.service===val ? `rgba(37,99,235,0.18)` : 'rgba(255,255,255,0.04)',
+                          background: form.service===val ? `rgba(37,99,235,0.18)` : 'rgba(11,18,32,0.04)',
                           color: form.service===val ? '#93bbff' : T.muted,
                           transition:'all .2s',
                         }}>{label}</button>
@@ -198,7 +198,7 @@ export default function ContactPage() {
 
                   <div style={{ marginBottom:24 }}>
                     <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Anything else? (optional)</Label>
-                    <Textarea value={form.message} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm(f => ({ ...f, message:e.target.value }))} placeholder="Tell me about your current website, goals, timeline…" rows={4} style={{ background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,borderRadius:10,resize:'none' }}/>
+                    <Textarea value={form.message} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm(f => ({ ...f, message:e.target.value }))} placeholder="Tell me about your current website, goals, timeline…" rows={4} style={{ background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,borderRadius:10,resize:'none' }}/>
                   </div>
 
                   {error && <p style={{ color:'#f87171',fontSize:13,marginBottom:16 }}>{error}</p>}

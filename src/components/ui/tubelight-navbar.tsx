@@ -14,8 +14,7 @@ interface NavBarProps {
   className?: string
 }
 
-const BLUE   = "#2563eb"
-const VIOLET = "#7c3aed"
+const BLUE = "#1D4ED8"
 
 export function NavBar({ items, className }: NavBarProps) {
   const { pathname } = useLocation()
@@ -40,8 +39,8 @@ export function NavBar({ items, className }: NavBarProps) {
           gap: 2,
           padding: "4px",
           borderRadius: 999,
-          background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.12)",
+          background: "rgba(11,18,32,0.04)",
+          border: "1px solid rgba(11,18,32,0.08)",
         }}
       >
         {items.map((item) => {
@@ -62,14 +61,13 @@ export function NavBar({ items, className }: NavBarProps) {
                 borderRadius: 999,
                 fontSize: 13,
                 fontWeight: 600,
-                color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
+                color: isActive ? "#ffffff" : "rgba(11,18,32,0.62)",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
                 transition: "color 0.2s",
                 userSelect: "none",
               }}
             >
-              {/* Active highlight - renders before text so text is on top */}
               {isActive && (
                 <motion.div
                   layoutId="tubelight-active"
@@ -79,25 +77,10 @@ export function NavBar({ items, className }: NavBarProps) {
                     position: "absolute",
                     inset: 0,
                     borderRadius: 999,
-                    background: `linear-gradient(135deg, rgba(37,99,235,0.35), rgba(124,58,237,0.25))`,
-                    boxShadow: `0 0 18px rgba(37,99,235,0.45), 0 0 4px rgba(37,99,235,0.6)`,
+                    background: BLUE,
+                    boxShadow: `0 2px 10px rgba(29,78,216,0.35)`,
                   }}
-                >
-                  {/* Tubelight glow bar - bottom edge of pill */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: -3,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      width: "55%",
-                      height: 3,
-                      borderRadius: "0 0 4px 4px",
-                      background: `linear-gradient(90deg, transparent, ${BLUE}, ${VIOLET}, transparent)`,
-                      boxShadow: `0 0 10px ${BLUE}, 0 4px 24px rgba(37,99,235,0.6), 0 8px 40px rgba(37,99,235,0.2)`,
-                    }}
-                  />
-                </motion.div>
+                />
               )}
 
               {/* Desktop: text */}

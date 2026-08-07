@@ -7,7 +7,7 @@ export default function Layout() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return (
-    <div style={{ background: '#07091f', minHeight: '100vh' }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh' }}>
       <Navbar />
       <main><Outlet /></main>
       <Footer />

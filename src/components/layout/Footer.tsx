@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { Mail, ArrowRight } from 'lucide-react'
 
-const T = { bg:'#04060f', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', green:'#059669', text:'#f1f5f9', muted:'rgba(241,245,249,0.4)' }
+// Footer is an intentional dark "anchor" band against the light page — a common
+// trust pattern (Stripe, Linear, etc). Kept as its own small palette.
+const F = { bg:'#0B1220', border:'rgba(255,255,255,0.09)', blue:'#3B82F6', green:'#22C99E', text:'#F5F7FA', muted:'rgba(245,247,250,0.55)' }
 
 const SOCIAL = [
   { href:'https://www.instagram.com/zmaxlab/', label:'Instagram', path:<><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></> },
@@ -18,28 +20,27 @@ const COLS = [
 
 export default function Footer() {
   return (
-    <footer style={{ background:T.bg, borderTop:`1px solid ${T.border}`, padding:'64px 5% 0' }}>
+    <footer style={{ background:F.bg, padding:'64px 5% 0' }}>
       <div style={{ maxWidth:1200, margin:'0 auto' }}>
 
         {/* Top CTA strip */}
         <div style={{
           display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:20,
           padding:'32px 40px', marginBottom:64,
-          background:'rgba(255,255,255,0.03)',
-          border:`1px solid ${T.border}`,
+          background:'rgba(255,255,255,0.04)',
+          border:`1px solid ${F.border}`,
           borderRadius:20,
-          backdropFilter:'blur(20px)',
         }}>
           <div>
-            <div style={{ fontSize:18, fontWeight:800, color:T.text, marginBottom:4 }}>Ready to grow your practice?</div>
-            <div style={{ fontSize:13, color:T.muted }}>$500 flat fee · 7-day delivery · All 50 US states</div>
+            <div style={{ fontSize:18, fontWeight:800, color:F.text, marginBottom:4 }}>Ready to grow your practice?</div>
+            <div style={{ fontSize:13, color:F.muted }}>$500 flat fee · 7-day delivery · All 50 US states</div>
           </div>
           <Link to="/contact" style={{
             display:'inline-flex', alignItems:'center', gap:8,
-            background:`linear-gradient(135deg,${T.blue},${T.violet})`,
+            background:F.blue,
             color:'#fff', fontWeight:700, fontSize:14,
             padding:'12px 24px', borderRadius:12,
-            boxShadow:`0 6px 20px rgba(37,99,235,0.35)`,
+            boxShadow:`0 6px 20px rgba(59,130,246,0.30)`,
             whiteSpace:'nowrap',
           }}>
             Book Free Demo <ArrowRight size={15}/>
@@ -54,7 +55,7 @@ export default function Footer() {
             <Link to="/" style={{ display:'inline-flex', alignItems:'center', marginBottom:16 }}>
               <img src="/logo.svg" alt="ZmaxLab" style={{ height:34, width:'auto' }}/>
             </Link>
-            <p style={{ fontSize:13, color:T.muted, lineHeight:1.75, marginBottom:20 }}>
+            <p style={{ fontSize:13, color:F.muted, lineHeight:1.75, marginBottom:20 }}>
               Premium healthcare website design for NPI-registered practitioners across all 50 US states. $500 flat fee. Built personally by Ravi.
             </p>
             <div style={{ display:'flex', gap:8 }}>
@@ -62,13 +63,13 @@ export default function Footer() {
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}
                   style={{
                     width:34, height:34, borderRadius:9,
-                    background:'rgba(255,255,255,0.05)',
-                    border:`1px solid ${T.border}`,
+                    background:'rgba(255,255,255,0.06)',
+                    border:`1px solid ${F.border}`,
                     display:'flex', alignItems:'center', justifyContent:'center',
-                    color:T.muted, transition:'.2s',
+                    color:F.muted, transition:'.2s',
                   }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = T.green)}
-                  onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = T.muted)}
+                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = F.green)}
+                  onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = F.muted)}
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24">{s.path}</svg>
                 </a>
@@ -79,13 +80,13 @@ export default function Footer() {
           {/* Link columns */}
           {COLS.map(col => (
             <div key={col.title}>
-              <h4 style={{ fontSize:11, fontWeight:800, letterSpacing:'1.5px', textTransform:'uppercase', color:T.text, marginBottom:16 }}>{col.title}</h4>
+              <h4 style={{ fontSize:11, fontWeight:800, letterSpacing:'1.5px', textTransform:'uppercase', color:F.text, marginBottom:16 }}>{col.title}</h4>
               <ul style={{ listStyle:'none', padding:0, display:'flex', flexDirection:'column', gap:9 }}>
                 {col.links.map(([label, to]) => (
                   <li key={label}>
-                    <Link to={to} style={{ fontSize:13, color:T.muted, textDecoration:'none', transition:'.2s' }}
-                      onMouseEnter={e => ((e.target as HTMLElement).style.color = T.green)}
-                      onMouseLeave={e => ((e.target as HTMLElement).style.color = T.muted)}
+                    <Link to={to} style={{ fontSize:13, color:F.muted, textDecoration:'none', transition:'.2s' }}
+                      onMouseEnter={e => ((e.target as HTMLElement).style.color = F.green)}
+                      onMouseLeave={e => ((e.target as HTMLElement).style.color = F.muted)}
                     >{label}</Link>
                   </li>
                 ))}
@@ -94,26 +95,26 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* SEO keywords - hidden visually via tiny text */}
-        <div style={{ borderTop:`1px solid rgba(255,255,255,0.04)`, paddingTop:20, marginBottom:20 }}>
-          <p style={{ fontSize:11, color:'rgba(255,255,255,0.15)', lineHeight:1.9, maxWidth:1100 }}>
+        {/* Areas served — legitimately visible small print (not hidden text) */}
+        <div style={{ borderTop:`1px solid ${F.border}`, paddingTop:20, marginBottom:20 }}>
+          <p style={{ fontSize:11.5, color:'rgba(245,247,250,0.38)', lineHeight:1.9, maxWidth:1100 }}>
             ZmaxLab provides custom healthcare website design for NPI practitioners across all 50 US states including Texas, California, Florida, New York, Illinois, Pennsylvania, Ohio, Georgia, North Carolina, Michigan, New Jersey, Virginia, Washington, Arizona, Tennessee, Massachusetts, Indiana, Missouri, Maryland, Wisconsin, Colorado, Minnesota, South Carolina, Alabama, Louisiana, Kentucky, Oregon, Oklahoma, Connecticut, Utah, Iowa, Nevada, Arkansas, Mississippi, Kansas, New Mexico, Nebraska, Idaho, West Virginia, Hawaii, New Hampshire, Maine, Montana, Rhode Island, Delaware, South Dakota, North Dakota, Alaska, Vermont, and Wyoming. Specialties: nurse practitioners (NPs), family nurse practitioners (FNPs), psychiatric nurse practitioners, physician assistants (PA-C), mental health therapists, LCSW, chiropractors (DC), dentists, orthodontists, physical therapists (PT), occupational therapists (OT), speech-language pathologists. HIPAA-aware web design. Healthcare SEO. NPI directory listings.
           </p>
         </div>
 
         {/* Bottom bar */}
         <div style={{
-          borderTop:`1px solid ${T.border}`, paddingTop:20, paddingBottom:96,
+          borderTop:`1px solid ${F.border}`, paddingTop:20, paddingBottom:96,
           display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:10,
-          fontSize:12, color:T.muted,
+          fontSize:12, color:F.muted,
         }}>
           <span>© 2026 ZmaxLab · Built by Ravi · Serving NPI practitioners across the USA</span>
           <span style={{ display:'flex', gap:16, alignItems:'center', flexWrap:'wrap' }}>
-            <a href="mailto:ravi@zmaxlab.site" style={{ color:T.muted, display:'flex', alignItems:'center', gap:4, textDecoration:'none' }}>
+            <a href="mailto:ravi@zmaxlab.site" style={{ color:F.muted, display:'flex', alignItems:'center', gap:4, textDecoration:'none' }}>
               <Mail size={11}/> ravi@zmaxlab.site
             </a>
-            <Link to="/privacy" style={{ color:T.muted, textDecoration:'none' }}>Privacy</Link>
-            <Link to="/terms"   style={{ color:T.muted, textDecoration:'none' }}>Terms</Link>
+            <Link to="/privacy" style={{ color:F.muted, textDecoration:'none' }}>Privacy</Link>
+            <Link to="/terms"   style={{ color:F.muted, textDecoration:'none' }}>Terms</Link>
           </span>
         </div>
       </div>
