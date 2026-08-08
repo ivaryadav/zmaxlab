@@ -38,3 +38,21 @@
 
 ### Known limitation
 - This sandbox has no headless browser, so `npm run build`'s Puppeteer prerender step can't run here. The committed `dist/` folder's compiled JS/HTML was **not** regenerated this pass — only unhashed static passthrough assets (`og-image.png`, `sitemap.xml`) were copied into `dist/` directly, since those are safe to copy verbatim. The `src/pages/HomePage.tsx` testimonial-label text change will appear correctly once a real build environment (e.g. the GitHub Actions CI pipeline, which has full internet/Chrome access) rebuilds `dist/` from source — which happens automatically on merge to `main` per `.github/workflows/deploy.yml`.
+
+## 2026-08-08 (pt.3) — Sitewide fabricated-numbers sweep
+Per Phase 9's flagged risk, checked Services/About/Contact/How-It-Works for the same fabricated-stat pattern found on the homepage.
+
+### Fixed — About page
+- Stats strip and sidebar mini-stats both claimed "500+ Sites Built," "4.9★ Google Rating," "48hr Avg Delivery" (also inconsistent with the 7-day claim used elsewhere) — replaced with true facts ($500 flat, 7-day delivery, 100% custom-coded, 1:1 direct with Ravi).
+- Meta description and schema.org description both repeated the "500+ sites" claim — this was search-engine/social-share-visible copy, not just on-page text. Fixed.
+
+### Fixed — Services page
+- Removed unsourced industry statistics presented as fact: "68% of patients Google their symptoms," "87% read reviews / 72% won't consider below 4 stars," "86% use Google Maps," "75% of patients judge you by your website."
+- Removed a fabricated specific outcome claim: "reducing no-shows by up to 30%" (no data exists to support this).
+- Softened "your 5-star reputation grows" (implied outcome) to a general claim about reputation growth.
+
+### Checked, no issues found
+- Contact page, How It Works page — no fabricated or unsourced numeric claims found.
+
+### Method note
+Same sandbox limitation as before — verified via `tsc -b` and `vite build`, not visual inspection. `dist/` reconciled the same way (static assets copied, hashed JS/HTML left for the real CI build to regenerate).

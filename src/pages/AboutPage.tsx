@@ -22,10 +22,10 @@ const VALUES = [
 ]
 
 const STATS = [
-  { n:'500+',  label:'Sites Built',          color:T.blue   },
-  { n:'4.9★',  label:'Google Rating',        color:T.amber  },
-  { n:'48hr',  label:'Avg Delivery Time',    color:T.green  },
-  { n:'50',    label:'US States Served',     color:T.violet },
+  { n:'$500',  label:'Flat Fee',             color:T.blue   },
+  { n:'7-Day', label:'Delivery Guarantee',   color:T.violet },
+  { n:'100%',  label:'Custom-Coded',         color:T.cyan   },
+  { n:'1:1',   label:'Direct With Ravi',     color:T.green  },
 ]
 
 const PROMISES = [
@@ -37,10 +37,10 @@ const PROMISES = [
 ]
 
 export default function AboutPage() {
-  const aboutSchema = [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"knowsAbout":["Healthcare Website Design","NPI Practitioner Websites","Medical SEO","HIPAA-Aware Web Design"]}]
+  const aboutSchema = [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee, delivered in 7 business days.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"knowsAbout":["Healthcare Website Design","NPI Practitioner Websites","Medical SEO","HIPAA-Aware Web Design"]}]
   useSEO({
     title: 'About Ravi - Healthcare Web Designer for NPI Practitioners | ZmaxLab',
-    description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners - nurse practitioners, PAs, mental health providers. 500+ sites.',
+    description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners - nurse practitioners, PAs, mental health providers. 7-day delivery, no contract.',
     canonical: 'https://zmaxlab.site/about',
     schema: aboutSchema,
   })
@@ -101,7 +101,7 @@ export default function AboutPage() {
               <div style={{ fontSize:18,fontWeight:800,color:T.text }}>Ravi</div>
               <div style={{ fontSize:13,color:T.muted,marginBottom:16 }}>Founder & Builder</div>
               <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
-                {[['500+','Sites delivered'],['4.9 ★','Google rating'],['48hr','Avg delivery']].map(([v,l]) => (
+                {[['$500','Flat fee'],['7-Day','Delivery'],['100%','Custom-coded']].map(([v,l]) => (
                   <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,padding:'6px 10px',background:'rgba(11,18,32,0.04)',borderRadius:8 }}>
                     <span style={{ color:T.muted }}>{l}</span>
                     <span style={{ color:T.text,fontWeight:700 }}>{v}</span>
