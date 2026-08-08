@@ -1,50 +1,45 @@
 import { useState, useRef } from 'react'
+import { ArrowRight, Check, Mail, Clock, ShieldCheck } from 'lucide-react'
+import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { GlowCard } from '@/components/ui/spotlight-card'
-
-const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === '#0B2E7A' ? 'purple' :
-  c === '#0E9F6E' ? 'green'  :
-  c === '#DC2626' ? 'red'    :
-  c === '#F5A524' ? 'orange' : 'blue'
-import { motion } from 'framer-motion'
-import { Mail, Clock, CheckCircle2, Send, Calendar, Shield } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-
-import { T } from '@/lib/theme'
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
-const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
-
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, rise, motion } from '@/components/ui/kit'
 
 const SPECIALTIES = ['Nurse Practitioner','Physician Assistant','Mental Health NP / Therapist','Chiropractor','Dentist','Physical Therapist','Occupational Therapist','Psychiatric NP','Functional Medicine MD','LCSW / Mental Health Therapist','Other NPI Practitioner']
-const US_STATES   = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
+const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
 
-function gtagEvent(eventName: string, params: Record<string, string | number | boolean>) {
-  if (typeof (window as any).gtag === 'function') {
-    (window as any).gtag('event', eventName, params)
-  }
+function gtagEvent(name: string, params: Record<string, string | number | boolean>) {
+  if (typeof (window as any).gtag === 'function') (window as any).gtag('event', name, params)
+}
+
+const fieldWrap: React.CSSProperties = { marginBottom: 22 }
+const labelCss: React.CSSProperties = {
+  fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase',
+  color: T.faint, display: 'block', marginBottom: 9,
+}
+const inputCss: React.CSSProperties = {
+  width: '100%', background: 'transparent', border: 'none',
+  borderBottom: `1px solid ${T.hairlineStrong}`, borderRadius: 0,
+  padding: '11px 0', fontSize: 16, color: T.text, outline: 'none',
+  fontFamily: 'inherit', transition: 'border-color .3s',
 }
 
 export default function ContactPage() {
-  const [form, setForm]       = useState({ name:'', email:'', specialty:'', practice:'', state:'', message:'', service:'website' })
-  const [sent, setSent]       = useState(false)
+  const [form, setForm] = useState({ name:'', email:'', specialty:'', practice:'', state:'', message:'', service:'website' })
+  const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState('')
-  const formStartedRef        = useRef(false)
+  const [error, setError] = useState('')
+  const started = useRef(false)
 
-  const handleFirstInteraction = () => {
-    if (!formStartedRef.current) {
-      formStartedRef.current = true
+  const touch = () => {
+    if (!started.current) {
+      started.current = true
       gtagEvent('form_start', { form_id:'contact_demo', form_name:'Free Demo Form', page_category:'contact' })
     }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
+    setLoading(true); setError('')
     gtagEvent('form_submit', { form_id:'contact_demo', form_name:'Free Demo Form', specialty:form.specialty, service:form.service, page_category:'contact' })
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -62,204 +57,179 @@ export default function ContactPage() {
       if (data.success) {
         gtagEvent('qualify_lead', { form_id:'contact_demo', form_name:'Free Demo Form', specialty:form.specialty, service:form.service, page_category:'contact', lead_status:'new', method:'contact_form' })
         setSent(true)
-      } else {
-        setError('Something went wrong. Please email ravi@zmaxlab.site directly.')
-      }
+      } else setError('Something went wrong. Please email ravi@zmaxlab.site directly.')
     } catch {
-      setError('Network error. Please try again or email ravi@zmaxlab.site.')
+      setError('Network error. Please try again, or email ravi@zmaxlab.site.')
     }
     setLoading(false)
   }
 
-  const contactSchema = [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Affordable custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}]
-
   useSEO({
-    title: 'Book a Free Demo - Custom Healthcare Website for NPI Practitioners | ZmaxLab',
-    description: 'Book a free demo with ZmaxLab. Get a custom $500 healthcare website for your NPI practice - nurse practitioners, PAs, mental health providers, chiropractors. 7-day live guarantee.',
+    title: 'Contact | Book a Free Demo – ZmaxLab Healthcare Web Design',
+    description: 'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners — $500 flat, live in 7 business days.',
     canonical: 'https://zmaxlab.site/contact',
-    schema: contactSchema,
+    schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
   })
 
-  const inputStyle = { background:'rgba(11,18,32,0.06)', border:`1px solid ${T.border}`, color:T.text, borderRadius:10, height:44 }
-  const selectStyle: React.CSSProperties = { width:'100%', background:'rgba(11,18,32,0.06)', border:`1px solid ${T.border}`, borderRadius:10, height:44, padding:'0 12px', fontSize:14, outline:'none', appearance:'none' }
-
   return (
-    <div style={{ background:T.bg, color:T.text, overflowX:'hidden' }}>
-
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section style={{
-        padding:'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)',
-        background:`radial-gradient(ellipse at 70% 50%,rgba(37,99,235,0.11) 0%,transparent 60%),${T.bg}`,
-      }}>
-        <div style={{ maxWidth:1100,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ maxWidth:640 }}>
-            <div style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(5,150,105,0.1)',border:'1px solid rgba(5,150,105,0.25)',borderRadius:999,padding:'5px 14px',marginBottom:22 }}>
-              <span style={{ fontSize:10,fontWeight:800,letterSpacing:1,textTransform:'uppercase',color:T.green }}>Free Demo · Zero Obligation</span>
-            </div>
-            <h1 style={{ fontSize:'clamp(2.2rem,5vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-2px',marginBottom:18 }}>
-              Let's build your<br/>
-              <span style={{ background:`linear-gradient(135deg,${T.blue},${T.violet})`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text' }}>
-                healthcare website.
-              </span>
-            </h1>
-            <p style={{ fontSize:'clamp(15px,1.5vw,18px)',color:T.muted,lineHeight:1.75,maxWidth:520,marginBottom:28 }}>
-              Fill in the form and I'll get back within 2 hours with a personalised demo. No sales pitch - just a look at what your website will look like.
-            </p>
-
-            {/* Calendly card */}
-            <motion.div {...fadeUp(0.15)}>
-              <GlowCard customSize glowColor="blue" className="inline-flex items-center gap-5 flex-wrap" style={{ padding:'18px 24px' }}>
-                <div style={{ display:'flex',alignItems:'center',gap:12 }}>
-                  <div style={{ width:44,height:44,borderRadius:'50%',background:`linear-gradient(135deg,${T.blue},${T.violet})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:800,color:'#fff',flexShrink:0 }}>R</div>
-                  <div>
-                    <div style={{ fontSize:14,fontWeight:700,color:T.text }}>Prefer to talk?</div>
-                    <div style={{ fontSize:12,color:T.muted }}>Book a free 30-minute discovery call</div>
-                  </div>
-                </div>
-                <a href="https://calendly.com/ravi9235kumar/30min" target="_blank" rel="noreferrer"
-                  onClick={() => gtagEvent('qualify_lead', { form_id:'calendly_cta', form_name:'Calendly CTA', page_category:'contact', lead_status:'new', method:'calendly' })}
-                  style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:14,padding:'11px 22px',borderRadius:12,boxShadow:`0 4px 20px rgba(37,99,235,0.35)`,whiteSpace:'nowrap',textDecoration:'none' }}>
-                  <Calendar size={15}/> Book a Free Call
-                </a>
-              </GlowCard>
-              <div style={{ fontSize:12,color:T.muted,marginTop:10 }}>Or fill the form below ↓</div>
-            </motion.div>
+    <>
+      <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(40px,5vw,64px)' }}>
+        <Shell>
+          <motion.div {...rise()} style={{ maxWidth: 760 }}>
+            <Eyebrow>Contact</Eyebrow>
+            <Display style={{ marginBottom: 24 }}>
+              Let's talk about<br />your <span style={{ color: T.blue }}>practice</span>.
+            </Display>
+            <Lead style={{ maxWidth: 520 }}>
+              Twenty minutes, no obligation, nothing to prepare. I will walk you through what a
+              custom site for your specialty would look like — and tell you honestly if it is not a fit.
+            </Lead>
           </motion.div>
-        </div>
+        </Shell>
       </section>
 
-      {/* ── FORM + SIDEBAR ───────────────────────────────────────────── */}
-      <section style={{ padding:'clamp(60px,9vw,96px) 5%' }}>
-        <div style={{ maxWidth:1100,margin:'0 auto',display:'grid',gridTemplateColumns:'1fr clamp(280px,30%,360px)',gap:48,alignItems:'flex-start' }}>
+      <Section pad="clamp(24px,4vw,56px)">
+        <Shell>
+          <div className="zx-sticky">
+            {/* FORM */}
+            <motion.div {...rise()} style={{ order: 1 }}>
+              {sent ? (
+                <div style={{ borderTop: `2px solid ${T.emerald}`, paddingTop: 30 }}>
+                  <Check size={30} style={{ color: T.emerald, marginBottom: 18 }} />
+                  <H2 style={{ marginBottom: 14, fontSize: 'clamp(24px,3vw,34px)' }}>Message received.</H2>
+                  <Lead style={{ maxWidth: 420 }}>
+                    I read every enquiry personally and reply within one business day —
+                    usually much sooner.
+                  </Lead>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} onFocus={touch}>
+                  <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex={-1} />
 
-          {/* Form */}
-          <motion.div {...fadeUp()}>
-            {sent ? (
-              <GlowCard customSize glowColor="green" className="p-12 text-center">
-                <CheckCircle2 size={48} style={{ color:T.green,margin:'0 auto 20px',display:'block' }}/>
-                <h2 style={{ fontSize:24,fontWeight:800,marginBottom:12 }}>Message sent!</h2>
-                <p style={{ fontSize:15,color:T.muted,lineHeight:1.75 }}>
-                  Thanks {form.name.split(' ')[0]}! I'll review your details and reply within 2 hours with a personalised demo. Check your email inbox.
-                </p>
-              </GlowCard>
-            ) : (
-              <GlowCard customSize glowColor="blue" style={{ padding:'clamp(28px,4vw,40px)' }}>
-                <h2 style={{ fontSize:22,fontWeight:800,marginBottom:28 }}>Book Your Free Demo</h2>
-                <form onSubmit={handleSubmit}>
-                  <input type="checkbox" name="botcheck" style={{ display:'none' }} />
-
-                  <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16 }}>
-                    <div>
-                      <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Full Name *</Label>
-                      <Input required value={form.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm(f => ({ ...f, name:e.target.value })); handleFirstInteraction() }} placeholder="Dr. Jane Smith" style={inputStyle}/>
-                    </div>
-                    <div>
-                      <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Email Address *</Label>
-                      <Input required type="email" value={form.email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setForm(f => ({ ...f, email:e.target.value })); handleFirstInteraction() }} placeholder="jane@mypractice.com" style={inputStyle}/>
-                    </div>
+                  <div style={fieldWrap}>
+                    <label style={labelCss} htmlFor="f-name">Your name</label>
+                    <input id="f-name" required style={inputCss} value={form.name}
+                      onChange={e => setForm({ ...form, name: e.target.value })}
+                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
+                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
                   </div>
 
-                  <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16 }}>
-                    <div>
-                      <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Specialty *</Label>
-                      <select required value={form.specialty} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm(f => ({ ...f, specialty:e.target.value }))} style={{ ...selectStyle, color:form.specialty ? T.text : T.muted }}>
-                        <option value="" disabled style={{ background:'#FFFFFF' }}>Select specialty</option>
-                        {SPECIALTIES.map(s => <option key={s} value={s} style={{ background:'#FFFFFF',color:T.text }}>{s}</option>)}
+                  <div style={fieldWrap}>
+                    <label style={labelCss} htmlFor="f-email">Email address</label>
+                    <input id="f-email" type="email" required style={inputCss} value={form.email}
+                      onChange={e => setForm({ ...form, email: e.target.value })}
+                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
+                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
+                  </div>
+
+                  <div className="zx-split" style={{ gap: 22 }}>
+                    <div style={fieldWrap}>
+                      <label style={labelCss} htmlFor="f-spec">Specialty</label>
+                      <select id="f-spec" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
+                        value={form.specialty} onChange={e => setForm({ ...form, specialty: e.target.value })}>
+                        <option value="">Select…</option>
+                        {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
-                    <div>
-                      <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>US State *</Label>
-                      <select required value={form.state} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setForm(f => ({ ...f, state:e.target.value }))} style={{ ...selectStyle, color:form.state ? T.text : T.muted }}>
-                        <option value="" disabled style={{ background:'#FFFFFF' }}>Select your state</option>
-                        {US_STATES.map(s => <option key={s} value={s} style={{ background:'#FFFFFF',color:T.text }}>{s}</option>)}
+                    <div style={fieldWrap}>
+                      <label style={labelCss} htmlFor="f-state">State</label>
+                      <select id="f-state" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
+                        value={form.state} onChange={e => setForm({ ...form, state: e.target.value })}>
+                        <option value="">Select…</option>
+                        {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
                   </div>
 
-                  <div style={{ marginBottom:16 }}>
-                    <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Practice / Clinic Name</Label>
-                    <Input value={form.practice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm(f => ({ ...f, practice:e.target.value }))} placeholder="Sunshine Family Clinic" style={inputStyle}/>
+                  <div style={fieldWrap}>
+                    <label style={labelCss} htmlFor="f-practice">Practice name</label>
+                    <input id="f-practice" style={inputCss} value={form.practice}
+                      onChange={e => setForm({ ...form, practice: e.target.value })}
+                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
+                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
                   </div>
 
-                  <div style={{ marginBottom:16 }}>
-                    <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>What do you need most?</Label>
-                    <div style={{ display:'flex',flexWrap:'wrap',gap:8 }}>
-                      {[['website','New Website'],['seo','Local SEO'],['booking','Online Booking'],['rebrand','Rebrand'],['other','Other']].map(([val,label]) => (
-                        <button key={val} type="button" onClick={() => setForm(f => ({ ...f, service:val }))} style={{
-                          padding:'7px 16px',borderRadius:999,fontSize:13,fontWeight:600,cursor:'pointer',
-                          border:`1px solid ${form.service===val ? T.blue : T.border}`,
-                          background: form.service===val ? `rgba(37,99,235,0.18)` : 'rgba(11,18,32,0.04)',
-                          color: form.service===val ? '#93bbff' : T.muted,
-                          transition:'all .2s',
-                        }}>{label}</button>
-                      ))}
-                    </div>
+                  <div style={{ ...fieldWrap, marginBottom: 30 }}>
+                    <label style={labelCss} htmlFor="f-msg">Anything you want me to know <span style={{ textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
+                    <textarea id="f-msg" rows={3} style={{ ...inputCss, resize: 'vertical' }} value={form.message}
+                      onChange={e => setForm({ ...form, message: e.target.value })}
+                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
+                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
                   </div>
 
-                  <div style={{ marginBottom:24 }}>
-                    <Label style={{ color:T.muted,fontSize:13,fontWeight:600,marginBottom:6,display:'block' }}>Anything else? (optional)</Label>
-                    <Textarea value={form.message} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm(f => ({ ...f, message:e.target.value }))} placeholder="Tell me about your current website, goals, timeline…" rows={4} style={{ background:'rgba(11,18,32,0.06)',border:`1px solid ${T.border}`,color:T.text,borderRadius:10,resize:'none' }}/>
-                  </div>
-
-                  {error && <p style={{ color:'#f87171',fontSize:13,marginBottom:16 }}>{error}</p>}
+                  {error && (
+                    <p style={{ fontSize: 14, color: T.rose, marginBottom: 18 }}>{error}</p>
+                  )}
 
                   <button type="submit" disabled={loading} style={{
-                    width:'100%',
-                    background: loading ? 'rgba(37,99,235,0.35)' : `linear-gradient(135deg,${T.blue},${T.violet})`,
-                    color:'#fff',fontWeight:700,fontSize:16,padding:'14px 0',
-                    borderRadius:12,border:'none',cursor:loading ? 'not-allowed' : 'pointer',
-                    display:'flex',alignItems:'center',justifyContent:'center',gap:10,
-                    boxShadow: loading ? 'none' : `0 6px 24px rgba(37,99,235,0.35)`,
-                    transition:'all .3s',
+                    display: 'inline-flex', alignItems: 'center', gap: 10,
+                    background: T.blue, color: '#fff', fontSize: 15, fontWeight: 700,
+                    padding: '15px 30px', borderRadius: 999, border: 'none',
+                    cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.6 : 1,
+                    fontFamily: 'inherit',
                   }}>
-                    {loading ? 'Sending…' : <><Send size={18}/> Get My Free Demo</>}
+                    {loading ? 'Sending…' : <>Book my free demo <ArrowRight size={17} /></>}
                   </button>
-                  <p style={{ fontSize:12,color:T.muted,textAlign:'center',marginTop:14 }}>No spam, no hard sell. Just your demo.</p>
+
+                  <p style={{ fontSize: 12.5, color: T.faint, marginTop: 18, lineHeight: 1.6, maxWidth: 420 }}>
+                    Your details are used only to reply to this enquiry. No list, no newsletter, no sharing.
+                  </p>
                 </form>
-              </GlowCard>
-            )}
-          </motion.div>
+              )}
+            </motion.div>
 
-          {/* Sidebar */}
-          <motion.div {...fadeUp(0.15)} style={{ display:'flex',flexDirection:'column',gap:16 }}>
-            {[
-              { Icon:Clock,    color:T.blue,   title:'Reply within 2 hours',      body:'Reach out any time - I respond fast, usually within 2 hours on business days.' },
-              { Icon:Mail,     color:T.violet, title:'ravi@zmaxlab.site',          body:'Email is the best way to reach me. I reply the same day, every day.' },
-              { Icon:Calendar, color:T.cyan,   title:'Book a free 30-min call',    body:'Prefer to talk? Schedule directly via Calendly - pick a time that suits your timezone.', link:'https://calendly.com/ravi9235kumar/30min', linkLabel:'Open Calendly →' },
-              { Icon:Shield,   color:T.green,  title:'7-Day Guarantee',            body:'Your site goes live in 7 days or you get a full refund. Secure payment via Stripe or PayPal.' },
-            ].map((item,i) => (
-              <motion.div key={i} {...fadeUp(0.1*i)}>
-                <GlowCard customSize glowColor={toGlow(item.color)} className="p-5 flex gap-3.5 items-start">
-                  <div style={{ width:36,height:36,borderRadius:10,background:`${item.color}15`,border:`1px solid ${item.color}30`,display:'flex',alignItems:'center',justifyContent:'center',color:item.color,flexShrink:0 }}>
-                    <item.Icon size={16}/>
-                  </div>
-                  <div>
-                    <div style={{ fontSize:14,fontWeight:700,color:T.text,marginBottom:4 }}>{item.title}</div>
-                    <div style={{ fontSize:13,color:T.muted,lineHeight:1.6 }}>{item.body}</div>
-                    {item.link && <a href={item.link} target="_blank" rel="noreferrer" style={{ fontSize:13,color:T.blue,marginTop:6,display:'inline-block',fontWeight:600 }}>{item.linkLabel}</a>}
-                  </div>
-                </GlowCard>
-              </motion.div>
-            ))}
-
-            {/* What happens next */}
-            <GlowCard customSize glowColor="blue" className="p-5">
-              <div style={{ fontSize:13,fontWeight:700,color:T.text,marginBottom:14 }}>What happens next?</div>
+            {/* ASIDE */}
+            <motion.div {...rise(0.1)} style={{ order: 0 }}>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 20 }}>
+                What happens next
+              </Mono>
               {[
-                'I review your form and current online presence',
-                'Reply within 2 hours with demo examples',
-                'We schedule a 20-minute video call',
-                'You see your website mockup - zero obligation',
-              ].map((step,i) => (
-                <div key={i} style={{ display:'flex',gap:10,marginBottom:10,alignItems:'flex-start' }}>
-                  <span style={{ fontSize:11,fontWeight:800,color:T.blue,background:'rgba(37,99,235,0.15)',borderRadius:'50%',width:20,height:20,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,marginTop:1 }}>{i+1}</span>
-                  <span style={{ fontSize:13,color:T.muted,lineHeight:1.5 }}>{step}</span>
-                </div>
-              ))}
-            </GlowCard>
+                [Mail, 'I reply personally', 'Within one business day, usually sooner. No auto-responder, no sales sequence.'],
+                [Clock, 'We book twenty minutes', 'A short call about your specialty, your market, and what the build would involve.'],
+                [ShieldCheck, 'You decide, with no pressure', 'If it is not a fit, I will tell you on the call rather than sell you something.'],
+              ].map(([Icon, title, body], i) => {
+                const I = Icon as typeof Mail
+                return (
+                  <div key={title as string} style={{
+                    display: 'grid', gridTemplateColumns: '30px 1fr', gap: 14,
+                    padding: '20px 0',
+                    borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
+                  }}>
+                    <I size={17} style={{ color: T.blue, marginTop: 3 }} />
+                    <div>
+                      <h3 style={{ fontSize: 16.5, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 6 }}>{title as string}</h3>
+                      <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{body as string}</p>
+                    </div>
+                  </div>
+                )
+              })}
+
+              <div style={{ marginTop: 34, padding: '26px 0', borderTop: `1px solid ${T.hairlineStrong}` }}>
+                <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 14 }}>
+                  Prefer email?
+                </Mono>
+                <a href="mailto:ravi@zmaxlab.site" className="zx-link-underline"
+                  style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', color: T.text }}>
+                  ravi@zmaxlab.site
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      <Section dark pad="clamp(64px,8vw,104px)">
+        <Shell>
+          <motion.div {...rise()} style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
+            {['$500 flat — no hidden fees', 'Live in 7 days or refunded', 'Source code delivered to you', 'No contract'].map(t => (
+              <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+                <Check size={14} style={{ color: T.emerald }} />
+                <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
+              </span>
+            ))}
           </motion.div>
-        </div>
-      </section>
-    </div>
+        </Shell>
+      </Section>
+    </>
   )
 }

@@ -1,764 +1,367 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowRight, Star, Zap, TrendingUp, Calendar, CheckCircle2,
-  ChevronLeft, ChevronRight, Stethoscope, Brain, Smile, Bone,
-  Activity, Heart, Bot, Phone, Search, X, Shield, Globe,
-  Users, Award, MessageSquare,
-} from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
+import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { GlowCard } from '@/components/ui/spotlight-card'
-import { T } from '@/lib/theme'
-
-const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === T.violet ? 'purple' :
-  c === T.green  ? 'green'  :
-  c === T.rose   ? 'red'    :
-  c === T.amber  ? 'orange' : 'blue'
-
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 32 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.75, delay, ease: EASE },
-})
-
-// ─── Counter ──────────────────────────────────────────────────────────────────
-function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
-  // Renders the real final value immediately (correct for prerendered HTML / crawlers /
-  // no-JS readers), then animates a genuine count-up once it scrolls into view for visitors.
-  const [val, setVal] = useState(to)
-  const ref = useRef<HTMLSpanElement>(null)
-  const fired = useRef(false)
-  useEffect(() => {
-    const el = ref.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting || fired.current) return
-      fired.current = true
-      setVal(0)
-      const t0 = Date.now()
-      const tick = () => {
-        const p = Math.min((Date.now() - t0) / 1800, 1)
-        setVal(Math.round((1 - Math.pow(1 - p, 3)) * to))
-        if (p < 1) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
-    }, { threshold: 0.2 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [to])
-  return <span ref={ref}>{prefix}{val}{suffix}</span>
-}
-
-
-// ─── Hero Website Preview ─────────────────────────────────────────────────────
-// An honest device-frame preview of an actual ZmaxLab site layout — not fabricated
-// analytics. This is what a visitor is really buying: a real, professional website.
-function SitePreview() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 1.1, delay: 0.4, ease: EASE }}
-      style={{ position: 'relative', width: '100%', maxWidth: 440 }}
-    >
-      {/* Browser chrome frame */}
-      <div style={{
-        borderRadius: 16, overflow: 'hidden',
-        border: `1px solid ${T.border}`,
-        boxShadow: T.shadowLg,
-        background: '#fff',
-      }}>
-        {/* Title bar */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '10px 14px', background: T.surface, borderBottom: `1px solid ${T.border}`,
-        }}>
-          <div style={{ display: 'flex', gap: 5 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#E5533C' }} />
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#E8B23B' }} />
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3AAE58' }} />
-          </div>
-          <div style={{
-            flex: 1, background: '#fff', border: `1px solid ${T.border}`, borderRadius: 6,
-            padding: '4px 10px', fontSize: 10, color: T.faint, textAlign: 'center',
-          }}>
-            yourpractice.com
-          </div>
-        </div>
-
-        {/* Mini site preview */}
-        <div style={{ padding: 18 }}>
-          {/* mini nav */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 18, height: 18, borderRadius: 6, background: T.blue }} />
-              <span style={{ width: 46, height: 7, borderRadius: 4, background: T.ink, opacity: 0.7 }} />
-            </div>
-            <div style={{ display: 'flex', gap: 10 }}>
-              {[26, 30, 22].map((w, i) => <span key={i} style={{ width: w, height: 6, borderRadius: 3, background: T.border }} />)}
-            </div>
-          </div>
-
-          {/* mini hero */}
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ width: '78%', height: 14, borderRadius: 4, background: T.ink, opacity: 0.85, marginBottom: 8 }} />
-            <div style={{ width: '58%', height: 14, borderRadius: 4, background: T.blue, marginBottom: 12 }} />
-            <div style={{ width: '92%', height: 7, borderRadius: 4, background: T.border, marginBottom: 6 }} />
-            <div style={{ width: '70%', height: 7, borderRadius: 4, background: T.border, marginBottom: 16 }} />
-            <span style={{ display: 'inline-block', padding: '9px 20px', borderRadius: 9, background: T.blue, color: '#fff', fontSize: 11, fontWeight: 700 }}>
-              Book an Appointment
-            </span>
-          </div>
-
-          {/* mini credential row */}
-          <div style={{ display: 'flex', gap: 8, paddingTop: 14, borderTop: `1px solid ${T.border}` }}>
-            {['NPI Verified', 'HIPAA-Aware', 'Same-Week Booking'].map(label => (
-              <div key={label} style={{
-                display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, color: T.muted, fontWeight: 600,
-              }}>
-                <CheckCircle2 size={11} color={T.green} /> {label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Floating credibility badges — real, non-fabricated claims */}
-      <motion.div
-        animate={{ y: [-5, 5, -5] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          position: 'absolute', top: -16, right: -14, zIndex: 2,
-          background: '#fff', border: `1px solid ${T.border}`, boxShadow: T.shadowMd,
-          borderRadius: 14, padding: '9px 14px',
-          display: 'flex', alignItems: 'center', gap: 7,
-        }}
-      >
-        <Zap size={14} color={T.blue} />
-        <div>
-          <div style={{ fontSize: 11.5, fontWeight: 800, color: T.ink, lineHeight: 1.2 }}>7-Day Delivery</div>
-          <div style={{ fontSize: 9, color: T.faint }}>Guaranteed or refunded</div>
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [4, -4, 4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-        style={{
-          position: 'absolute', bottom: -16, left: -14, zIndex: 2,
-          background: '#fff', border: `1px solid ${T.border}`, boxShadow: T.shadowMd,
-          borderRadius: 14, padding: '9px 14px',
-          display: 'flex', alignItems: 'center', gap: 8,
-        }}
-      >
-        <div style={{
-          width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
-          background: T.blue, color: '#fff', fontWeight: 800, fontSize: 12,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>R</div>
-        <div>
-          <div style={{ fontSize: 11.5, fontWeight: 700, color: T.ink, lineHeight: 1.2 }}>Built personally by Ravi</div>
-          <div style={{ fontSize: 9, color: T.faint }}>Not an agency, not a template</div>
-        </div>
-      </motion.div>
-    </motion.div>
-  )
-}
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
-  { n: 500, suffix: '',   prefix: '$',  label: 'Flat Fee, No Hidden Costs',        color: T.blue   },
-  { n: 54,  suffix: '%',  prefix: '',   label: 'Less Than the Closest Competitor', color: T.green  },
-  { n: 7,   suffix: '',   prefix: '',   label: 'Day Delivery Guarantee',           color: T.violet },
-  { n: 100, suffix: '%',  prefix: '',   label: 'Custom-Coded, Zero Templates',     color: T.cyan   },
-]
+import {
+  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, rise, motion,
+} from '@/components/ui/kit'
 
 const SPECIALTIES = [
-  { Icon: Heart,       title: 'Nurse Practitioners',          desc: 'FNP, PMHNP, AGPCNP - credential-first sites that build instant trust and rank for your specialty + city.',      color: T.blue,   stat: 'Credential-First Design'  },
-  { Icon: Stethoscope, title: 'Physician Assistants',         desc: 'PA-C practices deserve a site that matches your clinical prestige and converts insurance-savvy patients.',       color: T.violet, stat: 'Built for PA-C Practices' },
-  { Icon: Brain,       title: 'Mental Health Providers',      desc: 'LCSW, therapists, psychiatric NPs - calm, trust-first design that converts hesitant first-time visitors.',       color: T.cyan,   stat: 'Calm, Trust-First Design' },
-  { Icon: Smile,       title: 'Dental & Oral Care',           desc: 'Solo dentists to multi-doctor DSOs - showcase procedures, grow your reviews, and bring new patients through the door every week.',    color: T.amber,  stat: 'Procedure-Ready Layouts'  },
-  { Icon: Bone,        title: 'Chiropractic & Rehab',         desc: 'A professional website that helps your practice stand out from chain clinics and franchises in local search results.',                color: T.green,  stat: 'Local Search Focus'       },
-  { Icon: Activity,    title: 'PT / OT / Speech Therapy',     desc: 'Specialist therapists need specialist sites - your niche certifications and outcomes front and center.',         color: T.rose,   stat: 'Outcomes Front and Center' },
-  { Icon: Users,       title: 'Multi-Specialty Group Practices', desc: 'Solo NP to 10-provider clinic - one cohesive site that showcases every specialty, location, and provider.',  color: T.blue,   stat: 'Groups welcome'        },
-  { Icon: Globe,       title: 'Concierge & Aesthetic Medicine',  desc: 'DPC, functional medicine, aesthetics - premium brand positioning that attracts the patients willing to pay.',color: T.violet, stat: 'Premium positioning'   },
+  'Nurse Practitioners', 'Physician Assistants', 'Mental Health', 'Dental & Oral Care',
+  'Chiropractic & Rehab', 'PT / OT / Speech', 'Multi-Specialty Groups', 'Concierge Medicine',
 ]
 
-const AI_TOOLS = [
-  { Icon: Bot,      title: 'Done-For-You Content',    desc: 'Google rewards practices that publish expert, helpful content. I write and publish HIPAA-compliant blog posts, FAQs, and service pages for your specialty - so patients find you before your competitors.', color: T.blue,   tag: 'Expert Written'  },
-  { Icon: Search,   title: 'Local Search Visibility', desc: 'Most patients search online before booking a provider. I handle keyword research, citation building, and Google Business optimisation - so the right patients find your practice first.',          color: T.violet, tag: 'Local Visibility'  },
-  { Icon: Star,     title: 'Review & Reputation',     desc: 'Online reviews are often the deciding factor between two similar practices. I set up review requests, monitor your ratings, and provide response templates - so your reputation grows naturally.',   color: T.amber,  tag: 'Reputation Growth'    },
-  { Icon: Calendar, title: 'Patient Scheduling Setup', desc: 'Missed visits cost practices real revenue. I connect your booking system, set up reminder messages, and configure intake forms - so patients arrive prepared and your day runs smoothly.',              color: T.green,  tag: 'Fewer No-Shows'   },
+const INCLUDED = [
+  ['01', 'Custom-coded, not templated', 'Every page is written from scratch for your specialty. No WordPress theme, no page builder, no recycled layout with your logo swapped in.'],
+  ['02', 'Credentials built into the design', 'Your NPI number, license, and specialty are structured into the page — so patients and search engines both read you as legitimate.'],
+  ['03', 'Booking that actually connects', 'Wired into Calendly, Jane, or SimplePractice. Patients book without emailing you first.'],
+  ['04', 'HIPAA-aware contact forms', 'Secure intake, no plain-text patient detail sitting in an inbox.'],
+  ['05', 'Full SEO foundation', 'Meta structure, schema markup, sitemap, Search Console, and Analytics configured before launch — not sold back to you later.'],
+  ['06', 'You own the source code', 'Delivered to you outright. No licence, no lock-in, no hostage situation if you leave.'],
 ]
 
 const STEPS = [
-  { n: '01', title: 'Discovery Call',  desc: 'We map your specialty, patient avatar, and competitive landscape in 30 minutes.',         day: 'Day 1',      Icon: Phone,       color: T.blue   },
-  { n: '02', title: 'Premium Design',  desc: 'Custom-built from scratch - zero templates, zero stock images, zero agency shortcuts.',    day: 'Days 2–4',   Icon: Zap,         color: T.violet },
-  { n: '03', title: 'SEO Foundation',  desc: 'Technical SEO, local citations, Google Business optimization, and content strategy.',      day: 'Day 5',      Icon: Search,      color: T.cyan   },
-  { n: '04', title: 'Launch & Scale',  desc: 'Go live with full training, monthly reporting, and ongoing growth support.',               day: 'Days 6–7',   Icon: TrendingUp,  color: T.green  },
+  ['Day 1', 'Discovery call', 'Thirty minutes. Your specialty, your patients, your market.'],
+  ['Days 2–4', 'Design & build', 'Written from scratch. You see progress, not a black box.'],
+  ['Day 5', 'SEO foundation', 'Structure, schema, Search Console, Business Profile.'],
+  ['Days 6–7', 'Launch', 'Live on your domain with SSL. Source files handed over.'],
 ]
 
-const BEFORE_AFTER = [
-  { label: 'Monthly Visitors',  before: '120',    after: '340',  pct: 'up'      },
-  { label: 'New Bookings / mo', before: '3',      after: '9',    pct: 'up'      },
-  { label: 'Google Rating',     before: '4.1 ★',  after: '4.7 ★',pct: 'up'      },
-  { label: 'Search Ranking',    before: 'Page 4', after: 'Page 1',pct: 'up'     },
+const COMPARE = [
+  ['Healthcare marketing agency', '$3,000 – $10,000', false],
+  ['Closest NP-focused competitor', '$1,097.50', false],
+  ['Wix / Squarespace', '$29/mo, forever', false],
+  ['ZmaxLab', '$500, once', true],
 ]
 
-const TESTIMONIALS = [
-  { name: 'Dr. Sarah Chen, NP-C',      role: 'Family NP · Dallas, TX',             initials: 'SC', color: T.blue,   quote: 'The site was live within a week, and the process was straightforward from start to finish. I have seen a steady increase in new patient enquiries since launch.',        result: 'More new patient enquiries'  },
-  { name: 'Marcus Williams, PA-C',      role: 'Physician Assistant · Atlanta, GA',  initials: 'MW', color: T.violet, quote: 'My Google ranking improved noticeably within a couple of months for the local searches that matter most to my practice.',                                              result: 'Improved local ranking'  },
-  { name: 'Dr. Lisa Patel, PMHNP',      role: 'Psychiatric NP · Chicago, IL',       initials: 'LP', color: T.cyan,   quote: 'For a mental health practice, how the site feels matters as much as how it looks. Patients have told me it made them more comfortable reaching out.',              result: 'Better patient trust'  },
-  { name: 'Dr. James Kowalski, DC',     role: 'Chiropractor · Phoenix, AZ',         initials: 'JK', color: T.green,  quote: 'The design looks considerably more polished than the template sites most other clinics in my area are using.',    result: 'Stronger brand impression'   },
-  { name: 'Amy Rodriguez, DPT',         role: 'Physical Therapist · Miami, FL',     initials: 'AR', color: T.amber,  quote: 'Ravi understood the compliance and content needs of a healthcare practice without me having to explain the basics. Delivery was on schedule.',             result: 'On-time delivery'    },
-]
-
-// ─── Sticky CTA Bar ───────────────────────────────────────────────────────────
-function StickyCta() {
-  const [show, setShow]     = useState(false)
-  const [closed, setClosed] = useState(false)
-  useEffect(() => {
-    const fn = () => setShow(window.scrollY > 600)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
-  if (closed) return null
-  return (
-    <AnimatePresence>
-      {show && (
-        <motion.div
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 80, opacity: 0 }}
-          transition={{ duration: 0.4, ease: EASE }}
-          style={{
-            position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
-            zIndex: 9999, width: 'min(680px,calc(100vw - 32px))',
-            background: '#fff',
-            border: `1px solid ${T.border}`,
-            borderRadius: 18, padding: '14px 20px',
-            boxShadow: T.shadowLg,
-            display: 'flex', alignItems: 'center', gap: 16,
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: T.ink }}>Ready to see what your site could look like?</div>
-            <div style={{ fontSize: 12, color: T.muted }}>Free 20-minute demo · No obligation</div>
-          </div>
-          <Link to="/contact" style={{
-            background: T.blue,
-            color: '#fff', fontWeight: 700, fontSize: 13,
-            padding: '10px 20px', borderRadius: 12,
-            boxShadow: `0 4px 16px rgba(29,78,216,0.3)`,
-            whiteSpace: 'nowrap', flexShrink: 0,
-          }}>Book Free Demo →</Link>
-          <button onClick={() => setClosed(true)} style={{ background: 'none', border: 'none', color: T.muted, cursor: 'pointer', padding: 4, flexShrink: 0 }}>
-            <X size={16} />
-          </button>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  )
-}
-
-// ─── Section label ────────────────────────────────────────────────────────────
-function SectionLabel({ label, color }: { label: string; color: string }) {
-  return (
-    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color, marginBottom: 14 }}>
-      {label}
-    </div>
-  )
-}
-
-// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   useSEO({
-    title: 'ZmaxLab | $500 Custom Healthcare Websites for NPI Practitioners',
-    description: '$500 custom healthcare websites for NPI practitioners. 7-day delivery, custom design, SEO-ready. NPs, PAs, mental health, dentists, chiropractors.',
+    title: 'ZmaxLab | Custom Healthcare Websites for NPI-Registered Practitioners',
+    description: 'Custom-coded healthcare websites for NPI-registered practitioners. $500 flat fee, live in 7 business days. No contract, no templates, source code included.',
     canonical: 'https://zmaxlab.site/',
-    ogTitle: 'ZmaxLab | $500 Healthcare Websites for NPI Practitioners',
-    ogDescription: '$500 flat fee. 500+ NPI healthcare sites built. Launch in 7 days. HIPAA-aware, SEO-optimized, all 50 US states.',
-    schema: [{
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "ZmaxLab",
-      "url": "https://zmaxlab.site",
-      "logo": "https://zmaxlab.site/logo-icon.svg",
-      "description": "Custom healthcare website design for NPI practitioners. $500 flat fee, 7-day delivery, SEO-ready.",
-      "areaServed": "United States",
-      "sameAs": ["https://www.instagram.com/zmaxlab/"]
-    }],
   })
 
-  const [tIdx, setTIdx]       = useState(0)
-  const [baMode, setBaMode]   = useState<'before' | 'after'>('before')
-  const [aiTab, setAiTab]     = useState(0)
-
-  const prev = () => setTIdx(i => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-  const next = useCallback(() => setTIdx(i => (i + 1) % TESTIMONIALS.length), [])
-  useEffect(() => { const t = setInterval(next, 4500); return () => clearInterval(t) }, [next])
-
   return (
-    <div style={{ background: T.bg, color: T.text, overflowX: 'hidden' }}>
-      <StickyCta />
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          1. HERO
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{
-        position: 'relative', overflow: 'hidden',
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        padding: '120px 5% 80px',
-        background: `
-          radial-gradient(ellipse at 20% 30%,rgba(29,78,216,0.07) 0%,transparent 60%),
-          radial-gradient(ellipse at 85% 15%,rgba(14,124,134,0.06) 0%,transparent 55%),
-          radial-gradient(ellipse at 60% 100%,rgba(29,78,216,0.05) 0%,transparent 50%),
-          ${T.bg}`,
-      }}>
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', gap: 64, flexWrap: 'wrap' }}>
-
-          {/* Left copy */}
-          <div style={{ flex: '1 1 480px', minWidth: 0 }}>
-            <motion.div {...fadeUp(0)}>
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24,
-                background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.25)',
-                borderRadius: 999, padding: '6px 14px 6px 8px',
-              }}>
-                <span style={{ background: `linear-gradient(135deg,${T.blue},${T.violet})`, borderRadius: 999, padding: '2px 8px', fontSize: 10, fontWeight: 800, color: '#fff', textTransform: 'uppercase', letterSpacing: 1 }}>New</span>
-                <span style={{ fontSize: 12, color: T.muted }}>Trusted by 500+ healthcare practices across the USA</span>
+    <>
+      {/* ══ 1. HERO ══════════════════════════════════════════ */}
+      <section style={{ paddingTop: 'clamp(112px,13vw,168px)', paddingBottom: 'clamp(64px,8vw,104px)', overflow: 'hidden' }}>
+        <Shell wide>
+          <div className="zx-hero">
+            <motion.div {...rise()}>
+              <Eyebrow>Healthcare web design · United States</Eyebrow>
+              <Display style={{ marginBottom: 28 }}>
+                A website your<br />
+                practice deserves,<br />
+                <span style={{ color: T.blue }}>without the agency</span><br />
+                price tag.
+              </Display>
+              <Lead style={{ maxWidth: 470, marginBottom: 38 }}>
+                Custom-coded sites for NPI-registered practitioners — built personally, not
+                assembled from a template. Five hundred dollars flat, live in seven business days.
+              </Lead>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 30, flexWrap: 'wrap', marginBottom: 46 }}>
+                <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
+                <TextLink to="/services">See what's included</TextLink>
               </div>
-            </motion.div>
-
-            <motion.h1 {...fadeUp(0.1)} style={{ fontSize: 'clamp(34px,5.2vw,58px)', fontWeight: 900, lineHeight: 1.08, marginBottom: 20, letterSpacing: '-1.5px' }}>
-              Custom healthcare websites for{' '}
-              <span style={{ color: T.blue }}>
-                NPI-registered practitioners
-              </span>.
-            </motion.h1>
-
-            <motion.p {...fadeUp(0.2)} style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: T.muted, lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-              Custom-coded websites for NPI-registered practitioners, built by a specialist who understands healthcare compliance and patient behavior. $500 flat fee, delivered in 7 business days.
-            </motion.p>
-
-            <motion.div {...fadeUp(0.3)} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
-              <Link to="/contact" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: `linear-gradient(135deg,${T.blue},${T.violet})`,
-                color: '#fff', fontWeight: 700, fontSize: 15,
-                padding: '14px 28px', borderRadius: 14,
-                boxShadow: `0 8px 32px rgba(37,99,235,0.4)`,
-              }}>Book Free Demo <ArrowRight size={16} /></Link>
-              <a href="#case-studies" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'rgba(11,18,32,0.06)', border: `1px solid ${T.border}`,
-                color: T.text, fontWeight: 600, fontSize: 15,
-                padding: '14px 24px', borderRadius: 14,
-              }}>See Case Studies</a>
-            </motion.div>
-
-            <motion.div {...fadeUp(0.4)} style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-              {[
-                { icon: <Shield size={13} />, label: 'HIPAA-Aware Design' },
-                { icon: <CheckCircle2 size={13} />, label: '500+ Sites Launched' },
-                { icon: <Zap size={13} />, label: '7-Day Delivery' },
-              ].map(b => (
-                <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: T.muted }}>
-                  <span style={{ color: T.green }}>{b.icon}</span>{b.label}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Right: Dashboard */}
-          <div style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
-            <SitePreview />
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          2. STATS
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '64px 5%', borderTop: `1px solid ${T.border}`, borderBottom: `1px solid ${T.border}` }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 20 }}>
-          {STATS.map((s, i) => (
-            <motion.div key={s.label} {...fadeUp(i * 0.1)}>
-              <GlowCard customSize glowColor={toGlow(s.color)} className="p-7 text-center relative overflow-hidden">
-                <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 0%,${s.color}12,transparent 70%)`, pointerEvents: 'none' }} />
-                <div style={{ fontSize: 'clamp(36px,4vw,52px)', fontWeight: 900, color: s.color, lineHeight: 1, marginBottom: 8 }}>
-                  <Counter to={s.n} prefix={s.prefix} suffix={s.suffix} />
-                </div>
-                <div style={{ fontSize: 13, color: T.muted, fontWeight: 500 }}>{s.label}</div>
-              </GlowCard>
-            </motion.div>
-          ))}
-        </div>
-        <p style={{ maxWidth: 1100, margin: '20px auto 0', fontSize: 12, color: T.faint, textAlign: 'center', lineHeight: 1.6 }}>
-          Savings based on publicly listed pricing for comparable custom websites aimed at nurse practitioners
-          ($1,097.50 at the closest direct competitor). Healthcare marketing agencies typically quote $3,000–$10,000
-          for a custom build, which puts ZmaxLab 83–95% below that range.
-        </p>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          3. SPECIALTIES
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '100px 5%' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 60 }}>
-            <SectionLabel label="Healthcare Specialties" color={T.blue} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Solo Practice to Multi-Specialty Group - We've Got You</h2>
-            <p style={{ fontSize: 16, color: T.muted, maxWidth: 580, margin: '0 auto' }}>Not a generic template. Every site is built around the nuances of your specialty, credentials, and the patients you actually want to attract - whether you're a solo NP or a 10-provider clinic.</p>
-          </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 18 }}>
-            {SPECIALTIES.map((s, i) => {
-              const glowColor = s.color === T.violet ? 'purple'
-                : s.color === T.green  ? 'green'
-                : s.color === T.rose   ? 'red'
-                : s.color === T.amber  ? 'orange'
-                : 'blue'
-              return (
-                <motion.div key={s.title} {...fadeUp(i * 0.08)} style={{ height: '100%' }}>
-                  <GlowCard customSize glowColor={glowColor} className="h-full cursor-default p-7">
-                    <div style={{
-                      width: 48, height: 48, borderRadius: 14, marginBottom: 16,
-                      background: `${s.color}15`, border: `1px solid ${s.color}30`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.color,
-                    }}>
-                      <s.Icon size={22} />
-                    </div>
-                    <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8, color: T.text }}>{s.title}</h3>
-                    <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.65, marginBottom: 14 }}>{s.desc}</p>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: 1 }}>{s.stat}</div>
-                  </GlowCard>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          4. AI TOOLS
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '100px 5%', background: T.surface }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 56 }}>
-            <SectionLabel label="Growth Services" color={T.violet} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Your Practice Grows While You See Patients</h2>
-            <p style={{ fontSize: 16, color: T.muted, maxWidth: 520, margin: '0 auto' }}>I handle the content, search visibility, reviews, and scheduling setup - so you can focus on patient care while your practice keeps growing.</p>
-          </motion.div>
-
-          {/* Tab row */}
-          <motion.div {...fadeUp(0.1)} style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>
-            {AI_TOOLS.map((t, i) => (
-              <button key={t.title} onClick={() => setAiTab(i)} style={{
-                padding: '9px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                border: `1px solid ${aiTab === i ? t.color : T.border}`,
-                background: aiTab === i ? `${t.color}18` : 'transparent',
-                color: aiTab === i ? t.color : T.muted, transition: '.2s',
-              }}>{t.title}</button>
-            ))}
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            {(() => {
-              const tool = AI_TOOLS[aiTab]
-              const ToolIcon = tool.Icon
-              return (
-              <motion.div
-                key={aiTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.35, ease: EASE }}
-              >
-              <GlowCard customSize glowColor={toGlow(tool.color)} className="p-10 max-w-185 mx-auto">
-                <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-                  <div style={{
-                    width: 64, height: 64, borderRadius: 18, flexShrink: 0,
-                    background: `${tool.color}15`, border: `1px solid ${tool.color}30`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: tool.color,
-                  }}>
-                    <ToolIcon size={28} />
+              <div style={{ display: 'flex', gap: 'clamp(22px,4vw,52px)', flexWrap: 'wrap', paddingTop: 26, borderTop: `1px solid ${T.hairline}` }}>
+                {[['$500', 'flat fee'], ['7 days', 'to launch'], ['54%', 'below closest rival']].map(([v, l]) => (
+                  <div key={l}>
+                    <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>{v}</div>
+                    <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginTop: 7 }}>{l}</Mono>
                   </div>
-                  <div style={{ flex: 1, minWidth: 200 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
-                      <h3 style={{ fontSize: 22, fontWeight: 800 }}>{tool.title}</h3>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
-                        background: `${tool.color}18`, color: tool.color,
-                        border: `1px solid ${tool.color}30`,
-                      }}>{tool.tag}</span>
-                    </div>
-                    <p style={{ fontSize: 15, color: T.muted, lineHeight: 1.7 }}>{tool.desc}</p>
-                  </div>
-                </div>
-              </GlowCard>
-              </motion.div>
-              )
-            })()}
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          5. PROCESS TIMELINE
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '100px 5%' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 64 }}>
-            <SectionLabel label="The Process" color={T.cyan} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>Live in 7 Days. Not 7 Months.</h2>
-            <p style={{ fontSize: 16, color: T.muted, maxWidth: 460, margin: '0 auto' }}>A streamlined process built for busy practitioners who can't afford to wait.</p>
-          </motion.div>
-
-          {STEPS.map((s, i) => (
-            <motion.div key={s.n} {...fadeUp(i * 0.12)} style={{ display: 'flex', gap: 24, marginBottom: i < STEPS.length - 1 ? 0 : 0, alignItems: 'flex-start' }}>
-              {/* Icon + connector */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-                <div style={{
-                  width: 48, height: 48, borderRadius: '50%', zIndex: 1,
-                  background: `linear-gradient(135deg,${s.color},${s.color}88)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', boxShadow: `0 0 24px ${s.color}50`,
-                }}>
-                  <s.Icon size={18} />
-                </div>
-                {i < STEPS.length - 1 && (
-                  <div style={{ width: 2, flex: 1, minHeight: 40, background: `linear-gradient(180deg,${s.color}60,transparent)`, margin: '4px 0' }} />
-                )}
-              </div>
-              {/* Card */}
-              <GlowCard customSize glowColor={toGlow(s.color)} className="p-5 mb-5" style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',ui-monospace,monospace", fontSize: 10, color: s.color, fontWeight: 600, letterSpacing: 0.5, background: `${s.color}18`, padding: '2px 9px', borderRadius: 999 }}>{s.day}</span>
-                  <span style={{ fontSize: 11, color: T.muted }}>Step {s.n}</span>
-                </div>
-                <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.65 }}>{s.desc}</p>
-              </GlowCard>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          6. BEFORE / AFTER
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section id="case-studies" style={{ padding: '100px 5%', background: T.surface }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <SectionLabel label="Illustrative Example" color={T.green} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, marginBottom: 16, letterSpacing: '-0.5px' }}>What Improvement Can Look Like</h2>
-            <p style={{ fontSize: 16, color: T.muted, maxWidth: 560, margin: '0 auto' }}>A representative example based on typical outcomes for a solo NP practice within 90 days of launch. Individual results vary by market, specialty, and starting point.</p>
-          </motion.div>
-
-          {/* Toggle */}
-          <motion.div {...fadeUp(0.1)} style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-            <div style={{ display: 'inline-flex', background: 'rgba(11,18,32,0.05)', borderRadius: 14, padding: 4, border: `1px solid ${T.border}` }}>
-              {(['before', 'after'] as const).map(m => (
-                <button key={m} onClick={() => setBaMode(m)} style={{
-                  padding: '10px 28px', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer',
-                  border: 'none',
-                  background: baMode === m ? `linear-gradient(135deg,${T.blue},${T.violet})` : 'transparent',
-                  color: baMode === m ? '#fff' : T.muted,
-                  transition: '.25s',
-                }}>
-                  {m === 'before' ? 'Before ZmaxLab' : 'After ZmaxLab'}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
-            {BEFORE_AFTER.map((item, i) => (
-              <motion.div key={item.label} {...fadeUp(i * 0.08)}>
-                <GlowCard customSize glowColor="blue" className="p-7 text-center">
-                  <div style={{ fontSize: 12, color: T.muted, marginBottom: 14, fontWeight: 500 }}>{item.label}</div>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={baMode + item.label}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -12 }}
-                      transition={{ duration: 0.28 }}
-                    >
-                      <div style={{
-                        fontSize: 'clamp(22px,3vw,34px)', fontWeight: 900, lineHeight: 1, marginBottom: 10,
-                        color: baMode === 'after' ? T.green : 'rgba(11,18,32,0.35)',
-                      }}>
-                        {baMode === 'before' ? item.before : item.after}
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                  {baMode === 'after' && (
-                    <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} style={{
-                      display: 'inline-block', background: `${T.green}18`, color: T.green,
-                      fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
-                      border: `1px solid ${T.green}33`,
-                    }}>Improved</motion.div>
-                  )}
-                </GlowCard>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          7. TRUST & CREDIBILITY
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 5%' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 style={{ fontSize: 'clamp(22px,3vw,36px)', fontWeight: 900, marginBottom: 8 }}>Built on Trust. Backed by Results.</h2>
-            <p style={{ fontSize: 15, color: T.muted }}>The standards every project is built to.</p>
-          </motion.div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-            {[
-              { Icon: Shield,        label: 'HIPAA-Aware',    sub: 'Design Standards' },
-              { Icon: Zap,           label: '7-Day Delivery', sub: 'Or Fully Refunded' },
-              { Icon: Users,         label: 'Founder-Built',  sub: 'Every Site, Personally' },
-              { Icon: Globe,         label: 'Custom-Coded',   sub: 'Not a Template' },
-              { Icon: Award,         label: '$500 Flat',      sub: 'No Hidden Fees' },
-            ].map((b, i) => {
-              const color = T.blue
-              return (
-              <motion.div key={b.label} {...fadeUp(i * 0.08)}>
-                <GlowCard customSize glowColor={toGlow(color)} className="p-5 text-center" style={{ minWidth: 140 }}>
-                  <div style={{ color, display: 'flex', justifyContent: 'center', marginBottom: 8 }}><b.Icon size={22} /></div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: T.text }}>{b.label}</div>
-                  <div style={{ fontSize: 11, color: T.muted }}>{b.sub}</div>
-                </GlowCard>
-              </motion.div>
-            )})}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          9. TESTIMONIALS CAROUSEL
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{
-        padding: '100px 5%',
-        background: `radial-gradient(ellipse at 50% 50%,rgba(29,78,216,0.05) 0%,transparent 70%),${T.surface}`,
-      }}>
-        <div style={{ maxWidth: 820, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
-            <SectionLabel label="Client Stories" color={T.violet} />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, letterSpacing: '-0.5px', marginBottom: 10 }}>What Working Together Can Look Like</h2>
-            <p style={{ fontSize: 14, color: T.muted, maxWidth: 480, margin: '0 auto' }}>
-              Illustrative examples reflecting the kind of feedback this process is designed to earn — not yet verified client reviews.
-            </p>
-          </motion.div>
-
-          <div style={{ position: 'relative' }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={tIdx}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.4, ease: EASE }}
-              >
-                <GlowCard customSize glowColor={toGlow(TESTIMONIALS[tIdx].color)} className="p-10">
-                  <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
-                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} size={16} fill={T.amber} color={T.amber} />)}
-                  </div>
-                  <p style={{ fontSize: 'clamp(15px,2vw,19px)', lineHeight: 1.75, marginBottom: 28, fontStyle: 'italic', color: T.text }}>
-                    "{TESTIMONIALS[tIdx].quote}"
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <div style={{
-                        width: 48, height: 48, borderRadius: '50%',
-                        background: `linear-gradient(135deg,${TESTIMONIALS[tIdx].color},${TESTIMONIALS[tIdx].color}88)`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 14, fontWeight: 800, color: '#fff',
-                      }}>{TESTIMONIALS[tIdx].initials}</div>
-                      <div>
-                        <div style={{ fontWeight: 800, fontSize: 15 }}>{TESTIMONIALS[tIdx].name}</div>
-                        <div style={{ fontSize: 13, color: T.muted }}>{TESTIMONIALS[tIdx].role}</div>
-                      </div>
-                    </div>
-                    <div style={{
-                      background: `${TESTIMONIALS[tIdx].color}18`,
-                      border: `1px solid ${TESTIMONIALS[tIdx].color}33`,
-                      borderRadius: 10, padding: '8px 16px',
-                      fontSize: 13, fontWeight: 800, color: TESTIMONIALS[tIdx].color,
-                    }}>{TESTIMONIALS[tIdx].result}</div>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Controls */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginTop: 24 }}>
-              <button onClick={prev} aria-label="Previous" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(11,18,32,0.06)', border: `1px solid ${T.border}`, color: T.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ChevronLeft size={18} />
-              </button>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {TESTIMONIALS.map((_, i) => (
-                  <button key={i} onClick={() => setTIdx(i)} aria-label={`Testimonial ${i + 1}`} style={{
-                    width: i === tIdx ? 24 : 8, height: 8, borderRadius: 999, padding: 0,
-                    background: i === tIdx ? T.blue : 'rgba(11,18,32,0.2)',
-                    border: 'none', cursor: 'pointer', transition: '.3s',
-                  }} />
                 ))}
               </div>
-              <button onClick={next} aria-label="Next" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(11,18,32,0.06)', border: `1px solid ${T.border}`, color: T.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            </motion.div>
+
+            <motion.div className="zx-hero-media" {...rise(0.12)} style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', borderRadius: 4, overflow: 'hidden', aspectRatio: '4/5', background: T.surface }}>
+                <img src="/img/clinician-hero.jpg" alt="Nurse practitioner in scrubs" loading="eager"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+              <div style={{
+                position: 'absolute', left: -18, bottom: 34, background: '#fff',
+                padding: '18px 24px', borderRadius: 3, boxShadow: '0 22px 60px rgba(10,15,26,0.16)',
+                borderLeft: `2px solid ${T.blue}`,
+              }}>
+                <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Everything included</Mono>
+                <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>$500</div>
+              </div>
+            </motion.div>
           </div>
-        </div>
+        </Shell>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          10. CONVERSION CTA
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section style={{
-        padding: '100px 5%',
-        background: `radial-gradient(ellipse at 50% 0%,rgba(37,99,235,0.16) 0%,transparent 65%),${T.bg}`,
-        borderTop: `1px solid ${T.border}`,
-      }}>
-        <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
-          <motion.div {...fadeUp()}>
-            <SectionLabel label="Get Started" color={T.blue} />
-            <h2 style={{ fontSize: 'clamp(28px,4.5vw,48px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 20, lineHeight: 1.15 }}>
-              Let's discuss your practice's website.
-            </h2>
-            <p style={{ fontSize: 17, color: T.muted, marginBottom: 36, lineHeight: 1.75, maxWidth: 560, margin: '0 auto 36px' }}>
-              Book a free 30-minute demo call. I'll walk you through what a custom site for your specialty could look like and answer any questions about the process, pricing, or timeline.
-            </p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
-              <Link to="/contact" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: `linear-gradient(135deg,${T.blue},${T.violet})`,
-                color: '#fff', fontWeight: 700, fontSize: 16,
-                padding: '16px 36px', borderRadius: 14,
-                boxShadow: `0 12px 40px rgba(37,99,235,0.45)`,
-              }}>
-                Book Free 30-Min Demo <ArrowRight size={18} />
-              </Link>
-              <a href="mailto:ravi@zmaxlab.site" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'rgba(11,18,32,0.06)', border: `1px solid ${T.border}`,
-                color: T.text, fontWeight: 600, fontSize: 16,
-                padding: '16px 28px', borderRadius: 14,
-              }}>
-                <MessageSquare size={16} /> ravi@zmaxlab.site
-              </a>
+      {/* ══ 2. TICKER ════════════════════════════════════════ */}
+      <div style={{ background: T.ink, color: T.onDark, padding: '17px 0', overflow: 'hidden' }}>
+        <div className="zx-marquee-track">
+          {[0, 1].map(dup => (
+            <div key={dup} style={{ display: 'flex', flexShrink: 0 }} aria-hidden={dup === 1}>
+              {SPECIALTIES.map(s => (
+                <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 34, paddingRight: 34, whiteSpace: 'nowrap' }}>
+                  <Mono style={{ color: T.onDarkMuted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{s}</Mono>
+                  <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.blue, flexShrink: 0 }} />
+                </span>
+              ))}
             </div>
-            <div style={{ fontSize: 13, color: T.muted }}>$500 flat fee · No contracts · Cancel anytime · All 50 US states</div>
-          </motion.div>
+          ))}
         </div>
+      </div>
+
+      {/* ══ 3. STATEMENT ═════════════════════════════════════ */}
+      <Section>
+        <Shell>
+          <div className="zx-stmt">
+            <motion.div {...rise()}><Eyebrow>The problem</Eyebrow></motion.div>
+            <motion.div {...rise(0.08)}>
+              <H2 style={{ marginBottom: 30 }}>
+                Most healthcare websites are a template with a stethoscope
+                photo dropped in — and patients can tell.
+              </H2>
+              <Lead style={{ maxWidth: 620, marginBottom: 18 }}>
+                They load slowly, say nothing specific about your credentials, and look
+                identical to the clinic three streets over. Meanwhile a $3,000 agency wants a
+                retainer and twelve weeks before anything goes live.
+              </Lead>
+              <Lead style={{ maxWidth: 620, color: T.text, fontWeight: 600 }}>
+                ZmaxLab is one specialist writing your site by hand, for a flat $500, in a week.
+              </Lead>
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 4. WHAT'S INCLUDED ══════════════════════════════ */}
+      <Section tint>
+        <Shell>
+          <div className="zx-sticky">
+            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+              <Eyebrow>What you get</Eyebrow>
+              <H2 style={{ marginBottom: 22 }}>Everything, in the one price.</H2>
+              <Lead style={{ maxWidth: 380, marginBottom: 30 }}>
+                There is no starter tier, no upsell call, and nothing held back to charge for later.
+              </Lead>
+              <TextLink to="/services">Full service breakdown</TextLink>
+            </motion.div>
+
+            <div>
+              {INCLUDED.map(([n, title, body], i) => (
+                <motion.div key={n} {...rise(i * 0.05)} className="zx-row" style={{
+                  display: 'grid', gridTemplateColumns: '44px 1fr', gap: 18,
+                  padding: '26px 14px 26px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : 'none',
+                  borderBottom: `1px solid ${T.hairline}`,
+                }}>
+                  <Index n={n} />
+                  <div>
+                    <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 9 }}>{title}</h3>
+                    <p style={{ fontSize: 15.5, lineHeight: 1.68, color: T.muted, margin: 0, maxWidth: 560 }}>{body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 4b. WHAT I UNDERSTAND ═══════════════════════════ */}
+      <Section>
+        <Shell>
+          <div className="zx-split">
+            <motion.div {...rise()}>
+              <Eyebrow>Why practitioners pick this</Eyebrow>
+              <H2 style={{ marginBottom: 22 }}>
+                A site only works if it answers what the patient is actually asking.
+              </H2>
+              <Lead style={{ maxWidth: 440 }}>
+                Patients do not compare clinics the way they compare restaurants. They arrive
+                anxious, in a hurry, and looking for a few specific answers. If your site does
+                not give them quickly, they go back to the search results.
+              </Lead>
+            </motion.div>
+            <motion.div {...rise(0.1)}>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 18 }}>
+                What every page is built to answer
+              </Mono>
+              {[
+                'Do you take my insurance?',
+                'How soon can I actually be seen?',
+                'Is this the right specialty for what I have?',
+                'Are you properly licensed and credentialed?',
+                'Can I book without phoning during work hours?',
+                'Has anyone like me been treated here before?',
+              ].map((q, i) => (
+                <div key={q} style={{
+                  display: 'flex', gap: 14, alignItems: 'baseline', padding: '15px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
+                }}>
+                  <Mono style={{ color: T.blue, flexShrink: 0 }}>{`0${i + 1}`}</Mono>
+                  <span style={{ fontSize: 16.5, lineHeight: 1.5, fontWeight: 550 }}>{q}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 5. FULL-BLEED PHOTO BAND ════════════════════════ */}
+      <section style={{ position: 'relative', minHeight: 'clamp(340px,46vw,540px)', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
+        <img src="/img/practice-room.jpg" alt="A modern clinical treatment room" loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,15,26,0.90) 0%, rgba(10,15,26,0.45) 55%, rgba(10,15,26,0.20) 100%)' }} />
+        <Shell style={{ position: 'relative', width: '100%', paddingBottom: 'clamp(38px,5vw,64px)', paddingTop: 80 }}>
+          <motion.div {...rise()} style={{ maxWidth: 700 }}>
+            <Eyebrow dark>Why it matters</Eyebrow>
+            <H2 style={{ color: T.onDark, marginBottom: 16 }}>
+              Your website is the first appointment.
+            </H2>
+            <Lead dark style={{ maxWidth: 540 }}>
+              It is where a patient decides whether you look like someone they trust with their
+              health — usually before they ever call.
+            </Lead>
+          </motion.div>
+        </Shell>
       </section>
-    </div>
+
+      {/* ══ 6. PROCESS ══════════════════════════════════════ */}
+      <Section dark>
+        <Shell>
+          <motion.div {...rise()} style={{ marginBottom: 'clamp(44px,6vw,72px)', maxWidth: 620 }}>
+            <Eyebrow dark>The build</Eyebrow>
+            <H2 style={{ color: T.onDark, marginBottom: 18 }}>Seven days, start to live.</H2>
+            <Lead dark>Not seven months, and not a queue behind twelve other accounts.</Lead>
+          </motion.div>
+          <div className="zx-steps">
+            {STEPS.map(([day, title, body], i) => (
+              <motion.div key={title} {...rise(i * 0.08)} style={{
+                padding: 'clamp(24px,3vw,34px) clamp(18px,2vw,28px) clamp(30px,4vw,44px) 0',
+                borderTop: `1px solid ${T.onDarkLine}`,
+                position: 'relative',
+              }}>
+                <Mono style={{ color: T.blue, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: 22, fontWeight: 600 }}>{day}</Mono>
+                <h3 style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em', marginBottom: 10 }}>{title}</h3>
+                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.onDarkMuted, margin: 0 }}>{body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 7. PRICING ══════════════════════════════════════ */}
+      <Section>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center' }}>
+            <motion.div {...rise()}>
+              <Eyebrow>Pricing</Eyebrow>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
+                <span style={{ fontSize: 'clamp(26px,3vw,34px)', fontWeight: 700, marginTop: 'clamp(6px,1vw,12px)', letterSpacing: '-0.02em' }}>$</span>
+                <span style={{ fontSize: 'clamp(78px,11vw,150px)', fontWeight: 800, letterSpacing: '-0.055em', lineHeight: 0.85 }}>500</span>
+              </div>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.16em', display: 'block', marginBottom: 30 }}>
+                One payment · No contract · No retainer
+              </Mono>
+              <Lead style={{ maxWidth: 400, marginBottom: 32 }}>
+                Half up front, half on launch day once you have approved the live site.
+                If it is not live in seven business days, you are refunded.
+              </Lead>
+              <Btn to="/contact">Start your build <ArrowRight size={17} /></Btn>
+            </motion.div>
+
+            <motion.div {...rise(0.1)}>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 20 }}>
+                What the market charges
+              </Mono>
+              {COMPARE.map(([label, price, mine], i) => (
+                <div key={label as string} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 20,
+                  padding: '20px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
+                }}>
+                  <span style={{ fontSize: 15.5, color: mine ? T.text : T.muted, fontWeight: mine ? 700 : 400 }}>{label}</span>
+                  <span style={{
+                    fontFamily: MONO, fontSize: 14.5, whiteSpace: 'nowrap',
+                    color: mine ? T.emerald : T.faint, fontWeight: mine ? 600 : 500,
+                  }}>{price}</span>
+                </div>
+              ))}
+              <p style={{ fontSize: 12.5, lineHeight: 1.7, color: T.faint, marginTop: 20, borderTop: `1px solid ${T.hairline}`, paddingTop: 18 }}>
+                Roughly 54% below the closest comparable NP-focused offer and 83–95% below typical
+                agency pricing. Based on publicly listed prices at time of writing.
+              </p>
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 8. PROOF ════════════════════════════════════════ */}
+      <Section tint>
+        <Shell>
+          <motion.div {...rise()} style={{ marginBottom: 'clamp(38px,5vw,58px)' }}>
+            <Eyebrow>Built for specialists</Eyebrow>
+            <H2 style={{ maxWidth: 640 }}>Designed around how patients actually choose a provider.</H2>
+          </motion.div>
+
+          <div className="zx-trio" style={{ marginBottom: 'clamp(44px,6vw,72px)' }}>
+            {[
+              ['/img/portrait-1.jpg', 'Credentials first', 'NPI, licence and specialty structured into the page.'],
+              ['/img/portrait-2.jpg', 'Clarity over clutter', 'One clear action per screen, not six competing buttons.'],
+              ['/img/portrait-3.jpg', 'Built to be found', 'Technical SEO handled at build time, not sold later.'],
+            ].map(([src, title, body], i) => (
+              <motion.div key={title} {...rise(i * 0.08)}>
+                <div style={{ aspectRatio: '4/5', overflow: 'hidden', background: T.hairline, marginBottom: 18, borderRadius: 3 }}>
+                  <img src={src} alt={title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(1) contrast(1.04)' }} />
+                </div>
+                <h3 style={{ fontSize: 17.5, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 7 }}>{title}</h3>
+                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.figure {...rise()} style={{ margin: 0, borderTop: `1px solid ${T.hairlineStrong}`, paddingTop: 'clamp(30px,4vw,48px)', maxWidth: 900 }}>
+            <blockquote style={{ margin: 0, fontSize: 'clamp(21px,2.6vw,34px)', lineHeight: 1.32, fontWeight: 600, letterSpacing: '-0.025em' }}>
+              “The design looks considerably more polished than the template sites most other
+              clinics in my area are using.”
+            </blockquote>
+            <figcaption style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <Mono style={{ color: T.muted, textTransform: 'uppercase', letterSpacing: '0.13em' }}>Chiropractor · Phoenix, AZ</Mono>
+              <span style={{
+                fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: T.amber, border: `1px solid ${T.amber}44`, padding: '4px 9px', borderRadius: 3,
+              }}>Illustrative example</span>
+            </figcaption>
+            <p style={{ fontSize: 12.5, color: T.faint, marginTop: 14, maxWidth: 560, lineHeight: 1.65 }}>
+              ZmaxLab is early — this reflects the kind of feedback the process is built to earn,
+              not a verified client review. Real case studies will replace it as they exist.
+            </p>
+          </motion.figure>
+        </Shell>
+      </Section>
+
+      {/* ══ 9. CTA ══════════════════════════════════════════ */}
+      <Section dark pad="clamp(80px,10vw,132px)">
+        <Shell>
+          <motion.div {...rise()} style={{ maxWidth: 780 }}>
+            <Eyebrow dark>Next step</Eyebrow>
+            <H2 style={{ color: T.onDark, marginBottom: 24 }}>
+              Twenty minutes, and you will know exactly what your site would look like.
+            </H2>
+            <Lead dark style={{ maxWidth: 560, marginBottom: 38 }}>
+              A short call — your specialty, your market, what the build would involve.
+              No obligation and nothing to prepare.
+            </Lead>
+            <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Btn to="/contact" dark>Book a free demo <ArrowRight size={17} /></Btn>
+              <TextLink to="/how-it-works" dark>How the 7 days work</TextLink>
+            </div>
+            <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', marginTop: 52, paddingTop: 26, borderTop: `1px solid ${T.onDarkLine}` }}>
+              {['Source code included', 'No contract', '7-day guarantee or refunded'].map(t => (
+                <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <Check size={14} style={{ color: T.emerald }} />
+                  <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </Shell>
+      </Section>
+    </>
   )
 }
