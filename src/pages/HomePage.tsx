@@ -170,10 +170,10 @@ function SitePreview() {
 }
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const STATS = [
-  { n: 500, suffix: '',   prefix: '$',  label: 'Flat Fee, No Hidden Costs',      color: T.blue   },
-  { n: 7,   suffix: '',   prefix: '',   label: 'Day Delivery Guarantee',         color: T.violet },
-  { n: 100, suffix: '%',  prefix: '',   label: 'Custom-Coded, Zero Templates',   color: T.cyan   },
-  { n: 8,   suffix: '+',  prefix: '',   label: 'Specialties Supported',          color: T.amber  },
+  { n: 500, suffix: '',   prefix: '$',  label: 'Flat Fee, No Hidden Costs',        color: T.blue   },
+  { n: 54,  suffix: '%',  prefix: '',   label: 'Less Than the Closest Competitor', color: T.green  },
+  { n: 7,   suffix: '',   prefix: '',   label: 'Day Delivery Guarantee',           color: T.violet },
+  { n: 100, suffix: '%',  prefix: '',   label: 'Custom-Coded, Zero Templates',     color: T.cyan   },
 ]
 
 const SPECIALTIES = [
@@ -397,6 +397,11 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
+        <p style={{ maxWidth: 1100, margin: '20px auto 0', fontSize: 12, color: T.faint, textAlign: 'center', lineHeight: 1.6 }}>
+          Savings based on publicly listed pricing for comparable custom websites aimed at nurse practitioners
+          ($1,097.50 at the closest direct competitor). Healthcare marketing agencies typically quote $3,000–$10,000
+          for a custom build, which puts ZmaxLab 83–95% below that range.
+        </p>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════════

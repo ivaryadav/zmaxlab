@@ -129,12 +129,16 @@ export default function ServicesPage() {
                   Get My Free Demo
                 </Link>
                 <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:16,textAlign:'left' }}>
-                  {[['Web agency','$3k-$10k','#ef4444'],['Wix / Squarespace','$29/mo forever','#F5A524'],['ZmaxLab','$500 once',T.green]].map(([l,v,c]) => (
-                    <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,marginBottom:7 }}>
+                  {[['Healthcare marketing agency','$3k-$10k','#ef4444'],['Closest NP-focused competitor','$1,097.50','#F5A524'],['Wix / Squarespace','$29/mo forever','#F5A524'],['ZmaxLab','$500 once',T.green]].map(([l,v,c]) => (
+                    <div key={l} style={{ display:'flex',justifyContent:'space-between',gap:10,fontSize:12,marginBottom:7 }}>
                       <span style={{ color:T.muted }}>{l}</span>
-                      <span style={{ color:c,fontWeight:l==='ZmaxLab'?700:400 }}>{v}</span>
+                      <span style={{ color:c,fontWeight:l==='ZmaxLab'?700:400,whiteSpace:'nowrap' }}>{v}</span>
                     </div>
                   ))}
+                  <div style={{ marginTop:12,paddingTop:12,borderTop:`1px solid ${T.border}`,fontSize:11,color:T.faint,lineHeight:1.6 }}>
+                    That puts a ZmaxLab build roughly 54% below the closest comparable NP-focused offer,
+                    and 83–95% below typical agency pricing. Figures based on publicly listed prices.
+                  </div>
                 </div>
               </div>
             </GlowCard>
