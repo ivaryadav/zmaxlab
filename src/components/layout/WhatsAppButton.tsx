@@ -76,7 +76,7 @@ export default function BookingButton() {
 
             {/* Body */}
             <div style={{ fontSize: 11.5, color: T.muted, lineHeight: 1.55, marginBottom: 12 }}>
-              I'll review your practice and show you a live mockup — no commitment needed.
+              I'll review your practice and show you a live mockup - no commitment needed.
             </div>
 
             {/* CTA button */}

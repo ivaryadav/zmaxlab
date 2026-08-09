@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { ArrowRight, Check, Mail, Clock, ShieldCheck } from 'lucide-react'
 import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Display, H2, Lead, Mono, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const SPECIALTIES = ['Nurse Practitioner','Physician Assistant','Mental Health NP / Therapist','Chiropractor','Dentist','Physical Therapist','Occupational Therapist','Psychiatric NP','Functional Medicine MD','LCSW / Mental Health Therapist','Other NPI Practitioner']
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
@@ -65,8 +65,8 @@ export default function ContactPage() {
   }
 
   useSEO({
-    title: 'Contact | Book a Free Demo – ZmaxLab Healthcare Web Design',
-    description: 'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners — $500 flat, live in 7 business days.',
+    title: 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
+    description: 'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.',
     canonical: 'https://zmaxlab.site/contact',
     schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
   })
@@ -76,13 +76,13 @@ export default function ContactPage() {
       <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(40px,5vw,64px)' }}>
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 760 }}>
-            <Eyebrow>Contact</Eyebrow>
+            <Pill>Free 20-minute demo</Pill>
             <Display style={{ marginBottom: 24 }}>
-              Let's talk about<br />your <span style={{ color: T.blue }}>practice</span>.
+              Let's talk about<br />your <Grad>practice</Grad>.
             </Display>
             <Lead style={{ maxWidth: 520 }}>
               Twenty minutes, no obligation, nothing to prepare. I will walk you through what a
-              custom site for your specialty would look like — and tell you honestly if it is not a fit.
+              custom site for your specialty would look like - and tell you honestly if it is not a fit.
             </Lead>
           </motion.div>
         </Shell>
@@ -98,7 +98,7 @@ export default function ContactPage() {
                   <Check size={30} style={{ color: T.emerald, marginBottom: 18 }} />
                   <H2 style={{ marginBottom: 14, fontSize: 'clamp(24px,3vw,34px)' }}>Message received.</H2>
                   <Lead style={{ maxWidth: 420 }}>
-                    I read every enquiry personally and reply within one business day —
+                    I read every enquiry personally and reply within one business day -
                     usually much sooner.
                   </Lead>
                 </div>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                       <label style={labelCss} htmlFor="f-spec">Specialty</label>
                       <select id="f-spec" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
                         value={form.specialty} onChange={e => setForm({ ...form, specialty: e.target.value })}>
-                        <option value="">Select…</option>
+                        <option value="">Select...</option>
                         {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
@@ -135,7 +135,7 @@ export default function ContactPage() {
                       <label style={labelCss} htmlFor="f-state">State</label>
                       <select id="f-state" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
                         value={form.state} onChange={e => setForm({ ...form, state: e.target.value })}>
-                        <option value="">Select…</option>
+                        <option value="">Select...</option>
                         {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
@@ -168,7 +168,7 @@ export default function ContactPage() {
                     cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.6 : 1,
                     fontFamily: 'inherit',
                   }}>
-                    {loading ? 'Sending…' : <>Book my free demo <ArrowRight size={17} /></>}
+                    {loading ? 'Sending...' : <>Book my free demo <ArrowRight size={17} /></>}
                   </button>
 
                   <p style={{ fontSize: 12.5, color: T.faint, marginTop: 18, lineHeight: 1.6, maxWidth: 420 }}>
@@ -221,9 +221,9 @@ export default function ContactPage() {
       <Section dark pad="clamp(64px,8vw,104px)">
         <Shell>
           <motion.div {...rise()} style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
-            {['$500 flat — no hidden fees', 'Live in 7 days or refunded', 'Source code delivered to you', 'No contract'].map(t => (
+            {['$500 flat - no hidden fees', 'Live in 7 days or refunded', 'Source code delivered to you', 'No contract'].map(t => (
               <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
-                <Check size={14} style={{ color: T.emerald }} />
+                <Check size={14} style={{ color: T.primaryBright }} />
                 <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
               </span>
             ))}

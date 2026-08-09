@@ -31,7 +31,7 @@ export default function Navbar() {
     <>
       <header style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        background: scrolled ? 'rgba(255,255,255,0.86)' : 'transparent',
+        background: scrolled ? 'rgba(255,255,255,0.90)' : 'transparent',
         backdropFilter: scrolled ? 'saturate(180%) blur(14px)' : 'none',
         WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(14px)' : 'none',
         borderBottom: `1px solid ${scrolled ? T.hairline : 'transparent'}`,

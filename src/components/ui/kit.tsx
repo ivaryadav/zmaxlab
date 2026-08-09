@@ -28,7 +28,7 @@ export function Section({
   )
 }
 
-/** mono eyebrow with a leading rule — used to open every section */
+/** mono eyebrow with a leading rule - used to open every section */
 export function Eyebrow({ children, dark, color }: { children: ReactNode; dark?: boolean; color?: string }) {
   const c = color ?? (dark ? T.onDarkMuted : T.muted)
   return (
@@ -57,13 +57,15 @@ export function Mono({ children, style }: { children: ReactNode; style?: CSSProp
   return <span style={{ fontFamily: MONO, fontSize: TYPE.micro, letterSpacing: '0.08em', ...style }}>{children}</span>
 }
 
-/** solid primary button — the only filled button on the site */
+/** solid primary button - the only filled button on the site */
 export function Btn({ to, children, dark, onClick }: { to?: string; children: ReactNode; dark?: boolean; onClick?: () => void }) {
   const s: CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: 10,
-    background: dark ? T.onDark : T.blue, color: dark ? T.ink : '#fff',
-    fontSize: 15, fontWeight: 700, padding: '15px 28px', borderRadius: 999,
-    border: 'none', cursor: 'pointer', transition: 'transform .3s cubic-bezier(.16,1,.3,1), opacity .3s',
+    background: dark ? '#fff' : T.gradBtn, color: dark ? T.ink : '#fff',
+    fontSize: 15, fontWeight: 700, padding: '16px 30px', borderRadius: 12,
+    border: 'none', cursor: 'pointer',
+    boxShadow: dark ? 'none' : '0 10px 26px rgba(11,156,135,0.32)',
+    transition: 'transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s',
   }
   const inner = <span style={s} onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')}
     onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}>{children}</span>
@@ -71,7 +73,7 @@ export function Btn({ to, children, dark, onClick }: { to?: string; children: Re
   return <a href={to}>{inner}</a>
 }
 
-/** ghost/secondary — text with animated underline, never a second filled button */
+/** ghost/secondary - text with animated underline, never a second filled button */
 export function TextLink({ to, children, dark }: { to: string; children: ReactNode; dark?: boolean }) {
   return (
     <a href={to} className="zx-link-underline" style={{
@@ -87,3 +89,44 @@ export function Index({ n, dark }: { n: string; dark?: boolean }) {
 }
 
 export { motion }
+
+
+/** vivid gradient panel - the device that makes the page feel alive */
+export function Panel({ children, deep, style }: { children: ReactNode; deep?: boolean; style?: CSSProperties }) {
+  return (
+    <div style={{
+      background: deep ? T.gradPanelDeep : T.gradPanel,
+      borderRadius: 20,
+      padding: 'clamp(30px,4.5vw,64px)',
+      color: deep ? T.onDark : T.text,
+      ...style,
+    }}>{children}</div>
+  )
+}
+
+/** gradient headline word */
+export function Grad({ children }: { children: ReactNode }) {
+  return (
+    <span style={{
+      background: T.gradText, WebkitBackgroundClip: 'text', backgroundClip: 'text',
+      WebkitTextFillColor: 'transparent', color: 'transparent',
+    }}>{children}</span>
+  )
+}
+
+/** small pill used above headings */
+export function Pill({ children, tone = 'teal' }: { children: ReactNode; tone?: 'teal' | 'coral' }) {
+  const teal = tone === 'teal'
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 8,
+      background: teal ? T.primaryTint : T.coralTint,
+      color: teal ? T.primaryDeep : T.coral,
+      fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
+      fontWeight: 600, padding: '7px 14px', borderRadius: 999, marginBottom: 20,
+    }}>
+      <span style={{ width: 6, height: 6, borderRadius: '50%', background: teal ? T.primaryBright : T.coral }} />
+      {children}
+    </span>
+  )
+}

@@ -1,7 +1,7 @@
 import { ArrowRight, Check } from 'lucide-react'
 import { T, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const PRINCIPLES: [string, string, string][] = [
   ['01', 'One person builds it', 'You talk to the person writing the code. No account manager relaying messages, no junior designer learning on your project.'],
@@ -12,7 +12,7 @@ const PRINCIPLES: [string, string, string][] = [
 
 export default function AboutPage() {
   useSEO({
-    title: 'About Ravi | Healthcare Web Designer for NPI Practitioners – ZmaxLab',
+    title: 'About Ravi | Healthcare Web Designer for NPI Practitioners - ZmaxLab',
     description: 'ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.',
     canonical: 'https://zmaxlab.site/about',
     schema: [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee, delivered in 7 business days.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"}}],
@@ -20,19 +20,19 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* HERO — asymmetric with portrait */}
+      {/* HERO - asymmetric with portrait */}
       <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(56px,7vw,92px)' }}>
         <Shell wide>
           <div className="zx-hero">
             <motion.div {...rise()}>
-              <Eyebrow>About</Eyebrow>
+              <Pill>About ZmaxLab</Pill>
               <Display style={{ marginBottom: 26 }}>
                 Not an agency.<br />
-                <span style={{ color: T.blue }}>One specialist</span>,<br />
+                <Grad>One specialist</Grad>,<br />
                 building carefully.
               </Display>
               <Lead style={{ maxWidth: 460, marginBottom: 34 }}>
-                ZmaxLab is Ravi. Every site is designed, written and coded personally —
+                ZmaxLab is Ravi. Every site is designed, written and coded personally -
                 which is the reason it costs $500 instead of $5,000, and the reason it
                 takes a week instead of a quarter.
               </Lead>
@@ -149,7 +149,7 @@ export default function AboutPage() {
             <motion.div {...rise(0.1)}>
               {[
                 'Live in seven business days, or you are refunded in full',
-                'The full source code, delivered to you — you own it outright',
+                'The full source code, delivered to you - you own it outright',
                 'No contract, no retainer, no automatic renewal',
                 'You speak to Ravi directly, start to finish',
               ].map((c, i) => (
@@ -157,7 +157,7 @@ export default function AboutPage() {
                   display: 'flex', gap: 14, alignItems: 'flex-start', padding: '18px 0',
                   borderTop: i === 0 ? `1px solid ${T.onDarkLine}` : `1px solid ${T.onDarkLine}`,
                 }}>
-                  <Check size={16} style={{ color: T.emerald, flexShrink: 0, marginTop: 3 }} />
+                  <Check size={16} style={{ color: T.primaryBright, flexShrink: 0, marginTop: 3 }} />
                   <span style={{ fontSize: 15.5, lineHeight: 1.6, color: T.onDark }}>{c}</span>
                 </div>
               ))}

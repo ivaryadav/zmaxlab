@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { ArrowRight, Plus, Minus } from 'lucide-react'
 import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const STEPS: [string, string, string, string[]][] = [
   ['Day 1', 'Discovery call', 'Thirty minutes on a call. Your specialty, your patients, your market, and what your competitors are doing.',
     ['Specialty and services mapped', 'Local competitor scan', 'Design direction agreed', 'Nothing to prepare in advance']],
-  ['Day 1', 'You send your content', 'A short form — name, specialty, services, location, credentials. Fifteen minutes of your time.',
-    ['One simple form', 'Photos optional — I source them if needed', 'Your NPI number and licence', 'That is the whole ask']],
-  ['Days 2–4', 'Design and build', 'You approve the design before any code is written. Then it gets hand-coded, page by page.',
+  ['Day 1', 'You send your content', 'A short form - name, specialty, services, location, credentials. Fifteen minutes of your time.',
+    ['One simple form', 'Photos optional - I source them if needed', 'Your NPI number and licence', 'That is the whole ask']],
+  ['Days 2-4', 'Design and build', 'You approve the design before any code is written. Then it gets hand-coded, page by page.',
     ['Full mockup for your approval', 'Changes requested at mockup stage', 'Hand-coded, no templates', 'Copywriting included']],
   ['Day 5', 'SEO foundation', 'Technical structure done properly at build time, not sold back to you as an add-on later.',
     ['Meta structure and schema markup', 'Sitemap generated and submitted', 'Google Search Console verified', 'Analytics 4 configured']],
-  ['Days 6–7', 'Launch and handover', 'Live on your domain with SSL, and every source file handed over to you.',
+  ['Days 6-7', 'Launch and handover', 'Live on your domain with SSL, and every source file handed over to you.',
     ['Live on your domain with SSL', 'Hosting connected', 'Full source code delivered', 'One free revision included']],
 ]
 
@@ -21,10 +21,10 @@ const FAQS: [string, string][] = [
   ['What do I need to provide?', 'Your name, practice name, specialty, services list, location, phone number, and any photos you have. I handle design, copywriting, code and launch.'],
   ["What if I don't have photos?", 'Not a problem. I source professional healthcare photography that matches your specialty and location, at no extra cost.'],
   ['How does payment work?', '50% ($250) to start, 50% ($250) on launch day once you have approved the live site. Monthly services are billed monthly from signup.'],
-  ['Can I make changes after launch?', 'Yes — one free revision is included. Further edits are $50/hour, or unlimited small updates under the $200/month support plan.'],
-  ['How do I connect my domain?', 'If you already have one, I walk you through the DNS change — about five minutes. If not, I will recommend where to buy one and set it up for you.'],
-  ['What hosting do I need?', 'Any basic shared hosting works — roughly $3–6/month. The site is static, so it runs fast even on the cheapest plans. I will help you choose and configure it.'],
-  ['What if I want design changes?', 'You review the full mockup before coding starts. Colours, layout, content — request changes then. Once approved, we build.'],
+  ['Can I make changes after launch?', 'Yes - one free revision is included. Further edits are $50/hour, or unlimited small updates under the $200/month support plan.'],
+  ['How do I connect my domain?', 'If you already have one, I walk you through the DNS change - about five minutes. If not, I will recommend where to buy one and set it up for you.'],
+  ['What hosting do I need?', 'Any basic shared hosting works - roughly $3-6/month. The site is static, so it runs fast even on the cheapest plans. I will help you choose and configure it.'],
+  ['What if I want design changes?', 'You review the full mockup before coding starts. Colours, layout, content - request changes then. Once approved, we build.'],
 ]
 
 function Faq({ q, a, n }: { q: string; a: string; n: number }) {
@@ -52,7 +52,7 @@ function Faq({ q, a, n }: { q: string; a: string; n: number }) {
 
 export default function HowItWorksPage() {
   useSEO({
-    title: 'How It Works | Custom Healthcare Website in 7 Days – ZmaxLab',
+    title: 'How It Works | Custom Healthcare Website in 7 Days - ZmaxLab',
     description: 'From discovery call to live website in seven business days. See exactly what happens each day, what you provide, and how payment works.',
     canonical: 'https://zmaxlab.site/how-it-works',
   })
@@ -63,9 +63,9 @@ export default function HowItWorksPage() {
       <section style={{ paddingTop: 'clamp(120px,14vw,180px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 840 }}>
-            <Eyebrow>The process</Eyebrow>
+            <Pill>The 7-day process</Pill>
             <Display style={{ marginBottom: 26 }}>
-              NPI number Monday.<br /><span style={{ color: T.blue }}>Live website</span> by the<br />following Tuesday.
+              NPI number Monday.<br /><Grad>Live website</Grad> by the<br />following Tuesday.
             </Display>
             <Lead style={{ maxWidth: 540, marginBottom: 34 }}>
               Seven business days, mapped out day by day so you know exactly what happens
@@ -94,7 +94,7 @@ export default function HowItWorksPage() {
               padding: 'clamp(28px,3.5vw,44px) 0',
               borderTop: `1px solid ${i === 0 ? T.hairlineStrong : T.hairline}`,
             }} className="zx-tl-row">
-              <Mono style={{ color: T.blue, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', paddingTop: 4 }}>{day}</Mono>
+              <Mono style={{ color: T.gold, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', paddingTop: 4 }}>{day}</Mono>
               <div className="zx-split" style={{ gap: 'clamp(20px,4vw,56px)' }}>
                 <div>
                   <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 10 }}>{title}</h3>
@@ -123,7 +123,7 @@ export default function HowItWorksPage() {
               <Eyebrow>Questions</Eyebrow>
               <H2 style={{ marginBottom: 20 }}>The things people ask before booking.</H2>
               <Lead style={{ maxWidth: 320, marginBottom: 26 }}>
-                If yours is not here, ask it on the call — there is no obligation attached.
+                If yours is not here, ask it on the call - there is no obligation attached.
               </Lead>
               <TextLink to="/contact">Ask a question</TextLink>
             </motion.div>

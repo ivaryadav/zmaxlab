@@ -2,7 +2,7 @@ import { ArrowRight, Check } from 'lucide-react'
 import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
 import {
-  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, rise, motion,
+  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, rise, motion,
 } from '@/components/ui/kit'
 
 const SPECIALTIES = [
@@ -11,23 +11,24 @@ const SPECIALTIES = [
 ]
 
 const INCLUDED = [
-  ['01', 'Custom-coded, not templated', 'Every page is written from scratch for your specialty. No WordPress theme, no page builder, no recycled layout with your logo swapped in.'],
-  ['02', 'Credentials built into the design', 'Your NPI number, license, and specialty are structured into the page — so patients and search engines both read you as legitimate.'],
-  ['03', 'Booking that actually connects', 'Wired into Calendly, Jane, or SimplePractice. Patients book without emailing you first.'],
-  ['04', 'HIPAA-aware contact forms', 'Secure intake, no plain-text patient detail sitting in an inbox.'],
-  ['05', 'Full SEO foundation', 'Meta structure, schema markup, sitemap, Search Console, and Analytics configured before launch — not sold back to you later.'],
-  ['06', 'You own the source code', 'Delivered to you outright. No licence, no lock-in, no hostage situation if you leave.'],
+  ['01', 'We find and buy your domain', 'Choosing the right domain affects how patients find and remember you. I check what is available, advise on the strongest option, register it, and configure it - you never touch a DNS setting.'],
+  ['02', 'Custom-coded, not templated', 'Every page is written from scratch for your specialty. No WordPress theme, no page builder, no recycled layout with your logo swapped in.'],
+  ['03', 'Credentials built into the design', 'Your NPI number, license, and specialty are structured into the page - so patients and search engines both read you as legitimate.'],
+  ['04', 'Booking that actually connects', 'Wired into Calendly, Jane, or SimplePractice. Patients book without emailing you first.'],
+  ['05', 'HIPAA-aware contact forms', 'Secure intake, no plain-text patient detail sitting in an inbox.'],
+  ['06', 'Full SEO foundation', 'Meta structure, schema markup, sitemap, Search Console, and Analytics configured before launch - not sold back to you later.'],
+  ['07', 'You own the source code', 'Delivered to you outright. No licence, no lock-in, no hostage situation if you leave.'],
 ]
 
 const STEPS = [
   ['Day 1', 'Discovery call', 'Thirty minutes. Your specialty, your patients, your market.'],
-  ['Days 2–4', 'Design & build', 'Written from scratch. You see progress, not a black box.'],
+  ['Days 2-4', 'Design & build', 'Written from scratch. You see progress, not a black box.'],
   ['Day 5', 'SEO foundation', 'Structure, schema, Search Console, Business Profile.'],
-  ['Days 6–7', 'Launch', 'Live on your domain with SSL. Source files handed over.'],
+  ['Days 6-7', 'Launch', 'Live on your domain with SSL. Source files handed over.'],
 ]
 
 const COMPARE = [
-  ['Healthcare marketing agency', '$3,000 – $10,000', false],
+  ['Healthcare marketing agency', '$3,000 - $10,000', false],
   ['Closest NP-focused competitor', '$1,097.50', false],
   ['Wix / Squarespace', '$29/mo, forever', false],
   ['ZmaxLab', '$500, once', true],
@@ -43,50 +44,51 @@ export default function HomePage() {
   return (
     <>
       {/* ══ 1. HERO ══════════════════════════════════════════ */}
-      <section style={{ paddingTop: 'clamp(112px,13vw,168px)', paddingBottom: 'clamp(64px,8vw,104px)', overflow: 'hidden' }}>
+      <section style={{ paddingTop: 'clamp(96px,11vw,132px)', paddingBottom: 'clamp(40px,5vw,72px)' }}>
         <Shell wide>
-          <div className="zx-hero">
-            <motion.div {...rise()}>
-              <Eyebrow>Healthcare web design · United States</Eyebrow>
-              <Display style={{ marginBottom: 28 }}>
-                A website your<br />
-                practice deserves,<br />
-                <span style={{ color: T.blue }}>without the agency</span><br />
-                price tag.
+          <motion.div {...rise()} style={{
+            display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)',
+            borderRadius: 24, overflow: 'hidden', background: T.gradPanel,
+            boxShadow: '0 30px 80px rgba(7,37,58,0.13)',
+          }} className="zx-hero-panel">
+            <div style={{ padding: 'clamp(32px,4.5vw,68px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Pill>Your practice's digital partner</Pill>
+              <Display style={{ marginBottom: 22 }}>
+                You focus on patients.<br />
+                <Grad>We handle every</Grad><br />
+                digital footprint.
               </Display>
-              <Lead style={{ maxWidth: 470, marginBottom: 38 }}>
-                Custom-coded sites for NPI-registered practitioners — built personally, not
-                assembled from a template. Five hundred dollars flat, live in seven business days.
+              <Lead style={{ maxWidth: 480, marginBottom: 32, color: 'rgba(7,37,58,0.80)' }}>
+                Domain, hosting, website, SEO, reviews, booking - all of it set up and
+                looked after by one specialist. Your custom site goes live in 7 business
+                days for a flat $500.
               </Lead>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 30, flexWrap: 'wrap', marginBottom: 46 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
                 <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
-                <TextLink to="/services">See what's included</TextLink>
+                <TextLink to="/services">See what we handle</TextLink>
               </div>
-              <div style={{ display: 'flex', gap: 'clamp(22px,4vw,52px)', flexWrap: 'wrap', paddingTop: 26, borderTop: `1px solid ${T.hairline}` }}>
+              <div style={{ display: 'flex', gap: 'clamp(20px,3vw,44px)', flexWrap: 'wrap', marginTop: 38, paddingTop: 26, borderTop: '1px solid rgba(7,37,58,0.14)' }}>
                 {[['$500', 'flat fee'], ['7 days', 'to launch'], ['54%', 'below closest rival']].map(([v, l]) => (
                   <div key={l}>
-                    <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>{v}</div>
-                    <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginTop: 7 }}>{l}</Mono>
+                    <div style={{ fontSize: 25, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, color: T.primaryDeep }}>{v}</div>
+                    <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginTop: 6 }}>{l}</Mono>
                   </div>
                 ))}
               </div>
-            </motion.div>
-
-            <motion.div className="zx-hero-media" {...rise(0.12)} style={{ position: 'relative' }}>
-              <div style={{ position: 'relative', borderRadius: 4, overflow: 'hidden', aspectRatio: '4/5', background: T.surface }}>
-                <img src="/img/clinician-hero.jpg" alt="Nurse practitioner in scrubs" loading="eager"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              </div>
+            </div>
+            <div style={{ position: 'relative', minHeight: 340 }} className="zx-hero-img">
+              <img src="/img/clinician-hero.jpg" alt="Nurse practitioner in scrubs" loading="eager"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{
-                position: 'absolute', left: -18, bottom: 34, background: '#fff',
-                padding: '18px 24px', borderRadius: 3, boxShadow: '0 22px 60px rgba(10,15,26,0.16)',
-                borderLeft: `2px solid ${T.blue}`,
+                position: 'absolute', left: 22, bottom: 22, background: 'rgba(255,255,255,0.96)',
+                backdropFilter: 'blur(8px)', padding: '14px 20px', borderRadius: 14,
+                boxShadow: '0 14px 40px rgba(7,37,58,0.20)',
               }}>
-                <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginBottom: 6 }}>Everything included</Mono>
-                <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>$500</div>
+                <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Everything included</Mono>
+                <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, color: T.primaryDeep }}>$500</div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </Shell>
       </section>
 
@@ -98,7 +100,7 @@ export default function HomePage() {
               {SPECIALTIES.map(s => (
                 <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 34, paddingRight: 34, whiteSpace: 'nowrap' }}>
                   <Mono style={{ color: T.onDarkMuted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{s}</Mono>
-                  <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.blue, flexShrink: 0 }} />
+                  <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.gold, flexShrink: 0 }} />
                 </span>
               ))}
             </div>
@@ -114,7 +116,7 @@ export default function HomePage() {
             <motion.div {...rise(0.08)}>
               <H2 style={{ marginBottom: 30 }}>
                 Most healthcare websites are a template with a stethoscope
-                photo dropped in — and patients can tell.
+                photo dropped in, and <Grad>patients can tell</Grad>.
               </H2>
               <Lead style={{ maxWidth: 620, marginBottom: 18 }}>
                 They load slowly, say nothing specific about your credentials, and look
@@ -135,9 +137,9 @@ export default function HomePage() {
           <div className="zx-sticky">
             <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
               <Eyebrow>What you get</Eyebrow>
-              <H2 style={{ marginBottom: 22 }}>Everything, in the one price.</H2>
+              <H2 style={{ marginBottom: 22 }}>Every digital <Grad>footprint</Grad>, handled.</H2>
               <Lead style={{ maxWidth: 380, marginBottom: 30 }}>
-                There is no starter tier, no upsell call, and nothing held back to charge for later.
+                From buying the right domain to the site itself. No starter tier, no upsell call, nothing held back to charge for later.
               </Lead>
               <TextLink to="/services">Full service breakdown</TextLink>
             </motion.div>
@@ -215,7 +217,7 @@ export default function HomePage() {
             </H2>
             <Lead dark style={{ maxWidth: 540 }}>
               It is where a patient decides whether you look like someone they trust with their
-              health — usually before they ever call.
+              health - usually before they ever call.
             </Lead>
           </motion.div>
         </Shell>
@@ -226,7 +228,7 @@ export default function HomePage() {
         <Shell>
           <motion.div {...rise()} style={{ marginBottom: 'clamp(44px,6vw,72px)', maxWidth: 620 }}>
             <Eyebrow dark>The build</Eyebrow>
-            <H2 style={{ color: T.onDark, marginBottom: 18 }}>Seven days, start to live.</H2>
+            <H2 style={{ color: T.onDark, marginBottom: 18 }}>Seven days, <Grad>start to live</Grad>.</H2>
             <Lead dark>Not seven months, and not a queue behind twelve other accounts.</Lead>
           </motion.div>
           <div className="zx-steps">
@@ -236,7 +238,7 @@ export default function HomePage() {
                 borderTop: `1px solid ${T.onDarkLine}`,
                 position: 'relative',
               }}>
-                <Mono style={{ color: T.blue, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: 22, fontWeight: 600 }}>{day}</Mono>
+                <Mono style={{ color: T.goldBright, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: 22, fontWeight: 600 }}>{day}</Mono>
                 <h3 style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em', marginBottom: 10 }}>{title}</h3>
                 <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.onDarkMuted, margin: 0 }}>{body}</p>
               </motion.div>
@@ -278,12 +280,12 @@ export default function HomePage() {
                   <span style={{ fontSize: 15.5, color: mine ? T.text : T.muted, fontWeight: mine ? 700 : 400 }}>{label}</span>
                   <span style={{
                     fontFamily: MONO, fontSize: 14.5, whiteSpace: 'nowrap',
-                    color: mine ? T.emerald : T.faint, fontWeight: mine ? 600 : 500,
+                    color: mine ? T.gold : T.faint, fontWeight: mine ? 700 : 500,
                   }}>{price}</span>
                 </div>
               ))}
               <p style={{ fontSize: 12.5, lineHeight: 1.7, color: T.faint, marginTop: 20, borderTop: `1px solid ${T.hairline}`, paddingTop: 18 }}>
-                Roughly 54% below the closest comparable NP-focused offer and 83–95% below typical
+                Roughly 54% below the closest comparable NP-focused offer and 83-95% below typical
                 agency pricing. Based on publicly listed prices at time of writing.
               </p>
             </motion.div>
@@ -317,18 +319,18 @@ export default function HomePage() {
 
           <motion.figure {...rise()} style={{ margin: 0, borderTop: `1px solid ${T.hairlineStrong}`, paddingTop: 'clamp(30px,4vw,48px)', maxWidth: 900 }}>
             <blockquote style={{ margin: 0, fontSize: 'clamp(21px,2.6vw,34px)', lineHeight: 1.32, fontWeight: 600, letterSpacing: '-0.025em' }}>
-              “The design looks considerably more polished than the template sites most other
-              clinics in my area are using.”
+              "The design looks considerably more polished than the template sites most other
+              clinics in my area are using."
             </blockquote>
             <figcaption style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
               <Mono style={{ color: T.muted, textTransform: 'uppercase', letterSpacing: '0.13em' }}>Chiropractor · Phoenix, AZ</Mono>
               <span style={{
                 fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: T.amber, border: `1px solid ${T.amber}44`, padding: '4px 9px', borderRadius: 3,
+                color: T.gold, border: `1px solid ${T.gold}55`, padding: '4px 9px', borderRadius: 3,
               }}>Illustrative example</span>
             </figcaption>
             <p style={{ fontSize: 12.5, color: T.faint, marginTop: 14, maxWidth: 560, lineHeight: 1.65 }}>
-              ZmaxLab is early — this reflects the kind of feedback the process is built to earn,
+              ZmaxLab is early - this reflects the kind of feedback the process is built to earn,
               not a verified client review. Real case studies will replace it as they exist.
             </p>
           </motion.figure>
@@ -344,7 +346,7 @@ export default function HomePage() {
               Twenty minutes, and you will know exactly what your site would look like.
             </H2>
             <Lead dark style={{ maxWidth: 560, marginBottom: 38 }}>
-              A short call — your specialty, your market, what the build would involve.
+              A short call - your specialty, your market, what the build would involve.
               No obligation and nothing to prepare.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -354,7 +356,7 @@ export default function HomePage() {
             <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', marginTop: 52, paddingTop: 26, borderTop: `1px solid ${T.onDarkLine}` }}>
               {['Source code included', 'No contract', '7-day guarantee or refunded'].map(t => (
                 <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <Check size={14} style={{ color: T.emerald }} />
+                  <Check size={14} style={{ color: T.primaryBright }} />
                   <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
                 </span>
               ))}

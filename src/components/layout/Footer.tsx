@@ -36,7 +36,7 @@ export default function Footer() {
             </div>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: T.onDarkMuted, maxWidth: 320, margin: 0 }}>
               Custom-coded websites for NPI-registered healthcare practitioners across the
-              United States. Built personally by Ravi — $500 flat, live in seven days.
+              United States. Built personally by Ravi - $500 flat, live in seven days.
             </p>
             <a href="mailto:hello@zmaxlab.site" style={{
               display: 'inline-flex', alignItems: 'center', gap: 7, marginTop: 22,

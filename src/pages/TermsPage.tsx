@@ -8,7 +8,7 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { 
 
 export default function TermsPage() {
   useSEO({
-    title: 'Terms of Service | ZmaxLab – Healthcare Website Design',
+    title: 'Terms of Service | ZmaxLab - Healthcare Website Design',
     description: 'Terms of Service for ZmaxLab - custom healthcare website design for NPI practitioners. $500 flat fee. 7-day delivery guarantee.',
     canonical: 'https://zmaxlab.site/terms',
   })
@@ -19,7 +19,7 @@ export default function TermsPage() {
       body: `ZmaxLab (operated by Ravi Kumar) provides custom website design, local SEO, social media management, and related digital marketing services to NPI-registered healthcare practitioners in the United States. By engaging ZmaxLab, you agree to these Terms of Service.`
     },
     {
-      title: '2. Website Package – $500 Flat Fee',
+      title: '2. Website Package - $500 Flat Fee',
       body: `The $500 website package includes a custom, hand-coded website delivered within 7 business days of receiving all required content from the client. The package includes custom design, mobile responsiveness, SSL setup, SEO foundation (meta tags, schema markup, sitemap), online booking integration, contact form, Google Analytics setup, and 1 post-launch revision. The $500 fee covers a single website build. Revisions beyond the included revision are billed at $75/hour.`
     },
     {
@@ -28,7 +28,7 @@ export default function TermsPage() {
     },
     {
       title: '4. Payment Terms',
-      body: `Payment is accepted via Stripe or PayPal. For the $500 website package, 50% is due upfront to begin work, and 50% is due upon completion and approval before the site goes live. Alternatively, the full $500 may be paid upfront. Monthly services (SEO, Social Media, etc.) are billed in advance on a monthly basis and may be cancelled at any time with 30 days’ notice. No refunds are issued for completed monthly service periods.`
+      body: `Payment is accepted via Stripe or PayPal. For the $500 website package, 50% is due upfront to begin work, and 50% is due upon completion and approval before the site goes live. Alternatively, the full $500 may be paid upfront. Monthly services (SEO, Social Media, etc.) are billed in advance on a monthly basis and may be cancelled at any time with 30 days' notice. No refunds are issued for completed monthly service periods.`
     },
     {
       title: '5. Client Responsibilities',
@@ -52,11 +52,11 @@ export default function TermsPage() {
     },
     {
       title: '10. Termination',
-      body: `Either party may terminate monthly services with 30 days’ written notice via email to ravi@zmaxlab.site. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
+      body: `Either party may terminate monthly services with 30 days' written notice via email to ravi@zmaxlab.site. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
     },
     {
       title: '11. Governing Law',
-      body: `These terms are governed by the laws applicable to the service provider’s jurisdiction. Any disputes will be resolved through good-faith negotiation first. If unresolved, disputes will be submitted to binding arbitration.`
+      body: `These terms are governed by the laws applicable to the service provider's jurisdiction. Any disputes will be resolved through good-faith negotiation first. If unresolved, disputes will be submitted to binding arbitration.`
     },
     {
       title: '12. Contact',
