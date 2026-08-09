@@ -1,267 +1,190 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowRight, Heart, Code, Globe, CheckCircle2, Calendar } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
+import { T, TYPE , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { GlowCard } from '@/components/ui/spotlight-card'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, rise, motion } from '@/components/ui/kit'
 
-const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === T.violet || c === '#7c3aed' ? 'purple' :
-  c === T.green  || c === '#059669' ? 'green'  :
-  c === '#e11d48'                   ? 'red'    :
-  c === T.amber  || c === '#f59e0b' ? 'orange' : 'blue'
-
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
-const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
-
-
-const VALUES = [
-  { Icon:Heart,  color:'#e11d48', title:'Healthcare First',       desc:'Every decision - design, copy, features - is made through the lens of what helps practitioners get more patients.' },
-  { Icon:Code,   color:T.blue,   title:'Hand-Coded Quality',     desc:'No WordPress, no templates, no page builders. Every line of code is written for your specific practice.' },
-  { Icon:Globe,  color:T.green,  title:'Transparent Pricing',    desc:'One price. No surprises. No hidden fees, no upsells on calls, no nickel-and-diming. $500 is $500.' },
-]
-
-const STATS = [
-  { n:'500+',  label:'Sites Built',          color:T.blue   },
-  { n:'4.9★',  label:'Google Rating',        color:T.amber  },
-  { n:'48hr',  label:'Avg Delivery Time',    color:T.green  },
-  { n:'50',    label:'US States Served',     color:T.violet },
-]
-
-const PROMISES = [
-  'I will personally build every page of your website - nothing is outsourced',
-  'You will receive a design mockup before a single line of code is written',
-  'Your website will be live within 7 days of content submission',
-  'You will own your website completely - source code, hosting, everything',
-  'One post-launch revision is always included at no extra cost',
+const PRINCIPLES: [string, string, string][] = [
+  ['01', 'One person builds it', 'You talk to the person writing the code. No account manager relaying messages, no junior designer learning on your project.'],
+  ['02', 'Hand-coded, always', 'No WordPress, no page builder, no theme. Every line is written for your practice, which is why it loads fast and looks like nobody else.'],
+  ['03', 'One price, stated plainly', '$500 is $500. No hidden fees, no upsell call halfway through, no "that will be extra" once you are committed.'],
+  ['04', 'Healthcare, not everything', 'I do not build restaurant sites or e-commerce stores. Credentials, compliance and patient behaviour are the whole focus.'],
 ]
 
 export default function AboutPage() {
-  const aboutSchema = [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"knowsAbout":["Healthcare Website Design","NPI Practitioner Websites","Medical SEO","HIPAA-Aware Web Design"]}]
   useSEO({
-    title: 'About Ravi - Healthcare Web Designer for NPI Practitioners | ZmaxLab',
-    description: 'Meet Ravi, founder of ZmaxLab. He personally builds every $500 healthcare website for NPI-registered practitioners - nurse practitioners, PAs, mental health providers. 500+ sites.',
+    title: 'About Ravi | Healthcare Web Designer for NPI Practitioners - ZmaxLab',
+    description: 'ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.',
     canonical: 'https://zmaxlab.site/about',
-    schema: aboutSchema,
+    schema: [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee, delivered in 7 business days.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"}}],
   })
 
   return (
-    <div style={{ background:T.bg, color:T.text, overflowX:'hidden' }}>
-
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section style={{
-        padding:'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)',
-        background:`radial-gradient(ellipse at 60% 40%,rgba(124,58,237,0.1) 0%,transparent 60%),${T.bg}`,
-      }}>
-        <div style={{ maxWidth:1100,margin:'0 auto',display:'flex',gap:64,alignItems:'center',flexWrap:'wrap' }}>
-          <div style={{ flex:'1 1 400px' }}>
-            <motion.div {...fadeUp()}>
-              <div style={{ display:'inline-flex',alignItems:'center',gap:8,background:`rgba(124,58,237,0.1)`,border:`1px solid rgba(124,58,237,0.25)`,borderRadius:999,padding:'5px 14px',marginBottom:22 }}>
-                <span style={{ fontSize:10,fontWeight:800,letterSpacing:1,textTransform:'uppercase',color:T.violet }}>The Person Behind the Sites</span>
+    <>
+      {/* HERO - asymmetric with portrait */}
+      <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(56px,7vw,92px)' }}>
+        <Shell wide>
+          <div className="zx-hero">
+            <motion.div {...rise()}>
+              <Pill>About ZmaxLab</Pill>
+              <Display style={{ marginBottom: 26 }}>
+                Not an agency.
+                <Grad>One specialist</Grad>,
+                building carefully.
+              </Display>
+              <Lead style={{ maxWidth: 460, marginBottom: 34 }}>
+                ZmaxLab is Ravi. Every site is designed, written and coded personally -
+                which is the reason it costs $500 instead of $5,000, and the reason it
+                takes a week instead of a quarter.
+              </Lead>
+              <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
+                <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+                <TextLink to="/how-it-works">How the build works</TextLink>
               </div>
-              <h1 style={{ fontSize:'clamp(2.2rem,5vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-2px',marginBottom:18 }}>
-                Built by a specialist.<br/>
-                <span style={{ background:`linear-gradient(135deg,${T.violet},${T.cyan})`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text' }}>
-                  For specialists.
-                </span>
-              </h1>
-              <p style={{ fontSize:'clamp(15px,1.5vw,18px)',color:T.muted,lineHeight:1.75,maxWidth:520,marginBottom:32 }}>
-                I'm Ravi - the person who personally builds every ZmaxLab website. No agency. No outsourcing. Just a healthcare web specialist who cares deeply about your patients finding you online.
-              </p>
-              <div style={{ display:'flex',gap:12,flexWrap:'wrap' }}>
-                <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'13px 28px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-                  Work With Me <ArrowRight size={15}/>
-                </Link>
-                <a href="https://calendly.com/ravi9235kumar/30min" target="_blank" rel="noreferrer" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
-                  <Calendar size={15}/> Book a Call
-                </a>
+            </motion.div>
+
+            <motion.div className="zx-hero-media" {...rise(0.1)}>
+              <div style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: 20, background: T.surface, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
+                <Vid src="/video/portrait-clinician.mp4" poster="/img/poster-portrait-clinician.jpg" />
               </div>
             </motion.div>
           </div>
-
-          {/* Avatar card */}
-          <motion.div
-            initial={{ opacity:0,x:30 }}
-            animate={{ opacity:1,x:0 }}
-            transition={{ duration:0.9,delay:0.4,ease:EASE }}
-            style={{ flex:'0 0 auto' }}
-          >
-            <GlowCard customSize glowColor="purple" className="p-8 text-center" style={{ minWidth:240 }}>
-              <img
-                src="/ravi.jpg"
-                alt="Ravi – Founder of ZmaxLab"
-                style={{
-                  width:96,height:96,borderRadius:'50%',
-                  objectFit:'cover',objectPosition:'center top',
-                  display:'block',margin:'0 auto 16px',
-                  border:`2px solid ${T.violet}40`,
-                  boxShadow:`0 8px 32px rgba(124,58,237,0.35)`,
-                }}
-              />
-              <div style={{ fontSize:18,fontWeight:800,color:T.text }}>Ravi</div>
-              <div style={{ fontSize:13,color:T.muted,marginBottom:16 }}>Founder & Builder</div>
-              <div style={{ display:'flex',flexDirection:'column',gap:8 }}>
-                {[['500+','Sites delivered'],['4.9 ★','Google rating'],['48hr','Avg delivery']].map(([v,l]) => (
-                  <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,padding:'6px 10px',background:'rgba(255,255,255,0.04)',borderRadius:8 }}>
-                    <span style={{ color:T.muted }}>{l}</span>
-                    <span style={{ color:T.text,fontWeight:700 }}>{v}</span>
-                  </div>
-                ))}
-              </div>
-            </GlowCard>
-          </motion.div>
-        </div>
+        </Shell>
       </section>
 
-      {/* ── STATS ROW ────────────────────────────────────────────────── */}
-      <section style={{ padding:'48px 5%',borderTop:`1px solid ${T.border}`,borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1000,margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:20 }}>
-          {STATS.map((s,i) => (
-            <motion.div key={s.label} {...fadeUp(i*0.1)}>
-              <GlowCard customSize glowColor={toGlow(s.color)} className="p-6 text-center">
-                <div style={{ fontSize:40,fontWeight:900,color:s.color,lineHeight:1,marginBottom:6 }}>{s.n}</div>
-                <div style={{ fontSize:13,color:T.muted }}>{s.label}</div>
-              </GlowCard>
-            </motion.div>
+      {/* FACTS STRIP */}
+      <div style={{ borderTop: `1px solid ${T.hairline}`, borderBottom: `1px solid ${T.hairline}` }}>
+        <Shell style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(24px,5vw,72px)', padding: '30px clamp(20px,5vw,56px)' }}>
+          {[['$500', 'Flat fee'], ['7 days', 'To launch'], ['100%', 'Custom-coded'], ['1:1', 'Direct with Ravi']].map(([v, l]) => (
+            <div key={l}>
+              <div style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>{v}</div>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginTop: 6 }}>{l}</Mono>
+            </div>
           ))}
-        </div>
+        </Shell>
+      </div>
+
+      {/* STORY */}
+      <Section>
+        <Shell>
+          <div className="zx-stmt">
+            <motion.div {...rise()}>
+              <Eyebrow>Why this exists</Eyebrow>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)', marginTop: 22 }}>
+                <img src="/img/clinician-scrubs.jpg" alt="Healthcare practitioner in scrubs" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 16%', display: 'block' }} />
+              </div>
+            </motion.div>
+            <motion.div {...rise(0.08)}>
+              <H2 style={{ marginBottom: 28 }}>
+                Practitioners kept getting quoted agency prices for template work.
+              </H2>
+              <Lead style={{ maxWidth: 620, marginBottom: 20 }}>
+                A nurse practitioner opening her own clinic does not need a twelve-week
+                discovery process and a retainer. She needs a site that loads fast, states her
+                credentials clearly, takes bookings, and does not look like the four other
+                clinics in her city that bought the same theme.
+              </Lead>
+              <Lead style={{ maxWidth: 620, marginBottom: 20 }}>
+                That is a week of focused work, not a quarter of meetings. So ZmaxLab is priced
+                and scheduled like a week of focused work.
+              </Lead>
+              <Lead style={{ maxWidth: 620, color: T.text, fontWeight: 600 }}>
+                The trade-off is honest: I am one person, so I take a limited number of builds.
+                What you get in return is that the person you speak to is the person who builds it.
+              </Lead>
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* PRINCIPLES */}
+      <Section tint>
+        <Shell>
+          <div className="zx-sticky">
+            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+              <Eyebrow>How I work</Eyebrow>
+              <H2 style={{ marginBottom: 20 }}>Four rules I do not bend.</H2>
+              <Lead style={{ maxWidth: 340 }}>
+                These are the reasons the price and the timeline actually hold.
+              </Lead>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
+                <img src="/img/detail-stethoscope.jpg" alt="Clinical detail" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 38%', display: 'block' }} />
+              </div>
+            </motion.div>
+            <div>
+              {PRINCIPLES.map(([n, title, body], i) => (
+                <motion.div key={n} {...rise(i * 0.06)} className="zx-row" style={{
+                  display: 'grid', gridTemplateColumns: '44px 1fr', gap: 18,
+                  padding: '28px 14px 28px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : 'none',
+                  borderBottom: `1px solid ${T.hairline}`,
+                }}>
+                  <Index n={n} />
+                  <div>
+                    <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 9 }}>{title}</h3>
+                    <p style={{ fontSize: 15.5, lineHeight: 1.68, color: T.muted, margin: 0, maxWidth: 560 }}>{body}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* WHO IT IS FOR - split */}
+      <section style={{ background: T.ink, color: T.onDark, padding: 'clamp(52px,6.5vw,88px) 0' }}>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,72px)' }}>
+            <motion.div {...rise()}>
+              <Eyebrow dark>Who this is for</Eyebrow>
+              <H2 style={{ color: T.onDark, marginBottom: 18 }}>
+                Built for people who trained for years to do something else.
+              </H2>
+              <Lead dark style={{ maxWidth: 470 }}>
+                You did not go to school to compare hosting plans or argue with a page builder.
+                Hand it over once and it is handled.
+              </Lead>
+            </motion.div>
+            <motion.div {...rise(0.1)} className="zx-lift zx-zoom" style={{
+              borderRadius: 20, overflow: 'hidden', aspectRatio: '4/3',
+              boxShadow: '0 30px 76px rgba(0,0,0,0.45)',
+            }}>
+              <img src="/img/portrait-3.jpg" alt="Healthcare practitioner at a desk" loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 24%', display: 'block' }} />
+            </motion.div>
+          </div>
+        </Shell>
       </section>
 
-      {/* ── STORY ────────────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%' }}>
-        <div style={{ maxWidth:820,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:48 }}>
-            <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.blue,marginBottom:12 }}>The Story</div>
-            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)',fontWeight:900,letterSpacing:'-0.5px' }}>Why I Started ZmaxLab</h2>
-          </motion.div>
-          <GlowCard customSize glowColor="blue" style={{ padding:'clamp(28px,4vw,48px)' }}>
-
-            {/* Opening */}
-            <motion.p {...fadeUp(0.05)} style={{ fontSize:'clamp(15px,1.4vw,17px)',color:T.text,lineHeight:1.85,marginBottom:24 }}>
-              I've spent years watching brilliant healthcare practitioners struggle to get found online — not because they're not good at what they do, but because no affordable digital option existed for solo practitioners.
-            </motion.p>
-
-            {/* Mission pull-quote */}
-            <motion.div {...fadeUp(0.1)} style={{
-              borderLeft:`3px solid ${T.blue}`,
-              background:'rgba(37,99,235,0.07)',
-              borderRadius:'0 12px 12px 0',
-              padding:'16px 22px',
-              marginBottom:28,
-            }}>
-              <p style={{ fontSize:'clamp(15px,1.5vw,18px)',fontWeight:700,color:T.text,lineHeight:1.7,margin:0 }}>
-                ZmaxLab exists to fix that. One person, one mission: give every NPI-registered practitioner across all 50 US states a website that actually works.
-              </p>
+      {/* COMMITMENT + CTA */}
+      <Section dark padBottom="clamp(34px,4vw,48px)">
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center' }}>
+            <motion.div {...rise()}>
+              <Eyebrow dark>The commitment</Eyebrow>
+              <H2 style={{ color: T.onDark, marginBottom: 26 }}>What you are guaranteed.</H2>
+              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
             </motion.div>
-
-            {/* Story */}
-            <motion.p {...fadeUp(0.15)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,marginBottom:20 }}>
-              A nurse practitioner I knew had just opened her own practice after 10 years in a hospital. She was incredible at her job — patients loved her, referrals were strong. But online? She was invisible. Her only web presence was a 2-page PDF resume.
-            </motion.p>
-
-            <motion.p {...fadeUp(0.18)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,marginBottom:20 }}>
-              That's when I stepped in.
-            </motion.p>
-
-            {/* Result stats */}
-            <motion.div {...fadeUp(0.22)} style={{ display:'flex',gap:12,flexWrap:'wrap',marginBottom:22 }}>
+            <motion.div {...rise(0.1)}>
               {[
-                { val:'5 days', label:'Website built'       },
-                { val:'$500',   label:'Flat fee'            },
-                { val:'#3',     label:'Google ranking'      },
-                { val:'4-6/wk', label:'New patient leads'   },
-              ].map(s => (
-                <div key={s.label} style={{
-                  background:`${T.green}12`,border:`1px solid ${T.green}30`,
-                  borderRadius:12,padding:'10px 18px',textAlign:'center',minWidth:88,
+                'Live in seven business days, or you are refunded in full',
+                'The full source code, delivered to you - you own it outright',
+                'No contract, no retainer, no automatic renewal',
+                'You speak to Ravi directly, start to finish',
+              ].map((c, i) => (
+                <div key={c} style={{
+                  display: 'flex', gap: 14, alignItems: 'flex-start', padding: '18px 0',
+                  borderTop: i === 0 ? `1px solid ${T.onDarkLine}` : `1px solid ${T.onDarkLine}`,
                 }}>
-                  <div style={{ fontSize:22,fontWeight:900,color:T.green,lineHeight:1 }}>{s.val}</div>
-                  <div style={{ fontSize:11,color:T.muted,marginTop:4,whiteSpace:'nowrap' }}>{s.label}</div>
+                  <Check size={16} style={{ color: T.primaryBright, flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontSize: 15.5, lineHeight: 1.6, color: T.onDark }}>{c}</span>
                 </div>
               ))}
             </motion.div>
-
-            {/* Conclusion */}
-            <motion.p {...fadeUp(0.27)} style={{ fontSize:'clamp(14px,1.3vw,16px)',color:T.muted,lineHeight:1.85,margin:0 }}>
-              She told two colleagues. Then three more. Then I realised this was a real problem — and I was in a unique position to solve it for a lot of practitioners who had the same story.
-            </motion.p>
-
-          </GlowCard>
-        </div>
-      </section>
-
-      {/* ── VALUES ───────────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',background:'rgba(255,255,255,0.015)',borderTop:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1000,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:48 }}>
-            <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.violet,marginBottom:12 }}>What I Believe</div>
-            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)',fontWeight:900,letterSpacing:'-0.5px' }}>Values That Drive Every Build</h2>
-          </motion.div>
-          <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20 }}>
-            {VALUES.map((v,i) => (
-              <motion.div key={v.title} {...fadeUp(i*0.1)} style={{ height:'100%' }}>
-                <GlowCard customSize glowColor={toGlow(v.color)} className="h-full p-7">
-                  <div style={{ width:48,height:48,borderRadius:14,background:`${v.color}15`,border:`1px solid ${v.color}30`,display:'flex',alignItems:'center',justifyContent:'center',color:v.color,marginBottom:16 }}>
-                    <v.Icon size={22}/>
-                  </div>
-                  <h3 style={{ fontSize:17,fontWeight:800,marginBottom:8 }}>{v.title}</h3>
-                  <p style={{ fontSize:14,color:T.muted,lineHeight:1.7 }}>{v.desc}</p>
-                </GlowCard>
-              </motion.div>
-            ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── PROMISES ─────────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',borderTop:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:820,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:48 }}>
-            <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.green,marginBottom:12 }}>My Commitment</div>
-            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)',fontWeight:900,letterSpacing:'-0.5px' }}>What I Promise Every Client</h2>
-          </motion.div>
-          <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
-            {PROMISES.map((p,i) => (
-              <motion.div key={i} {...fadeUp(i*0.07)}>
-                <GlowCard customSize glowColor="green" className="p-5">
-                  <div style={{ display:'flex',gap:16,alignItems:'flex-start' }}>
-                    {/* Numbered badge */}
-                    <div style={{
-                      width:40,height:40,borderRadius:12,flexShrink:0,
-                      background:`${T.green}18`,border:`1px solid ${T.green}40`,
-                      display:'flex',alignItems:'center',justifyContent:'center',
-                    }}>
-                      <CheckCircle2 size={20} style={{ color:T.green }}/>
-                    </div>
-                    <div style={{ paddingTop:2 }}>
-                      <div style={{ fontSize:10,fontWeight:700,letterSpacing:'1.5px',textTransform:'uppercase',color:T.green,marginBottom:4 }}>
-                        Promise {String(i+1).padStart(2,'0')}
-                      </div>
-                      <p style={{ fontSize:15,color:T.text,lineHeight:1.65,margin:0 }}>{p}</p>
-                    </div>
-                  </div>
-                </GlowCard>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',textAlign:'center',borderTop:`1px solid ${T.border}` }}>
-        <motion.div {...fadeUp()} style={{ maxWidth:600,margin:'0 auto' }}>
-          <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Let's build your practice's future online.</h2>
-          <p style={{ fontSize:15,color:T.muted,marginBottom:32,lineHeight:1.75 }}>Book a free 30-minute call. I'll review your current presence and show you exactly what your website could look like.</p>
-          <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
-            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-              Book Free Demo <ArrowRight size={16}/>
-            </Link>
-            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
-              See Case Studies
-            </Link>
-          </div>
-        </motion.div>
-      </section>
-    </div>
+        </Shell>
+      </Section>
+    </>
   )
 }

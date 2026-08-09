@@ -119,7 +119,7 @@ export default function LogoIcon({ height = 38 }: { height?: number }) {
 
         {/* ── Contents clipped to circle ── */}
         <g clipPath="url(#lg-clip)">
-          {/* ECG — animated green wave */}
+          {/* ECG - animated green wave */}
           <motion.path
             d={ECG}
             stroke="#00e676" strokeWidth="2.2" fill="none"
@@ -129,7 +129,7 @@ export default function LogoIcon({ height = 38 }: { height?: number }) {
             transition={{ duration: 2.4, times: [0, 0.7, 1], ease: 'easeOut', repeat: Infinity }}
           />
 
-          {/* ── Shining pointer — 4-layer glowing dot ── */}
+          {/* ── Shining pointer - 4-layer glowing dot ── */}
 
           {/* Layer 1: outermost pulse bloom */}
           <circle fill="rgba(0,255,128,0.14)">
@@ -156,7 +156,7 @@ export default function LogoIcon({ height = 38 }: { height?: number }) {
           </circle>
         </g>
 
-        {/* Medical cross — teal, outside clip so it stays visible */}
+        {/* Medical cross - teal, outside clip so it stays visible */}
         <line x1="35" y1="14" x2="35" y2="20" stroke="rgba(0,220,170,0.85)" strokeWidth="1.8" strokeLinecap="round"/>
         <line x1="32" y1="17" x2="38" y2="17" stroke="rgba(0,220,170,0.85)" strokeWidth="1.8" strokeLinecap="round"/>
 

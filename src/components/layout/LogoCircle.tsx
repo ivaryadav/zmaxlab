@@ -107,7 +107,7 @@ export default function LogoCircle({ size = 42 }: { size?: number }) {
             transition={{ duration: 2.4, times: [0, 0.7, 1], ease: 'easeOut', repeat: Infinity }}
           />
 
-          {/* Shining pointer — 4 layers */}
+          {/* Shining pointer - 4 layers */}
           {/* Layer 1: outer bloom pulse */}
           <circle fill="rgba(0,255,128,0.14)">
             <animate attributeName="r"       values="7;12;7"         dur="0.95s" repeatCount="indefinite" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1"/>
@@ -130,7 +130,7 @@ export default function LogoCircle({ size = 42 }: { size?: number }) {
           </circle>
         </g>
 
-        {/* Medical cross — teal */}
+        {/* Medical cross - teal */}
         <line x1="36" y1="13" x2="36" y2="19" stroke="rgba(0,220,170,0.85)" strokeWidth="1.8" strokeLinecap="round"/>
         <line x1="33" y1="16" x2="39" y2="16" stroke="rgba(0,220,170,0.85)" strokeWidth="1.8" strokeLinecap="round"/>
 

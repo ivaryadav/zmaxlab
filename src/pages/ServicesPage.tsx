@@ -1,268 +1,248 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, ArrowRight } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
+import { T, MONO , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { GlowCard } from '@/components/ui/spotlight-card'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
-const toGlow = (c: string): 'blue' | 'purple' | 'green' | 'red' | 'orange' =>
-  c === '#7c3aed' ? 'purple' :
-  c === '#059669' ? 'green'  :
-  c === '#e11d48' ? 'red'    :
-  c === '#f59e0b' ? 'orange' : 'blue'
-
-const T = { bg:'#04060f', card:'rgba(255,255,255,0.04)', border:'rgba(255,255,255,0.07)', blue:'#2563eb', violet:'#7c3aed', cyan:'#0891b2', green:'#059669', amber:'#f59e0b', text:'#f1f5f9', muted:'rgba(241,245,249,0.5)' }
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
-const fadeUp = (delay = 0) => ({ initial:{ opacity:0, y:28 }, whileInView:{ opacity:1, y:0 }, viewport:{ once:true, amount:0.1 }, transition:{ duration:0.7, delay, ease:EASE } })
-
-const MONTHLY = [
-  { color:'#2563eb', title:'Local SEO', price:'$230', sub:'/month', desc:'68% of patients Google their symptoms before booking. We get your practice to the top of local search - for your specialty and city - before your competition.', perks:['20+ specialty + city keyword targets','Google Maps (3-pack) optimisation','Monthly ranking & traffic report','Local citation & NPI directory building','Competitor gap analysis included'] },
-  { color:'#7c3aed', title:'Social Media Marketing', price:'$150', sub:'/month', desc:'Patients don\'t book on the first visit to your profile. Consistent, expert content keeps your practice top-of-mind - so when they\'re ready, they choose you, not the practice down the road.', perks:['12-16 HIPAA-compliant posts/month','Instagram, Facebook & LinkedIn','Patient education + trust content','Stories, reels & highlight covers','Monthly performance analytics'] },
-  { color:'#f59e0b', title:'Reputation Management', price:'$100', sub:'/month', desc:'87% of patients read reviews before choosing a provider. 72% won\'t consider below 4 stars. I send review requests on your behalf and provide response templates - so your 5-star reputation grows while you focus on patient care.', perks:['Post-visit review requests we send for you','2-click SMS + email links for patients','Google & Healthgrades monitoring','Done-for-you response templates','Negative review alert & guidance'] },
-  { color:'#0891b2', title:'Performance Report', price:'$75', sub:'/month', desc:'See exactly where every new patient came from. Monthly analytics covering rankings, traffic, calls, and bookings - plus what your local competitors are doing differently this month.', perks:['Google ranking positions tracked','Monthly visitor & source analytics','Call & enquiry conversion tracking','Core Web Vitals performance score','Head-to-head competitor comparison'] },
-  { color:'#059669', title:'Website Support', price:'$200', sub:'/month', desc:'Your website is your hardest-working team member - it greets every patient, answers questions, and takes bookings around the clock. I keep it updated, secure, and performing so it never lets you down.', perks:['Unlimited text, image & page updates','Monthly performance review call','Priority 24-hour response time','Security scanning & uptime monitoring','Annual SEO health check included'] },
+const CORE = [
+  'Custom-coded, zero templates', 'Mobile-first across every device', 'SSL secured with HTTPS',
+  'Meta, schema and sitemap configured', 'Online booking (Calendly / Jane / SimplePractice)',
+  'Insurance & billing page', 'HIPAA-aware contact forms', 'Analytics 4 + Search Console',
+  'NPI, licence & specialty displayed', 'Live on your domain in 7 days', 'Full source code delivered',
+  'One free post-launch revision',
 ]
 
-const ONE_TIME = [
-  { color:'#2563eb', label:'Setup',      title:'Google Business Profile',  price:'$150', desc:'86% of people use Google Maps to find local businesses. We verify and fully optimise your GBP so patients searching "[specialty] near me" find you - not your competitor.' },
-  { color:'#7c3aed', label:'Setup',      title:'NPI Directory Listings',    price:'$75',  desc:'Patients Google your name before booking. We list and optimise your profile on 7 major directories: Healthgrades, Zocdoc, Vitals, WebMD, Psychology Today, US News & NPI Registry.' },
-  { color:'#059669', label:'Setup',      title:'HIPAA Patient Intake Forms', price:'$100', desc:'Replace paper clipboards with secure, HIPAA-aware digital intake forms. Collect patient history before they walk in - delivered directly to your inbox or EHR.' },
-  { color:'#0891b2', label:'Setup',      title:'Telehealth Page Setup',     price:'$100', desc:'Patients expect virtual care options. We build a professional telehealth booking page with your state coverage map, platform links, and insurance info - ready in 48 hours.' },
-  { color:'#e11d48', label:'Content',    title:'Blog Content Starter',      price:'$150', desc:'Google rewards websites with fresh, expert content. 3 SEO-optimised blog posts targeting your specialty keywords - researched, written, published, and submitted to Google.' },
-  { color:'#f59e0b', label:'Automation', title:'Appointment Reminder Setup', price:'$75',  desc:'No-shows cost the average practice $150+ per missed appointment. I set up reminder messages that go out before every visit - reducing no-shows by up to 30%. Done once, works forever.' },
+const MONTHLY: [string, string, string, string[]][] = [
+  ['Local SEO', '$230', 'When someone searches your specialty and your city, they are usually ready to book. The practice that appears first, with clear insurance and availability information, tends to get that call.',
+    ['20+ specialty + city keyword targets', 'Google Maps 3-pack optimisation', 'Monthly ranking & traffic report', 'Citation & NPI directory building', 'Competitor gap analysis']],
+  ['Social Media', '$150', 'Very few patients book on the first visit to your profile. Steady, useful content keeps you familiar - so when the pain gets bad enough to act, you are the name they already recognise.',
+    ['12-16 HIPAA-compliant posts monthly', 'Instagram, Facebook & LinkedIn', 'Patient education content', 'Stories, reels & highlight covers', 'Monthly performance analytics']],
+  ['Reputation', '$100', 'Between two similarly qualified practices, patients almost always default to the one with more recent, better-answered reviews. That gap is fixable without asking anything awkward of your patients.',
+    ['Post-visit review requests sent for you', '2-click SMS + email links', 'Google & Healthgrades monitoring', 'Done-for-you response templates', 'Negative review alerts']],
+  ['Reporting', '$75', 'Most practices cannot say whether a new patient came from Google, a referral, or a sign on the road. Knowing that changes where you spend the next dollar.',
+    ['Ranking positions tracked', 'Visitor & traffic source analytics', 'Call & enquiry conversion tracking', 'Core Web Vitals score', 'Competitor comparison']],
+  ['Site Support', '$200', 'Your site works every hour your front desk does not - answering questions, taking bookings, reassuring people at 11pm. It should be maintained like the staff member it is.',
+    ['Unlimited text, image & page updates', 'Monthly performance review call', 'Priority 24-hour response', 'Security & uptime monitoring', 'Annual SEO health check']],
 ]
 
-const WEBSITE_FEATURES = [
-  '75% of patients judge you by your website - ours converts','Mobile-first design (all devices & browsers)','SSL secured with HTTPS','Full SEO foundation - meta, schema, sitemap',
-  'Online booking (Calendly / Jane / SimplePractice)','Insurance & billing page to cut front-desk calls','HIPAA-aware secure contact forms','Google Analytics 4 + Search Console setup',
-  'NPI credentials, license & specialty displayed','Live on your domain in 7 days - guaranteed','Full source code delivered - you own it','1 free post-launch revision included',
+const ONETIME: [string, string, string][] = [
+  ['Google Business Profile', '$150', 'Verified and fully optimised so "[specialty] near me" finds you.'],
+  ['NPI Directory Listings', '$75', 'Healthgrades, Zocdoc, Vitals, WebMD, Psychology Today, US News, NPI Registry.'],
+  ['HIPAA Intake Forms', '$100', 'Secure digital intake delivered to your inbox or EHR.'],
+  ['Telehealth Page', '$100', 'State coverage map, platform links and insurance info.'],
+  ['Blog Content Starter', '$150', 'Three SEO-optimised posts, researched, written and published.'],
+  ['Appointment Reminders', '$75', 'Reminder messages configured once, working from then on.'],
 ]
-
-type Tab = 'monthly' | 'onetime' | 'bundle'
 
 export default function ServicesPage() {
-  const [tab, setTab] = useState<Tab>('monthly')
-
-  const servicesSchema = [{ "@context":"https://schema.org","@type":"Service","name":"Custom Healthcare Website Design - $500","provider":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"},"description":"Affordable custom healthcare website for NPI practitioners. Hand-coded, mobile-perfect, live in 7 days. $500 one-time flat fee.","offers":{"@type":"Offer","price":"500","priceCurrency":"USD","availability":"https://schema.org/InStock"},"areaServed":"United States" }]
+  const serviceSchema = [{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Healthcare website design and local SEO",
+    "provider": { "@type": "Organization", "name": "ZmaxLab", "url": "https://zmaxlab.site" },
+    "areaServed": { "@type": "Country", "name": "United States" },
+    "audience": { "@type": "Audience", "audienceType": "NPI-registered healthcare practitioners" },
+    "offers": [{
+      "@type": "Offer",
+      "name": "Custom healthcare website",
+      "price": "500",
+      "priceCurrency": "USD",
+      "description": "Custom-coded healthcare website delivered in 7 business days. Domain, hosting setup, SEO foundation and source code included.",
+      "availability": "https://schema.org/InStock",
+    },
+    ...MONTHLY.map(([title, price]) => ({
+      "@type": "Offer",
+      "name": title,
+      "price": String(price).replace('$', ''),
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": String(price).replace('$', ''),
+        "priceCurrency": "USD",
+        "billingIncrement": 1,
+        "unitCode": "MON",
+      },
+    }))],
+  }]
 
   useSEO({
-    title: 'Healthcare Website Design, SEO & Reputation Management | ZmaxLab',
-    description: 'Custom healthcare websites for NPs, PAs, dentists, chiropractors & multi-specialty groups. $500 flat fee, 7-day delivery. Local SEO, reputation management & social media. No contracts.',
+    schema: serviceSchema,
+    title: 'Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
+    description: 'A $500 custom healthcare website in 7 days. Add local SEO, social, reputation or reporting separately - no bundles, no contracts.',
     canonical: 'https://zmaxlab.site/services',
-    schema: servicesSchema,
   })
 
   return (
-    <div style={{ background:T.bg, color:T.text, overflowX:'hidden' }}>
-
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section style={{
-        padding:'clamp(120px,14vw,160px) 5% clamp(64px,8vw,96px)',
-        background:`radial-gradient(ellipse at 80% 50%,rgba(37,99,235,0.12) 0%,transparent 60%),${T.bg}`,
-        position:'relative',overflow:'hidden',
-      }}>
-        <div style={{ maxWidth:1100,margin:'0 auto' }}>
-          <motion.div {...fadeUp()}>
-            <div style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(5,150,105,0.1)',border:'1px solid rgba(5,150,105,0.25)',borderRadius:999,padding:'5px 14px',marginBottom:22 }}>
-              <span style={{ fontSize:10,fontWeight:800,letterSpacing:1,textTransform:'uppercase',color:T.green }}>Transparent Pricing</span>
-            </div>
-            <h1 style={{ fontSize:'clamp(2.2rem,5vw,4rem)',fontWeight:900,lineHeight:1.05,letterSpacing:'-2px',marginBottom:18 }}>
-              Everything your practice needs<br/>
-              <span style={{ background:`linear-gradient(135deg,${T.blue},${T.violet})`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text' }}>
-                to dominate local search.
-              </span>
-            </h1>
-            <p style={{ fontSize:'clamp(15px,1.5vw,18px)',color:T.muted,lineHeight:1.75,maxWidth:560,marginBottom:32 }}>
-              Start with a $500 custom website live in 7 days. Layer in SEO, social media, reputation management, and reporting - only when you're ready. No contracts. No lock-ins. No agency nonsense.
-            </p>
-            <div style={{ display:'flex',gap:12,flexWrap:'wrap' }}>
-              <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'13px 28px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-                Get My Free Demo <ArrowRight size={15}/>
-              </Link>
-              <Link to="/how-it-works" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'13px 22px',borderRadius:14 }}>
-                How It Works
-              </Link>
+    <>
+      {/* HERO */}
+      <section style={{ paddingTop: 'clamp(96px,11vw,140px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
+        <Shell wide>
+          <div className="zx-hero" style={{ alignItems: 'center' }}>
+          <motion.div {...rise()} style={{ maxWidth: 640 }}>
+            <Pill>Everything digital, one partner</Pill>
+            <Display style={{ marginBottom: 26 }}>
+              One partner foryour entire <Grad>digital presence</Grad>.
+            </Display>
+            <Lead style={{ maxWidth: 580, marginBottom: 34 }}>
+              Domain, hosting, website, SEO, reviews, booking. Start with the $500 build,
+              live in seven business days, then add only what you actually need - month to
+              month, cancel whenever.
+            </Lead>
+            <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+              <TextLink to="/how-it-works">See the 7-day process</TextLink>
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* ── WEBSITE PACKAGE ──────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',borderBottom:`1px solid ${T.border}` }}>
-        <div style={{ maxWidth:1100,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:40 }}>
-            <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.green,marginBottom:12 }}>Core Service</div>
-            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.8rem)',fontWeight:900,letterSpacing:'-0.5px' }}>Your website. Built right. The first time.</h2>
+          <motion.div className="zx-hero-media zx-lift" {...rise(0.1)} style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', maxHeight: 540, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
+            <div style={{ width: '100%', height: '100%', background: T.gradPanelDeep, padding: 'clamp(26px,3vw,40px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Mono style={{ color: T.primaryBright, textTransform: 'uppercase', letterSpacing: '0.16em', display: 'block', marginBottom: 22, fontWeight: 600 }}>
+                We handle
+              </Mono>
+              {[['Domain', 'Researched, bought, configured'], ['Hosting', 'Set up, secured, monitored'], ['Website', 'Custom-coded in 7 days'], ['Visibility', 'SEO, reviews, directories']].map(([k, v], i) => (
+                <div key={k} style={{ padding: '15px 0', borderTop: i === 0 ? 'none' : `1px solid ${T.onDarkLine}` }}>
+                  <div style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em' }}>{k}</div>
+                  <div style={{ fontSize: 13.5, color: T.onDarkMuted, marginTop: 4 }}>{v}</div>
+                </div>
+              ))}
+            </div>
           </motion.div>
-
-          <motion.div {...fadeUp(0.1)}>
-            <GlowCard customSize glowColor="blue" className="grid gap-12 items-start" style={{ padding:'clamp(28px,4vw,48px)', gridTemplateColumns:'1fr clamp(240px,25%,300px)' }}>
-              <div>
-                <div style={{ display:'inline-block',background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',padding:'4px 14px',borderRadius:999,marginBottom:20 }}>
-                  Website Package - $500 One-Time
-                </div>
-                <h3 style={{ fontSize:22,fontWeight:800,marginBottom:10,lineHeight:1.3 }}>
-                  Custom healthcare website. No templates.<br/>Built personally by Ravi in 7 days.
-                </h3>
-                <p style={{ fontSize:14,color:T.muted,lineHeight:1.75,marginBottom:28 }}>
-                  Every site coded from scratch for your specialty, location, and patient audience.
-                </p>
-                <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:10 }}>
-                  {WEBSITE_FEATURES.map(f => (
-                    <div key={f} style={{ display:'flex',alignItems:'flex-start',gap:9,padding:'11px 13px',background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:12 }}>
-                      <CheckCircle2 size={12} style={{ color:T.green,flexShrink:0,marginTop:2 }}/>
-                      <span style={{ fontSize:12,color:T.muted }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Price card */}
-              <div style={{ background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:18,padding:28,textAlign:'center',position:'sticky',top:96 }}>
-                <div style={{ fontSize:11,color:T.muted,marginBottom:4 }}>Complete website</div>
-                <div style={{ fontSize:68,fontWeight:900,color:T.text,lineHeight:1,letterSpacing:'-4px' }}>
-                  <sup style={{ fontSize:26,verticalAlign:'super',letterSpacing:0 }}>$</sup>500
-                </div>
-                <div style={{ fontSize:12,color:T.muted,marginBottom:22 }}>one-time · yours forever</div>
-                <Link to="/contact" style={{ display:'block',background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:14,padding:'12px',borderRadius:12,marginBottom:18,boxShadow:`0 6px 20px rgba(37,99,235,0.35)` }}>
-                  Get My Free Demo
-                </Link>
-                <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:16,textAlign:'left' }}>
-                  {[['Web agency','$3k-$10k','#ef4444'],['Wix / Squarespace','$29/mo forever','#f59e0b'],['ZmaxLab','$500 once',T.green]].map(([l,v,c]) => (
-                    <div key={l} style={{ display:'flex',justifyContent:'space-between',fontSize:12,marginBottom:7 }}>
-                      <span style={{ color:T.muted }}>{l}</span>
-                      <span style={{ color:c,fontWeight:l==='ZmaxLab'?700:400 }}>{v}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </GlowCard>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── GROWTH SERVICES ──────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%' }}>
-        <div style={{ maxWidth:1100,margin:'0 auto' }}>
-          <motion.div {...fadeUp()} style={{ textAlign:'center',marginBottom:36 }}>
-            <div style={{ fontSize:11,fontWeight:700,letterSpacing:'2px',textTransform:'uppercase',color:T.blue,marginBottom:12 }}>Growth Services</div>
-            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.8rem)',fontWeight:900,letterSpacing:'-0.5px' }}>Optional add-ons. Add any time after launch.</h2>
-          </motion.div>
-
-          {/* Tab bar */}
-          <motion.div {...fadeUp(0.1)} style={{ display:'flex',background:'rgba(255,255,255,0.04)',border:`1px solid ${T.border}`,borderRadius:14,padding:4,marginBottom:36,maxWidth:440,gap:4 }}>
-            {(['monthly','onetime','bundle'] as Tab[]).map(t => (
-              <button key={t} onClick={() => setTab(t)} style={{
-                flex:1,padding:'10px 4px',borderRadius:10,border:'none',cursor:'pointer',
-                fontSize:13,fontWeight:700,
-                background: tab===t ? `linear-gradient(135deg,${T.blue},${T.violet})` : 'transparent',
-                color: tab===t ? '#fff' : T.muted,
-                transition:'.2s',
-              }}>
-                {t==='monthly' ? 'Monthly' : t==='onetime' ? 'One-Time' : 'Bundle'}
-              </button>
-            ))}
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={tab}
-              initial={{ opacity:0,y:16 }}
-              animate={{ opacity:1,y:0 }}
-              exit={{ opacity:0,y:-16 }}
-              transition={{ duration:0.3,ease:EASE }}
-            >
-              {tab === 'monthly' && (
-                <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18 }}>
-                  {MONTHLY.map((s,i) => (
-                    <motion.div key={s.title} {...fadeUp(i*0.07)} style={{ height:'100%' }}>
-                      <GlowCard customSize glowColor={toGlow(s.color)} className="h-full p-6.5">
-                        <div style={{ width:36,height:36,borderRadius:10,background:`${s.color}15`,border:`1px solid ${s.color}30`,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14 }}>
-                          <div style={{ width:10,height:10,borderRadius:'50%',background:s.color }}/>
-                        </div>
-                        <h3 style={{ fontSize:17,fontWeight:800,marginBottom:8 }}>{s.title}</h3>
-                        <p style={{ fontSize:13,color:T.muted,lineHeight:1.7,marginBottom:18 }}>{s.desc}</p>
-                        <ul style={{ listStyle:'none',padding:0,marginBottom:20 }}>
-                          {s.perks.map(p => (
-                            <li key={p} style={{ display:'flex',gap:8,marginBottom:7,fontSize:12,color:T.muted,alignItems:'center' }}>
-                              <CheckCircle2 size={11} style={{ color:T.green,flexShrink:0 }}/>{p}
-                            </li>
-                          ))}
-                        </ul>
-                        <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:16,display:'flex',justifyContent:'space-between',alignItems:'center' }}>
-                          <div>
-                            <span style={{ fontSize:28,fontWeight:900,color:T.text }}>{s.price}</span>
-                            <span style={{ fontSize:11,color:T.muted,marginLeft:3 }}>/month</span>
-                          </div>
-                          <Link to="/contact" style={{ background:`${s.color}18`,border:`1px solid ${s.color}30`,color:s.color,fontSize:12,fontWeight:700,padding:'8px 16px',borderRadius:999 }}>Add this</Link>
-                        </div>
-                      </GlowCard>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {tab === 'onetime' && (
-                <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18 }}>
-                  {ONE_TIME.map((s,i) => (
-                    <motion.div key={s.title} {...fadeUp(i*0.07)} style={{ height:'100%' }}>
-                      <GlowCard customSize glowColor={toGlow(s.color)} className="h-full p-6">
-                        <div style={{ fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',color:s.color,marginBottom:10 }}>One-time {s.label}</div>
-                        <h3 style={{ fontSize:16,fontWeight:800,marginBottom:8 }}>{s.title}</h3>
-                        <p style={{ fontSize:13,color:T.muted,lineHeight:1.7,marginBottom:18 }}>{s.desc}</p>
-                        <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:14,display:'flex',justifyContent:'space-between',alignItems:'center' }}>
-                          <span style={{ fontSize:26,fontWeight:900,color:T.text }}>{s.price}</span>
-                          <Link to="/contact" style={{ background:`${s.color}18`,border:`1px solid ${s.color}30`,color:s.color,fontSize:12,fontWeight:700,padding:'7px 14px',borderRadius:999 }}>Add</Link>
-                        </div>
-                      </GlowCard>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-
-              {tab === 'bundle' && (
-                <GlowCard customSize glowColor="green" className="text-center" style={{ padding:'clamp(36px,5vw,56px)' }}>
-                  <div style={{ display:'inline-block',background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontSize:10,fontWeight:800,letterSpacing:'1.5px',textTransform:'uppercase',padding:'5px 16px',borderRadius:999,marginBottom:24 }}>Best Value</div>
-                  <h3 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,marginBottom:14 }}>Complete Launch Bundle</h3>
-                  <p style={{ fontSize:15,color:T.muted,maxWidth:520,margin:'0 auto 36px',lineHeight:1.75 }}>Everything to go from NPI number to fully online in one week.</p>
-                  <div style={{ display:'flex',justifyContent:'center',gap:12,flexWrap:'wrap',marginBottom:36 }}>
-                    {[['$500','Website'],['$150','Google GBP'],['$75','NPI Dirs'],['$100','HIPAA Forms'],['$150','Blog Starter']].map(([price,label]) => (
-                      <GlowCard key={label} customSize glowColor="green" className="p-3">
-                        <div style={{ fontSize:18,fontWeight:800,color:T.green }}>{price}</div>
-                        <div style={{ fontSize:11,color:T.muted,marginTop:2 }}>{label}</div>
-                      </GlowCard>
-                    ))}
-                  </div>
-                  <div style={{ fontSize:14,color:T.muted,textDecoration:'line-through',marginBottom:6 }}>$975 purchased separately</div>
-                  <div style={{ fontSize:68,fontWeight:900,color:T.green,letterSpacing:'-4px',lineHeight:1 }}>
-                    <sup style={{ fontSize:28,verticalAlign:'super',letterSpacing:0 }}>$</sup>799
-                  </div>
-                  <div style={{ fontSize:14,color:T.muted,marginBottom:28 }}>You save $176</div>
-                  <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-                    Get the Full Bundle <ArrowRight size={16}/>
-                  </Link>
-                </GlowCard>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ───────────────────────────────────────────────── */}
-      <section style={{ padding:'80px 5%',textAlign:'center',borderTop:`1px solid ${T.border}` }}>
-        <motion.div {...fadeUp()} style={{ maxWidth:560,margin:'0 auto' }}>
-          <h2 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:900,letterSpacing:'-0.5px',marginBottom:14 }}>Not sure what you need?</h2>
-          <p style={{ fontSize:15,color:T.muted,marginBottom:28,lineHeight:1.75 }}>Message me. I'll review your current presence and tell you exactly what's missing - free, no obligation.</p>
-          <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
-            <Link to="/contact" style={{ display:'inline-flex',alignItems:'center',gap:8,background:`linear-gradient(135deg,${T.blue},${T.violet})`,color:'#fff',fontWeight:700,fontSize:15,padding:'14px 36px',borderRadius:14,boxShadow:`0 8px 28px rgba(37,99,235,0.35)` }}>
-              Get a Free Audit <ArrowRight size={15}/>
-            </Link>
-            <Link to="/#case-studies" style={{ display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.06)',border:`1px solid ${T.border}`,color:T.text,fontWeight:600,fontSize:15,padding:'14px 28px',borderRadius:14 }}>
-              See Case Studies
-            </Link>
           </div>
-        </motion.div>
+        </Shell>
       </section>
-    </div>
+
+
+      {/* CORE BUILD */}
+      <Section tint>
+        <Shell>
+          <div className="zx-sticky">
+            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+              <Eyebrow>The core build</Eyebrow>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginBottom: 10 }}>
+                <span style={{ fontSize: 26, fontWeight: 700, marginTop: 10 }}>$</span>
+                <span style={{ fontSize: 'clamp(64px,8vw,110px)', fontWeight: 800, letterSpacing: '-0.05em', lineHeight: 0.85 }}>500</span>
+              </div>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.15em', display: 'block', marginBottom: 26 }}>
+                One payment · No contract
+              </Mono>
+              <Lead style={{ maxWidth: 340, marginBottom: 28 }}>
+                Half up front, half on launch. Not live in seven business days and you are refunded.
+              </Lead>
+              <Btn to={CALENDLY_URL}>Start your build <ArrowRight size={17} /></Btn>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
+                <img src="/img/stethoscope-wall.jpg" alt="Stethoscope" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: 18, marginTop: 18, padding: 26, background: T.gradPanel }}>
+                <Mono style={{ color: T.primaryDeep, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 14, fontWeight: 600 }}>
+                  Versus the market
+                </Mono>
+                {[['Agency', '$3k-$10k'], ['Closest rival', '$1,097.50'], ['ZmaxLab', '$500 once']].map(([k, v], i) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '9px 0', borderTop: i === 0 ? 'none' : '1px solid rgba(7,37,58,0.12)' }}>
+                    <span style={{ fontSize: 14, color: i === 2 ? T.text : T.muted, fontWeight: i === 2 ? 700 : 400 }}>{k}</span>
+                    <span style={{ fontFamily: MONO, fontSize: 13.5, color: i === 2 ? T.primaryDeep : T.faint, fontWeight: i === 2 ? 700 : 500 }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <div>
+              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 20 }}>
+                Included as standard
+              </Mono>
+              {CORE.map((c, i) => (
+                <motion.div key={c} {...rise(i * 0.03)} className="zx-row" style={{
+                  display: 'flex', alignItems: 'center', gap: 14, padding: '15px 12px 15px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : 'none',
+                  borderBottom: `1px solid ${T.hairline}`,
+                }}>
+                  <Check size={15} style={{ color: T.emerald, flexShrink: 0 }} />
+                  <span style={{ fontSize: 15.5, lineHeight: 1.5 }}>{c}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* MONTHLY - numbered rows, not cards */}
+      <Section>
+        <Shell>
+          <motion.div {...rise()} style={{ marginBottom: 'clamp(38px,5vw,60px)', maxWidth: 620 }}>
+            <Eyebrow>Ongoing, if you want it</Eyebrow>
+            <H2 style={{ marginBottom: 18 }}>Ongoing care, <Grad>priced separately</Grad>.</H2>
+            <Lead>Nothing is bundled and nothing is required. Add one, add none, cancel any month.</Lead>
+          </motion.div>
+
+          <div className="zx-svc-grid">
+            {MONTHLY.map(([title, price, desc, perks], i) => (
+              <motion.article key={title} {...rise(i * 0.06)} className="zx-svc-card">
+                <span className="zx-svc-num">{`0${i + 1}`}</span>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 14 }}>
+                  <h3 style={{ fontSize: 'clamp(20px,2.1vw,26px)', fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>{title}</h3>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'baseline', gap: 3, flexShrink: 0,
+                    background: T.primaryTint, color: T.primaryDeep,
+                    padding: '8px 13px', borderRadius: 999, whiteSpace: 'nowrap',
+                  }}>
+                    <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}>{price}</span>
+                    <span style={{ fontSize: 11, opacity: 0.72 }}>/mo</span>
+                  </span>
+                </div>
+
+                <p style={{ fontSize: 15, lineHeight: 1.65, color: T.muted, margin: '0 0 20px' }}>{desc}</p>
+
+                <div style={{ borderTop: `1px solid ${T.hairline}`, paddingTop: 16 }}>
+                  {perks.map(pk => (
+                    <div key={pk} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '6px 0' }}>
+                      <Check size={14} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
+                      <span style={{ fontSize: 14, lineHeight: 1.55, color: T.muted }}>{pk}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+        </Shell>
+      </Section>
+
+      {/* ONE-TIME */}
+      <Section tint>
+        <Shell>
+          <motion.div {...rise()} style={{ marginBottom: 'clamp(34px,4vw,52px)', maxWidth: 600 }}>
+            <Eyebrow>One-time add-ons</Eyebrow>
+            <H2>Set up once, working from then on.</H2>
+          </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(270px,1fr))', gap: '0 clamp(24px,4vw,56px)' }}>
+            {ONETIME.map(([title, price, desc], i) => (
+              <motion.div key={title} {...rise(i * 0.05)} style={{
+                padding: '26px 0', borderTop: `1px solid ${T.hairlineStrong}`,
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
+                  <h3 style={{ fontSize: 17.5, fontWeight: 750, letterSpacing: '-0.02em', margin: 0 }}>{title}</h3>
+                  <span style={{ fontFamily: MONO, fontSize: 15, fontWeight: 700, color: T.gold }}>{price}</span>
+                </div>
+                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </Shell>
+      </Section>
+
+      {/* CTA */}
+      <Section dark pad="clamp(76px,9vw,120px)" padBottom="clamp(34px,4vw,48px)">
+        <Shell>
+          <motion.div {...rise()} style={{ maxWidth: 720 }}>
+            <Eyebrow dark>Next step</Eyebrow>
+            <H2 style={{ color: T.onDark, marginBottom: 22 }}>Not sure what you actually need?</H2>
+            <Lead dark style={{ maxWidth: 520, marginBottom: 34 }}>
+              Book the call. I will tell you what is worth doing and what is not - including
+              when the answer is that you only need the website.
+            </Lead>
+            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+          </motion.div>
+        </Shell>
+      </Section>
+    </>
   )
 }

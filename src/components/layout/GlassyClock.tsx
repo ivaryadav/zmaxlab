@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 const CYAN = '#00d8ff'
 const CX = 30, CY = 30, R = 24
 
-// 60 tick marks — 12 major (hour), 48 minor (minute)
+// 60 tick marks - 12 major (hour), 48 minor (minute)
 const TICKS = Array.from({ length: 60 }, (_, i) => {
   const a   = (i * 6 * Math.PI) / 180
   const maj = i % 5 === 0
@@ -40,7 +40,7 @@ export default function GlassyClock({ size = 72 }: { size?: number }) {
       style={{ width: size, height: size, display: 'block', overflow: 'visible' }}
     >
       <defs>
-        {/* Ring outer halo — very soft, very wide */}
+        {/* Ring outer halo - very soft, very wide */}
         <filter id="ck-halo" x="-80%" y="-80%" width="260%" height="260%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b1"/>
           <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b2"/>
@@ -77,15 +77,15 @@ export default function GlassyClock({ size = 72 }: { size?: number }) {
       {/* Pure dark background */}
       <circle cx={CX} cy={CY} r={R + 4} fill="#010b16"/>
 
-      {/* Ring layer 1 — wide soft halo */}
+      {/* Ring layer 1 - wide soft halo */}
       <circle cx={CX} cy={CY} r={R} fill="none"
         stroke={CYAN} strokeWidth="4" opacity="0.12"
         filter="url(#ck-halo)"/>
-      {/* Ring layer 2 — medium bloom */}
+      {/* Ring layer 2 - medium bloom */}
       <circle cx={CX} cy={CY} r={R} fill="none"
         stroke={CYAN} strokeWidth="2" opacity="0.38"
         filter="url(#ck-bloom)"/>
-      {/* Ring layer 3 — sharp bright line */}
+      {/* Ring layer 3 - sharp bright line */}
       <circle cx={CX} cy={CY} r={R} fill="none"
         stroke={CYAN} strokeWidth="0.7" opacity="1"/>
 
@@ -117,7 +117,7 @@ export default function GlassyClock({ size = 72 }: { size?: number }) {
         transform={`rotate(${mDeg},${CX},${CY})`}
       />
 
-      {/* Second hand — white-cyan, very thin */}
+      {/* Second hand - white-cyan, very thin */}
       <line
         x1={CX} y1={CY + 6} x2={CX} y2={CY - 22}
         stroke="#b8f0ff" strokeWidth="0.75" strokeLinecap="round"
