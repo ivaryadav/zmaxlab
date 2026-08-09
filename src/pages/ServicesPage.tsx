@@ -80,7 +80,7 @@ export default function ServicesPage() {
           <motion.div {...rise()} style={{ maxWidth: 640 }}>
             <Pill>Everything digital, one partner</Pill>
             <Display style={{ marginBottom: 26 }}>
-              One partner foryour entire <Grad>digital presence</Grad>.
+              One partner for your entire <Grad>digital presence</Grad>.
             </Display>
             <Lead style={{ maxWidth: 580, marginBottom: 34 }}>
               Domain, hosting, website, SEO, reviews, booking. Start with the $500 build,

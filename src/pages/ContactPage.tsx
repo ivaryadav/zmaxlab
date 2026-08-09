@@ -105,7 +105,7 @@ export default function ContactPage() {
               Free 20-minute demo
             </span>
             <Display style={{ marginBottom: 24, color: T.onDark }}>
-              Let's talk aboutyour <Grad>practice</Grad>.
+              Let's talk about your <Grad>practice</Grad>.
             </Display>
             <Lead dark style={{ maxWidth: 540 }}>
               Twenty minutes, no obligation, nothing to prepare. I will walk you through what a
