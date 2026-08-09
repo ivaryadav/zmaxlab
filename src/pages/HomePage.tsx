@@ -1,8 +1,10 @@
-import { ArrowRight, Check } from 'lucide-react'
-import { T, MONO, TYPE } from '@/lib/theme'
+import { ArrowRight, Check, ShieldCheck, CreditCard, FileCheck } from 'lucide-react'
+import { T, MONO, TYPE , CALENDLY_URL } from '@/lib/theme'
+import LiveBuilder from '@/components/ui/LiveBuilder'
+import RoiCalc from '@/components/ui/RoiCalc'
 import { useSEO } from '@/lib/useSEO'
 import {
-  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, rise, motion,
+  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, Slider, Reveal, rise, slideIn, motion,
 } from '@/components/ui/kit'
 
 const SPECIALTIES = [
@@ -36,8 +38,8 @@ const COMPARE = [
 
 export default function HomePage() {
   useSEO({
-    title: 'ZmaxLab | Custom Healthcare Websites for NPI-Registered Practitioners',
-    description: 'Custom-coded healthcare websites for NPI-registered practitioners. $500 flat fee, live in 7 business days. No contract, no templates, source code included.',
+    title: 'Healthcare Website Design for Nurse Practitioners | $500 Flat - ZmaxLab',
+    description: 'Custom healthcare website design for nurse practitioners, PAs, chiropractors and mental health providers. $500 flat, live in 7 business days, source code included. No contract.',
     canonical: 'https://zmaxlab.site/',
   })
 
@@ -54,17 +56,15 @@ export default function HomePage() {
             <div style={{ padding: 'clamp(32px,4.5vw,68px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Pill>Your practice's digital partner</Pill>
               <Display style={{ marginBottom: 22 }}>
-                You focus on patients.<br />
-                <Grad>We handle every</Grad><br />
-                digital footprint.
+                See your practice's
+                website, <Grad>before youpay a thing</Grad>.
               </Display>
               <Lead style={{ maxWidth: 480, marginBottom: 32, color: 'rgba(7,37,58,0.80)' }}>
-                Domain, hosting, website, SEO, reviews, booking - all of it set up and
-                looked after by one specialist. Your custom site goes live in 7 business
-                days for a flat $500.
+                Pick your specialty and watch a real site build itself. That is the standard
+                you get - domain, hosting, SEO and all - live in 7 business days for a flat $500.
               </Lead>
               <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
-                <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
+                <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
                 <TextLink to="/services">See what we handle</TextLink>
               </div>
               <div style={{ display: 'flex', gap: 'clamp(20px,3vw,44px)', flexWrap: 'wrap', marginTop: 38, paddingTop: 26, borderTop: '1px solid rgba(7,37,58,0.14)' }}>
@@ -76,17 +76,8 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            <div style={{ position: 'relative', minHeight: 340 }} className="zx-hero-img">
-              <img src="/img/clinician-hero.jpg" alt="Nurse practitioner in scrubs" loading="eager"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{
-                position: 'absolute', left: 22, bottom: 22, background: 'rgba(255,255,255,0.96)',
-                backdropFilter: 'blur(8px)', padding: '14px 20px', borderRadius: 14,
-                boxShadow: '0 14px 40px rgba(7,37,58,0.20)',
-              }}>
-                <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Everything included</Mono>
-                <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, color: T.primaryDeep }}>$500</div>
-              </div>
+            <div className="zx-hero-img" style={{ padding: 'clamp(20px,3vw,40px)', display: 'flex', alignItems: 'center' }}>
+              <LiveBuilder />
             </div>
           </motion.div>
         </Shell>
@@ -112,7 +103,13 @@ export default function HomePage() {
       <Section>
         <Shell>
           <div className="zx-stmt">
-            <motion.div {...rise()}><Eyebrow>The problem</Eyebrow></motion.div>
+            <motion.div {...rise()}>
+              <Eyebrow>The problem</Eyebrow>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)', marginTop: 22 }}>
+                <img src="/img/clinician-hero.jpg" alt="Nurse practitioner" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', display: 'block' }} />
+              </div>
+            </motion.div>
             <motion.div {...rise(0.08)}>
               <H2 style={{ marginBottom: 30 }}>
                 Most healthcare websites are a template with a stethoscope
@@ -142,6 +139,10 @@ export default function HomePage() {
                 From buying the right domain to the site itself. No starter tier, no upsell call, nothing held back to charge for later.
               </Lead>
               <TextLink to="/services">Full service breakdown</TextLink>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
+                <img src="/img/practice-room.jpg" alt="A modern clinical treatment room" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 45%', display: 'block' }} />
+              </div>
             </motion.div>
 
             <div>
@@ -204,22 +205,79 @@ export default function HomePage() {
         </Shell>
       </Section>
 
-      {/* ══ 5. FULL-BLEED PHOTO BAND ════════════════════════ */}
-      <section style={{ position: 'relative', minHeight: 'clamp(340px,46vw,540px)', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
-        <img src="/img/practice-room.jpg" alt="A modern clinical treatment room" loading="lazy"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,15,26,0.90) 0%, rgba(10,15,26,0.45) 55%, rgba(10,15,26,0.20) 100%)' }} />
-        <Shell style={{ position: 'relative', width: '100%', paddingBottom: 'clamp(38px,5vw,64px)', paddingTop: 80 }}>
-          <motion.div {...rise()} style={{ maxWidth: 700 }}>
-            <Eyebrow dark>Why it matters</Eyebrow>
-            <H2 style={{ color: T.onDark, marginBottom: 16 }}>
-              Your website is the first appointment.
-            </H2>
-            <Lead dark style={{ maxWidth: 540 }}>
-              It is where a patient decides whether you look like someone they trust with their
-              health - usually before they ever call.
-            </Lead>
-          </motion.div>
+      {/* ══ 4c. DIGITAL PARTNER / VIDEO SPLIT ═══════════════ */}
+      <Section tint>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center' }}>
+            <motion.div {...slideIn('left')} className="zx-lift zx-zoom" style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', maxHeight: 560, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
+              <Vid src="/video/laptop-clinician.mp4" poster="/img/poster-laptop-clinician.jpg"
+                style={{ objectPosition: '68% 16%', transform: 'scale(1.12)' }} />
+            </motion.div>
+            <motion.div {...slideIn('right', 0.08)}>
+              <Pill tone="coral">One partner, not five vendors</Pill>
+              <H2 style={{ marginBottom: 22 }}>
+                Stop juggling a domain registrar, a host, a designer and an <Grad>SEO guy</Grad>.
+              </H2>
+              <Lead style={{ marginBottom: 28, maxWidth: 480 }}>
+                Most practitioners end up with four different logins, four invoices, and nobody
+                who actually owns the outcome. ZmaxLab is one person holding all of it.
+              </Lead>
+              {[
+                ['Domain', 'Researched, registered and pointed at your site.'],
+                ['Hosting', 'Set up, secured with SSL, and kept running.'],
+                ['Website', 'Custom-coded for your specialty in 7 days.'],
+                ['Visibility', 'SEO, Google Business Profile, directories, reviews.'],
+              ].map(([k, v], i) => (
+                <div key={k} style={{
+                  display: 'grid', gridTemplateColumns: '112px 1fr', gap: 16, padding: '14px 0',
+                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
+                }}>
+                  <Mono style={{ color: T.primaryDeep, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{k}</Mono>
+                  <span style={{ fontSize: 15.5, lineHeight: 1.6, color: T.muted }}>{v}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 5. WHY IT MATTERS - split, portrait media framed properly ══ */}
+      <section style={{ background: T.ink, color: T.onDark, padding: 'clamp(56px,7vw,96px) 0' }}>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,72px)' }}>
+            <motion.div {...slideIn('left')} className="zx-lift zx-zoom" style={{
+              borderRadius: 20, overflow: 'hidden', aspectRatio: '3/4', maxHeight: 520,
+              boxShadow: '0 30px 76px rgba(0,0,0,0.45)',
+            }}>
+              <Vid src="/video/hero-clinicians.mp4" poster="/img/poster-hero-clinicians.jpg"
+                style={{ objectPosition: 'center 26%' }} />
+            </motion.div>
+
+            <motion.div {...slideIn('right', 0.08)}>
+              <Eyebrow dark>Why it matters</Eyebrow>
+              <H2 style={{ color: T.onDark, marginBottom: 20 }}>
+                Your website is the <Grad>first appointment</Grad>.
+              </H2>
+              <Lead dark style={{ maxWidth: 480, marginBottom: 30 }}>
+                It is where a patient decides whether you look like someone they trust with
+                their health, usually before they ever pick up the phone.
+              </Lead>
+              {[
+                ['They are deciding in seconds', 'Slow, dated or generic and they are back on the search results.'],
+                ['Credentials have to be visible', 'Licence, NPI and specialty should be readable at a glance, not buried.'],
+                ['Booking has to be one tap', 'Every extra step between interest and appointment loses people.'],
+              ].map(([t, b], i) => (
+                <div key={t} style={{
+                  padding: '16px 0',
+                  borderTop: `1px solid ${T.onDarkLine}`,
+                  ...(i === 2 ? { borderBottom: `1px solid ${T.onDarkLine}` } : {}),
+                }}>
+                  <div style={{ fontSize: 16.5, fontWeight: 600, color: T.onDark, marginBottom: 5, letterSpacing: '-0.01em' }}>{t}</div>
+                  <div style={{ fontSize: 14.5, lineHeight: 1.6, color: T.onDarkMuted }}>{b}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </Shell>
       </section>
 
@@ -264,7 +322,7 @@ export default function HomePage() {
                 Half up front, half on launch day once you have approved the live site.
                 If it is not live in seven business days, you are refunded.
               </Lead>
-              <Btn to="/contact">Start your build <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Start your build <ArrowRight size={17} /></Btn>
             </motion.div>
 
             <motion.div {...rise(0.1)}>
@@ -293,6 +351,74 @@ export default function HomePage() {
         </Shell>
       </Section>
 
+      {/* ══ 7b. IS IT WORTH IT ══════════════════════════════ */}
+      <Section tint>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,68px)' }}>
+            <motion.div {...slideIn('left')}>
+              <Pill>Return on the spend</Pill>
+              <H2 style={{ marginBottom: 20 }}>
+                One patient usually pays for the <Grad>whole thing</Grad>.
+              </H2>
+              <Lead style={{ maxWidth: 460, marginBottom: 26 }}>
+                A website is not a running cost like ads. It is built once, you own the code,
+                and it keeps working every hour your front desk is closed.
+              </Lead>
+              {[
+                ['You own the asset', 'Full source code is delivered to you. No licence, no monthly fee to keep it alive.'],
+                ['It does not stop', 'It answers questions and takes bookings at 11pm and on a Sunday.'],
+                ['The cost is fixed', 'No retainer, no scope creep, no invoice you did not expect.'],
+              ].map(([t, b], i) => (
+                <div key={t} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 0', borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}` }}>
+                  <Check size={16} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
+                  <div>
+                    <div style={{ fontSize: 15.5, fontWeight: 600, marginBottom: 3 }}>{t}</div>
+                    <div style={{ fontSize: 14, lineHeight: 1.6, color: T.muted }}>{b}</div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div {...slideIn('right', 0.08)}>
+              <RoiCalc />
+            </motion.div>
+          </div>
+        </Shell>
+      </Section>
+
+      {/* ══ 7c. RISK REVERSAL ═══════════════════════════════ */}
+      <Section pad="clamp(52px,6vw,80px)">
+        <Shell>
+          <motion.div {...rise()} style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto clamp(30px,4vw,44px)' }}>
+            <Pill tone="coral">Your risk, removed</Pill>
+            <H2 style={{ marginBottom: 16 }}>Three ways you cannot lose money here.</H2>
+            <Lead>Every one of these is in writing before you pay anything.</Lead>
+          </motion.div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
+            {[
+              [ShieldCheck, 'Live in 7 days, or refunded', 'If your site is not live on your domain within seven business days of receiving your content, you get every dollar back. No conditions.'],
+              [CreditCard, 'You only risk $250', 'Half up front, half on launch day, and only once you have approved the live site. If you walk away at mockup stage, that is where it ends.'],
+              [FileCheck, 'You approve before code', 'Nothing gets built until you have signed off the design. Changes at that stage cost nothing.'],
+            ].map(([Icon, t, b], i) => {
+              const I = Icon as typeof ShieldCheck
+              return (
+                <motion.div key={t as string} {...rise(i * 0.07)} className="zx-svc-card" style={{ padding: '26px 24px' }}>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    width: 42, height: 42, borderRadius: 12, background: T.primaryTint, marginBottom: 16,
+                  }}>
+                    <I size={19} style={{ color: T.primaryDeep }} />
+                  </span>
+                  <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', marginBottom: 8 }}>{t as string}</h3>
+                  <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{b as string}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </Shell>
+      </Section>
+
       {/* ══ 8. PROOF ════════════════════════════════════════ */}
       <Section tint>
         <Shell>
@@ -301,23 +427,22 @@ export default function HomePage() {
             <H2 style={{ maxWidth: 640 }}>Designed around how patients actually choose a provider.</H2>
           </motion.div>
 
-          <div className="zx-trio" style={{ marginBottom: 'clamp(44px,6vw,72px)' }}>
-            {[
-              ['/img/portrait-1.jpg', 'Credentials first', 'NPI, licence and specialty structured into the page.'],
-              ['/img/portrait-2.jpg', 'Clarity over clutter', 'One clear action per screen, not six competing buttons.'],
-              ['/img/portrait-3.jpg', 'Built to be found', 'Technical SEO handled at build time, not sold later.'],
-            ].map(([src, title, body], i) => (
-              <motion.div key={title} {...rise(i * 0.08)}>
-                <div style={{ aspectRatio: '4/5', overflow: 'hidden', background: T.hairline, marginBottom: 18, borderRadius: 3 }}>
-                  <img src={src} alt={title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'grayscale(1) contrast(1.04)' }} />
-                </div>
-                <h3 style={{ fontSize: 17.5, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 7 }}>{title}</h3>
-                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{body}</p>
-              </motion.div>
-            ))}
-          </div>
+          <Reveal>
+            <Slider slides={[
+              { img: '/img/portrait-1.jpg', focus: 'center 18%', title: 'Credentials first',    body: 'NPI, licence and specialty structured into the page so patients and search engines both read you as legitimate.' },
+              { img: '/img/clinician-friendly.jpg', focus: 'center 14%', title: 'Clarity over clutter', body: 'One clear action per screen. No six competing buttons, no hunting for a phone number.' },
+              { img: '/img/specialty-dental.jpg', focus: 'center 30%', title: 'Built to be found',    body: 'Technical SEO handled at build time, not sold back to you as an upgrade later.' },
+            ]} />
+          </Reveal>
 
-          <motion.figure {...rise()} style={{ margin: 0, borderTop: `1px solid ${T.hairlineStrong}`, paddingTop: 'clamp(30px,4vw,48px)', maxWidth: 900 }}>
+          <div style={{ height: 'clamp(44px,6vw,72px)' }} />
+
+          <motion.figure {...rise()} style={{ margin: 0, borderTop: `1px solid ${T.hairlineStrong}`, paddingTop: 'clamp(30px,4vw,48px)' }} className="zx-quote">
+            <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)' }}>
+              <img src="/img/portrait-2.jpg" alt="Healthcare practitioner" loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+            </div>
+            <div>
             <blockquote style={{ margin: 0, fontSize: 'clamp(21px,2.6vw,34px)', lineHeight: 1.32, fontWeight: 600, letterSpacing: '-0.025em' }}>
               "The design looks considerably more polished than the template sites most other
               clinics in my area are using."
@@ -333,12 +458,13 @@ export default function HomePage() {
               ZmaxLab is early - this reflects the kind of feedback the process is built to earn,
               not a verified client review. Real case studies will replace it as they exist.
             </p>
+            </div>
           </motion.figure>
         </Shell>
       </Section>
 
       {/* ══ 9. CTA ══════════════════════════════════════════ */}
-      <Section dark pad="clamp(80px,10vw,132px)">
+      <Section dark pad="clamp(80px,10vw,132px)" padBottom="clamp(34px,4vw,48px)">
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 780 }}>
             <Eyebrow dark>Next step</Eyebrow>
@@ -350,7 +476,7 @@ export default function HomePage() {
               No obligation and nothing to prepare.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to="/contact" dark>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
               <TextLink to="/how-it-works" dark>How the 7 days work</TextLink>
             </div>
             <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', marginTop: 52, paddingTop: 26, borderTop: `1px solid ${T.onDarkLine}` }}>

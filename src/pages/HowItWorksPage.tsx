@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ArrowRight, Plus, Minus } from 'lucide-react'
-import { T, MONO, TYPE } from '@/lib/theme'
+import { T, MONO , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
@@ -51,8 +51,31 @@ function Faq({ q, a, n }: { q: string; a: string; n: number }) {
 }
 
 export default function HowItWorksPage() {
+  const faqSchema = [{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": FAQS.map(([q, a]) => ({
+      "@type": "Question",
+      "name": q,
+      "acceptedAnswer": { "@type": "Answer", "text": a },
+    })),
+  }, {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How a ZmaxLab healthcare website is built in 7 days",
+    "totalTime": "P7D",
+    "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "500" },
+    "step": STEPS.map(([day, title, body], i) => ({
+      "@type": "HowToStep",
+      "position": i + 1,
+      "name": title,
+      "text": `${day}: ${body}`,
+    })),
+  }]
+
   useSEO({
-    title: 'How It Works | Custom Healthcare Website in 7 Days - ZmaxLab',
+    schema: faqSchema,
+    title: 'How It Works | Healthcare Website Built in 7 Days - ZmaxLab',
     description: 'From discovery call to live website in seven business days. See exactly what happens each day, what you provide, and how payment works.',
     canonical: 'https://zmaxlab.site/how-it-works',
   })
@@ -64,15 +87,15 @@ export default function HowItWorksPage() {
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 840 }}>
             <Pill>The 7-day process</Pill>
-            <Display style={{ marginBottom: 26 }}>
-              NPI number Monday.<br /><Grad>Live website</Grad> by the<br />following Tuesday.
+            <Display style={{ marginBottom: 22 }}>
+              Seven business days, <Grad>start to live</Grad>.
             </Display>
             <Lead style={{ maxWidth: 540, marginBottom: 34 }}>
               Seven business days, mapped out day by day so you know exactly what happens
               and exactly what is needed from you. Which is very little.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
               <TextLink to="/services">What's included</TextLink>
             </div>
           </motion.div>
@@ -80,40 +103,70 @@ export default function HowItWorksPage() {
       </section>
 
       {/* TIMELINE */}
-      <Section tint pad="clamp(64px,8vw,110px)">
+      <Section tint pad="clamp(48px,6vw,80px)">
         <Shell>
           <motion.div {...rise()} style={{ marginBottom: 'clamp(32px,4vw,52px)' }}>
             <Eyebrow>Day by day</Eyebrow>
             <H2 style={{ maxWidth: 560 }}>What actually happens, and when.</H2>
           </motion.div>
 
-          {STEPS.map(([day, title, body, bullets], i) => (
-            <motion.div key={title} {...rise(i * 0.05)} style={{
-              display: 'grid', gridTemplateColumns: 'clamp(90px,12vw,140px) 1fr',
-              gap: 'clamp(16px,3vw,44px)', alignItems: 'start',
-              padding: 'clamp(28px,3.5vw,44px) 0',
-              borderTop: `1px solid ${i === 0 ? T.hairlineStrong : T.hairline}`,
-            }} className="zx-tl-row">
-              <Mono style={{ color: T.gold, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', paddingTop: 4 }}>{day}</Mono>
-              <div className="zx-split" style={{ gap: 'clamp(20px,4vw,56px)' }}>
-                <div>
-                  <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 10 }}>{title}</h3>
-                  <p style={{ fontSize: 15.5, lineHeight: 1.68, color: T.muted, margin: 0 }}>{body}</p>
+          <div className="zx-tl">
+            {STEPS.map(([day, title, body, bullets], i) => (
+              <motion.div key={title} {...rise(i * 0.06)} className="zx-tl-item">
+                <div className="zx-tl-rail">
+                  <span className="zx-tl-dot">{`0${i + 1}`}</span>
+                  {i < STEPS.length - 1 && <span className="zx-tl-line" />}
                 </div>
-                <div>
-                  {bullets.map(b => (
-                    <div key={b} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', padding: '7px 0' }}>
-                      <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.blue, flexShrink: 0, marginTop: 9 }} />
-                      <span style={{ fontSize: 14.5, lineHeight: 1.6, color: T.muted }}>{b}</span>
-                    </div>
-                  ))}
+
+                <div className="zx-tl-card">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
+                    <span style={{
+                      background: T.primaryTint, color: T.primaryDeep,
+                      fontSize: 11, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase',
+                      padding: '5px 11px', borderRadius: 999,
+                    }}>{day}</span>
+                    <h3 style={{ fontSize: 'clamp(19px,2vw,24px)', fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>{title}</h3>
+                  </div>
+
+                  <p style={{ fontSize: 15, lineHeight: 1.65, color: T.muted, margin: '0 0 16px', maxWidth: 560 }}>{body}</p>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: '6px 20px', borderTop: `1px solid ${T.hairline}`, paddingTop: 14 }}>
+                    {bullets.map(b => (
+                      <div key={b} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.primaryBright, flexShrink: 0, marginTop: 8 }} />
+                        <span style={{ fontSize: 14, lineHeight: 1.55, color: T.muted }}>{b}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: `1px solid ${T.hairline}` }} />
+              </motion.div>
+            ))}
+          </div>
+
         </Shell>
       </Section>
+
+      {/* full-bleed video band */}
+      <section style={{ background: T.gradPanelDeep, padding: 'clamp(48px,6vw,76px) 0' }}>
+        <Shell>
+          <motion.div {...rise()} style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: 'clamp(24px,4vw,56px)', flexWrap: 'wrap',
+          }}>
+            <H2 style={{ color: T.onDark, maxWidth: 560, margin: 0 }}>
+              One week of focused work, not a quarter of meetings.
+            </H2>
+            <div style={{ display: 'flex', gap: 'clamp(22px,3vw,46px)' }}>
+              {[['7', 'business days'], ['$500', 'flat, once'], ['1', 'person throughout']].map(([v, l]) => (
+                <div key={l}>
+                  <div style={{ fontSize: 'clamp(26px,3vw,38px)', fontWeight: 600, color: T.primaryBright, lineHeight: 1, letterSpacing: '-0.02em' }}>{v}</div>
+                  <Mono style={{ color: T.onDarkFaint, textTransform: 'uppercase', letterSpacing: '0.12em', display: 'block', marginTop: 7, fontSize: 10.5 }}>{l}</Mono>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </Shell>
+      </section>
 
       {/* FAQ */}
       <Section>
@@ -126,6 +179,12 @@ export default function HowItWorksPage() {
                 If yours is not here, ask it on the call - there is no obligation attached.
               </Lead>
               <TextLink to="/contact">Ask a question</TextLink>
+              <div style={{ borderRadius: 18, marginTop: 30, padding: 26, background: T.gradPanel }}>
+                <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', color: T.primaryDeep, lineHeight: 1 }}>7 days</div>
+                <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.12em', display: 'block', marginTop: 8 }}>
+                  Or your money back
+                </Mono>
+              </div>
             </motion.div>
             <div>
               <div style={{ borderTop: `1px solid ${T.hairlineStrong}` }} />
@@ -136,7 +195,7 @@ export default function HowItWorksPage() {
       </Section>
 
       {/* CTA */}
-      <Section dark pad="clamp(76px,9vw,120px)">
+      <Section dark pad="clamp(76px,9vw,120px)" padBottom="clamp(34px,4vw,48px)">
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 700 }}>
             <Eyebrow dark>Ready when you are</Eyebrow>
@@ -144,7 +203,7 @@ export default function HowItWorksPage() {
             <Lead dark style={{ maxWidth: 500, marginBottom: 34 }}>
               Nothing to prepare and nothing to sign. If it is not a fit, I will say so on the call.
             </Lead>
-            <Btn to="/contact" dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>

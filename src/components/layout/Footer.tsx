@@ -23,7 +23,7 @@ const COLS: [string, [string, string][]][] = [
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer style={{ background: T.ink, color: T.onDark, paddingTop: 'clamp(64px,8vw,104px)', paddingBottom: 34 }}>
+    <footer style={{ background: T.ink, color: T.onDark, paddingTop: 'clamp(44px,5vw,64px)', paddingBottom: 34 }}>
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(20px,5vw,56px)' }}>
 
         <div style={{
@@ -38,11 +38,11 @@ export default function Footer() {
               Custom-coded websites for NPI-registered healthcare practitioners across the
               United States. Built personally by Ravi - $500 flat, live in seven days.
             </p>
-            <a href="mailto:hello@zmaxlab.site" style={{
+            <a href="mailto:ravi@zmaxlab.site" style={{
               display: 'inline-flex', alignItems: 'center', gap: 7, marginTop: 22,
               fontSize: 15, fontWeight: 600, color: T.onDark,
             }} className="zx-link-underline">
-              hello@zmaxlab.site <ArrowUpRight size={15} />
+              ravi@zmaxlab.site <ArrowUpRight size={15} />
             </a>
           </div>
 

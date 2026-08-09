@@ -1,7 +1,7 @@
 import { ArrowRight, Check } from 'lucide-react'
-import { T, MONO, TYPE } from '@/lib/theme'
+import { T, MONO , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const CORE = [
   'Custom-coded, zero templates', 'Mobile-first across every device', 'SSL secured with HTTPS',
@@ -34,8 +34,39 @@ const ONETIME: [string, string, string][] = [
 ]
 
 export default function ServicesPage() {
+  const serviceSchema = [{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Healthcare website design and local SEO",
+    "provider": { "@type": "Organization", "name": "ZmaxLab", "url": "https://zmaxlab.site" },
+    "areaServed": { "@type": "Country", "name": "United States" },
+    "audience": { "@type": "Audience", "audienceType": "NPI-registered healthcare practitioners" },
+    "offers": [{
+      "@type": "Offer",
+      "name": "Custom healthcare website",
+      "price": "500",
+      "priceCurrency": "USD",
+      "description": "Custom-coded healthcare website delivered in 7 business days. Domain, hosting setup, SEO foundation and source code included.",
+      "availability": "https://schema.org/InStock",
+    },
+    ...MONTHLY.map(([title, price]) => ({
+      "@type": "Offer",
+      "name": title,
+      "price": String(price).replace('$', ''),
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": String(price).replace('$', ''),
+        "priceCurrency": "USD",
+        "billingIncrement": 1,
+        "unitCode": "MON",
+      },
+    }))],
+  }]
+
   useSEO({
-    title: 'Services | Healthcare Website Design & Local SEO - ZmaxLab',
+    schema: serviceSchema,
+    title: 'Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
     description: 'A $500 custom healthcare website in 7 days. Add local SEO, social, reputation or reporting separately - no bundles, no contracts.',
     canonical: 'https://zmaxlab.site/services',
   })
@@ -43,12 +74,13 @@ export default function ServicesPage() {
   return (
     <>
       {/* HERO */}
-      <section style={{ paddingTop: 'clamp(120px,14vw,180px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
-        <Shell>
-          <motion.div {...rise()} style={{ maxWidth: 860 }}>
+      <section style={{ paddingTop: 'clamp(96px,11vw,140px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
+        <Shell wide>
+          <div className="zx-hero" style={{ alignItems: 'center' }}>
+          <motion.div {...rise()} style={{ maxWidth: 640 }}>
             <Pill>Everything digital, one partner</Pill>
             <Display style={{ marginBottom: 26 }}>
-              One partner for<br />your entire <Grad>digital presence</Grad>.
+              One partner foryour entire <Grad>digital presence</Grad>.
             </Display>
             <Lead style={{ maxWidth: 580, marginBottom: 34 }}>
               Domain, hosting, website, SEO, reviews, booking. Start with the $500 build,
@@ -56,12 +88,27 @@ export default function ServicesPage() {
               month, cancel whenever.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
               <TextLink to="/how-it-works">See the 7-day process</TextLink>
             </div>
           </motion.div>
+          <motion.div className="zx-hero-media zx-lift" {...rise(0.1)} style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', maxHeight: 540, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
+            <div style={{ width: '100%', height: '100%', background: T.gradPanelDeep, padding: 'clamp(26px,3vw,40px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Mono style={{ color: T.primaryBright, textTransform: 'uppercase', letterSpacing: '0.16em', display: 'block', marginBottom: 22, fontWeight: 600 }}>
+                We handle
+              </Mono>
+              {[['Domain', 'Researched, bought, configured'], ['Hosting', 'Set up, secured, monitored'], ['Website', 'Custom-coded in 7 days'], ['Visibility', 'SEO, reviews, directories']].map(([k, v], i) => (
+                <div key={k} style={{ padding: '15px 0', borderTop: i === 0 ? 'none' : `1px solid ${T.onDarkLine}` }}>
+                  <div style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em' }}>{k}</div>
+                  <div style={{ fontSize: 13.5, color: T.onDarkMuted, marginTop: 4 }}>{v}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+          </div>
         </Shell>
       </section>
+
 
       {/* CORE BUILD */}
       <Section tint>
@@ -79,7 +126,22 @@ export default function ServicesPage() {
               <Lead style={{ maxWidth: 340, marginBottom: 28 }}>
                 Half up front, half on launch. Not live in seven business days and you are refunded.
               </Lead>
-              <Btn to="/contact">Start your build <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Start your build <ArrowRight size={17} /></Btn>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
+                <img src="/img/stethoscope-wall.jpg" alt="Stethoscope" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: 18, marginTop: 18, padding: 26, background: T.gradPanel }}>
+                <Mono style={{ color: T.primaryDeep, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 14, fontWeight: 600 }}>
+                  Versus the market
+                </Mono>
+                {[['Agency', '$3k-$10k'], ['Closest rival', '$1,097.50'], ['ZmaxLab', '$500 once']].map(([k, v], i) => (
+                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '9px 0', borderTop: i === 0 ? 'none' : '1px solid rgba(7,37,58,0.12)' }}>
+                    <span style={{ fontSize: 14, color: i === 2 ? T.text : T.muted, fontWeight: i === 2 ? 700 : 400 }}>{k}</span>
+                    <span style={{ fontFamily: MONO, fontSize: 13.5, color: i === 2 ? T.primaryDeep : T.faint, fontWeight: i === 2 ? 700 : 500 }}>{v}</span>
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
             <div>
@@ -110,31 +172,37 @@ export default function ServicesPage() {
             <Lead>Nothing is bundled and nothing is required. Add one, add none, cancel any month.</Lead>
           </motion.div>
 
-          {MONTHLY.map(([title, price, desc, perks], i) => (
-            <motion.div key={title} {...rise(i * 0.05)} style={{
-              display: 'grid', gridTemplateColumns: '52px 1fr auto', gap: 'clamp(16px,3vw,40px)',
-              alignItems: 'start', padding: 'clamp(26px,3vw,38px) 0',
-              borderTop: `1px solid ${i === 0 ? T.hairlineStrong : T.hairline}`,
-            }} className="zx-svc-row">
-              <Index n={`0${i + 1}`} />
-              <div>
-                <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 9 }}>{title}</h3>
-                <p style={{ fontSize: 15.5, lineHeight: 1.65, color: T.muted, margin: '0 0 18px', maxWidth: 480 }}>{desc}</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 22px' }}>
-                  {perks.map(p => (
-                    <span key={p} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 13.5, color: T.muted }}>
-                      <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.blue, flexShrink: 0 }} />{p}
-                    </span>
+          <div className="zx-svc-grid">
+            {MONTHLY.map(([title, price, desc, perks], i) => (
+              <motion.article key={title} {...rise(i * 0.06)} className="zx-svc-card">
+                <span className="zx-svc-num">{`0${i + 1}`}</span>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 14 }}>
+                  <h3 style={{ fontSize: 'clamp(20px,2.1vw,26px)', fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>{title}</h3>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'baseline', gap: 3, flexShrink: 0,
+                    background: T.primaryTint, color: T.primaryDeep,
+                    padding: '8px 13px', borderRadius: 999, whiteSpace: 'nowrap',
+                  }}>
+                    <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em' }}>{price}</span>
+                    <span style={{ fontSize: 11, opacity: 0.72 }}>/mo</span>
+                  </span>
+                </div>
+
+                <p style={{ fontSize: 15, lineHeight: 1.65, color: T.muted, margin: '0 0 20px' }}>{desc}</p>
+
+                <div style={{ borderTop: `1px solid ${T.hairline}`, paddingTop: 16 }}>
+                  {perks.map(pk => (
+                    <div key={pk} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '6px 0' }}>
+                      <Check size={14} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
+                      <span style={{ fontSize: 14, lineHeight: 1.55, color: T.muted }}>{pk}</span>
+                    </div>
                   ))}
                 </div>
-              </div>
-              <div style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                <div style={{ fontSize: 'clamp(26px,3vw,34px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}>{price}</div>
-                <Mono style={{ color: T.faint, display: 'block', marginTop: 6 }}>/month</Mono>
-              </div>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: `1px solid ${T.hairline}` }} />
+              </motion.article>
+            ))}
+          </div>
+
         </Shell>
       </Section>
 
@@ -162,7 +230,7 @@ export default function ServicesPage() {
       </Section>
 
       {/* CTA */}
-      <Section dark pad="clamp(76px,9vw,120px)">
+      <Section dark pad="clamp(76px,9vw,120px)" padBottom="clamp(34px,4vw,48px)">
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 720 }}>
             <Eyebrow dark>Next step</Eyebrow>
@@ -171,7 +239,7 @@ export default function ServicesPage() {
               Book the call. I will tell you what is worth doing and what is not - including
               when the answer is that you only need the website.
             </Lead>
-            <Btn to="/contact" dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>

@@ -6,14 +6,14 @@ export const T = {
   inkDeep: '#041826',
 
   text: '#07253A',
-  muted: 'rgba(7,37,58,0.76)',
-  faint: 'rgba(7,37,58,0.54)',
+  muted: 'rgba(7,37,58,0.84)',
+  faint: 'rgba(7,37,58,0.68)',
   hairline: 'rgba(7,37,58,0.12)',
   hairlineStrong: 'rgba(7,37,58,0.22)',
 
   onDark: '#F2FBFA',
-  onDarkMuted: 'rgba(242,251,250,0.80)',
-  onDarkFaint: 'rgba(242,251,250,0.55)',
+  onDarkMuted: 'rgba(242,251,250,0.86)',
+  onDarkFaint: 'rgba(242,251,250,0.70)',
   onDarkLine: 'rgba(242,251,250,0.22)',
 
   // vivid signature palette
@@ -43,16 +43,18 @@ export const T = {
   shadowLg: '0 24px 70px rgba(7,37,58,0.16)',
 }
 
-export const MONO = "'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace"
-export const DISPLAY = "'Manrope','Plus Jakarta Sans',system-ui,sans-serif"
+export const MONO = "'Inter',system-ui,-apple-system,sans-serif"
+export const DISPLAY = "'Fraunces','Instrument Serif',Georgia,serif"
 
 export const TYPE = {
-  display: 'clamp(42px, 6.6vw, 88px)',
+  display: 'clamp(36px, 4.6vw, 66px)',
   h1: 'clamp(36px, 5.2vw, 66px)',
   h2: 'clamp(29px, 3.8vw, 50px)',
   h3: 'clamp(19px, 1.9vw, 25px)',
   lead: 'clamp(17px, 1.45vw, 20px)',
   body: '17px', small: '14px', micro: '11.5px',
 }
+
+export const CALENDLY_URL = 'https://calendly.com/ravi9235kumar/30min'
 
 export const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]

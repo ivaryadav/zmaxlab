@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { ArrowRight, Check, Mail, Clock, ShieldCheck } from 'lucide-react'
 import { T, MONO, TYPE } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Display, H2, Lead, Mono, Grad, Pill, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Display, H2, Lead, Mono, Grad, rise, motion } from '@/components/ui/kit'
 
 const SPECIALTIES = ['Nurse Practitioner','Physician Assistant','Mental Health NP / Therapist','Chiropractor','Dentist','Physical Therapist','Occupational Therapist','Psychiatric NP','Functional Medicine MD','LCSW / Mental Health Therapist','Other NPI Practitioner']
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
@@ -11,16 +11,25 @@ function gtagEvent(name: string, params: Record<string, string | number | boolea
   if (typeof (window as any).gtag === 'function') (window as any).gtag('event', name, params)
 }
 
-const fieldWrap: React.CSSProperties = { marginBottom: 22 }
+const fieldWrap: React.CSSProperties = { marginBottom: 16 }
 const labelCss: React.CSSProperties = {
-  fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase',
-  color: T.faint, display: 'block', marginBottom: 9,
+  fontFamily: MONO, fontSize: 12.5, fontWeight: 600, letterSpacing: '0.01em',
+  color: T.text, display: 'block', marginBottom: 6,
 }
 const inputCss: React.CSSProperties = {
-  width: '100%', background: 'transparent', border: 'none',
-  borderBottom: `1px solid ${T.hairlineStrong}`, borderRadius: 0,
-  padding: '11px 0', fontSize: 16, color: T.text, outline: 'none',
-  fontFamily: 'inherit', transition: 'border-color .3s',
+  width: '100%', background: '#fff',
+  border: `1px solid ${T.hairlineStrong}`, borderRadius: 10,
+  padding: '12px 14px', fontSize: 15.5, color: T.text, outline: 'none',
+  fontFamily: 'inherit', lineHeight: 1.4,
+  transition: 'border-color .25s, box-shadow .25s',
+}
+const focusOn = (e: { target: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement }) => {
+  e.target.style.borderColor = T.primary
+  e.target.style.boxShadow = `0 0 0 3px ${T.primary}22`
+}
+const focusOff = (e: { target: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement }) => {
+  e.target.style.borderColor = T.hairlineStrong
+  e.target.style.boxShadow = 'none'
 }
 
 export default function ContactPage() {
@@ -73,14 +82,32 @@ export default function ContactPage() {
 
   return (
     <>
-      <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(40px,5vw,64px)' }}>
-        <Shell>
+      <section style={{
+        position: 'relative', overflow: 'hidden',
+        paddingTop: 'clamp(168px,17vw,232px)', paddingBottom: 'clamp(72px,9vw,124px)',
+      }}>
+        <img src="/img/contact-bg.jpg" alt="" aria-hidden="true"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(105deg, rgba(7,37,58,0.95) 0%, rgba(7,37,58,0.86) 42%, rgba(10,74,82,0.62) 72%, rgba(11,122,110,0.34) 100%)',
+        }} />
+        <Shell style={{ position: 'relative' }}>
           <motion.div {...rise()} style={{ maxWidth: 760 }}>
-            <Pill>Free 20-minute demo</Pill>
-            <Display style={{ marginBottom: 24 }}>
-              Let's talk about<br />your <Grad>practice</Grad>.
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.22)',
+              color: '#fff', fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em',
+              textTransform: 'uppercase', fontWeight: 600, padding: '7px 14px',
+              borderRadius: 999, marginBottom: 22, backdropFilter: 'blur(6px)',
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.primaryBright }} />
+              Free 20-minute demo
+            </span>
+            <Display style={{ marginBottom: 24, color: T.onDark }}>
+              Let's talk aboutyour <Grad>practice</Grad>.
             </Display>
-            <Lead style={{ maxWidth: 520 }}>
+            <Lead dark style={{ maxWidth: 540 }}>
               Twenty minutes, no obligation, nothing to prepare. I will walk you through what a
               custom site for your specialty would look like - and tell you honestly if it is not a fit.
             </Lead>
@@ -103,37 +130,46 @@ export default function ContactPage() {
                   </Lead>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} onFocus={touch}>
+                <form onSubmit={handleSubmit} onFocus={touch} style={{
+                  background: T.surface, border: `1px solid ${T.hairline}`,
+                  borderRadius: 18, padding: 'clamp(22px,3vw,32px)',
+                }}>
                   <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex={-1} />
 
                   <div style={fieldWrap}>
-                    <label style={labelCss} htmlFor="f-name">Your name</label>
+                    <label style={labelCss} htmlFor="f-name">Your name <span style={{ color: T.rose }}>*</span></label>
                     <input id="f-name" required style={inputCss} value={form.name}
                       onChange={e => setForm({ ...form, name: e.target.value })}
-                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
-                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
+                      onFocus={focusOn} onBlur={focusOff} />
                   </div>
 
                   <div style={fieldWrap}>
-                    <label style={labelCss} htmlFor="f-email">Email address</label>
+                    <label style={labelCss} htmlFor="f-email">Email address <span style={{ color: T.rose }}>*</span></label>
                     <input id="f-email" type="email" required style={inputCss} value={form.email}
                       onChange={e => setForm({ ...form, email: e.target.value })}
-                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
-                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
+                      onFocus={focusOn} onBlur={focusOff} />
                   </div>
 
                   <div className="zx-split" style={{ gap: 22 }}>
                     <div style={fieldWrap}>
-                      <label style={labelCss} htmlFor="f-spec">Specialty</label>
-                      <select id="f-spec" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
+                      <label style={labelCss} htmlFor="f-spec">Specialty <span style={{ color: T.rose }}>*</span></label>
+                      <select id="f-spec" required style={{
+                        ...inputCss, appearance: 'none', cursor: 'pointer', paddingRight: 36,
+                        backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23073' stroke-width='1.6' stroke-linecap='round'/></svg>")`,
+                        backgroundRepeat: 'no-repeat', backgroundPosition: 'right 13px center',
+                      }}
                         value={form.specialty} onChange={e => setForm({ ...form, specialty: e.target.value })}>
                         <option value="">Select...</option>
                         {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
                     <div style={fieldWrap}>
-                      <label style={labelCss} htmlFor="f-state">State</label>
-                      <select id="f-state" required style={{ ...inputCss, appearance: 'none', cursor: 'pointer' }}
+                      <label style={labelCss} htmlFor="f-state">State <span style={{ color: T.rose }}>*</span></label>
+                      <select id="f-state" required style={{
+                        ...inputCss, appearance: 'none', cursor: 'pointer', paddingRight: 36,
+                        backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23073' stroke-width='1.6' stroke-linecap='round'/></svg>")`,
+                        backgroundRepeat: 'no-repeat', backgroundPosition: 'right 13px center',
+                      }}
                         value={form.state} onChange={e => setForm({ ...form, state: e.target.value })}>
                         <option value="">Select...</option>
                         {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -145,16 +181,14 @@ export default function ContactPage() {
                     <label style={labelCss} htmlFor="f-practice">Practice name</label>
                     <input id="f-practice" style={inputCss} value={form.practice}
                       onChange={e => setForm({ ...form, practice: e.target.value })}
-                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
-                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
+                      onFocus={focusOn} onBlur={focusOff} />
                   </div>
 
                   <div style={{ ...fieldWrap, marginBottom: 30 }}>
-                    <label style={labelCss} htmlFor="f-msg">Anything you want me to know <span style={{ textTransform: 'none', letterSpacing: 0 }}>(optional)</span></label>
-                    <textarea id="f-msg" rows={3} style={{ ...inputCss, resize: 'vertical' }} value={form.message}
+                    <label style={labelCss} htmlFor="f-msg">Anything you want me to know <span style={{ fontWeight: 400, color: T.faint }}>(optional)</span></label>
+                    <textarea id="f-msg" rows={4} style={{ ...inputCss, resize: 'vertical' }} value={form.message}
                       onChange={e => setForm({ ...form, message: e.target.value })}
-                      onFocus={e => (e.target.style.borderBottomColor = T.blue)}
-                      onBlur={e => (e.target.style.borderBottomColor = T.hairlineStrong)} />
+                      onFocus={focusOn} onBlur={focusOff} />
                   </div>
 
                   {error && (
@@ -204,7 +238,20 @@ export default function ContactPage() {
                 )
               })}
 
-              <div style={{ marginTop: 34, padding: '26px 0', borderTop: `1px solid ${T.hairlineStrong}` }}>
+              <div style={{ marginTop: 30, borderRadius: 20, padding: 'clamp(24px,3vw,34px)', background: T.gradPanel }}>
+                <div style={{ fontSize: 'clamp(30px,4vw,44px)', fontWeight: 800, letterSpacing: '-0.035em', color: T.primaryDeep, lineHeight: 1 }}>
+                  $500
+                </div>
+                <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginTop: 10, marginBottom: 18 }}>
+                  Flat, one payment
+                </Mono>
+                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>
+                  Half to start, half on launch day once you have approved the live site.
+                  Not live in seven business days and you are refunded.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 30, padding: '26px 0', borderTop: `1px solid ${T.hairlineStrong}` }}>
                 <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 14 }}>
                   Prefer email?
                 </Mono>
@@ -218,13 +265,13 @@ export default function ContactPage() {
         </Shell>
       </Section>
 
-      <Section dark pad="clamp(64px,8vw,104px)">
+      <Section tint pad="clamp(34px,4vw,52px)">
         <Shell>
-          <motion.div {...rise()} style={{ display: 'flex', gap: 26, flexWrap: 'wrap' }}>
+          <motion.div {...rise()} style={{ display: 'flex', gap: 26, flexWrap: 'wrap', justifyContent: 'center' }}>
             {['$500 flat - no hidden fees', 'Live in 7 days or refunded', 'Source code delivered to you', 'No contract'].map(t => (
               <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
-                <Check size={14} style={{ color: T.primaryBright }} />
-                <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
+                <Check size={14} style={{ color: T.primary }} />
+                <Mono style={{ color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
               </span>
             ))}
           </motion.div>

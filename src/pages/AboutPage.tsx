@@ -1,7 +1,7 @@
 import { ArrowRight, Check } from 'lucide-react'
-import { T, TYPE } from '@/lib/theme'
+import { T, TYPE , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
-import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, rise, motion } from '@/components/ui/kit'
+import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, rise, motion } from '@/components/ui/kit'
 
 const PRINCIPLES: [string, string, string][] = [
   ['01', 'One person builds it', 'You talk to the person writing the code. No account manager relaying messages, no junior designer learning on your project.'],
@@ -27,8 +27,8 @@ export default function AboutPage() {
             <motion.div {...rise()}>
               <Pill>About ZmaxLab</Pill>
               <Display style={{ marginBottom: 26 }}>
-                Not an agency.<br />
-                <Grad>One specialist</Grad>,<br />
+                Not an agency.
+                <Grad>One specialist</Grad>,
                 building carefully.
               </Display>
               <Lead style={{ maxWidth: 460, marginBottom: 34 }}>
@@ -37,15 +37,14 @@ export default function AboutPage() {
                 takes a week instead of a quarter.
               </Lead>
               <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-                <Btn to="/contact">Book a free demo <ArrowRight size={17} /></Btn>
+                <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
                 <TextLink to="/how-it-works">How the build works</TextLink>
               </div>
             </motion.div>
 
             <motion.div className="zx-hero-media" {...rise(0.1)}>
-              <div style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: 4, background: T.surface }}>
-                <img src="/img/portrait-3.jpg" alt="A healthcare practitioner at work" loading="eager"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(1) contrast(1.04)' }} />
+              <div style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: 20, background: T.surface, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
+                <Vid src="/video/portrait-clinician.mp4" poster="/img/poster-portrait-clinician.jpg" />
               </div>
             </motion.div>
           </div>
@@ -68,7 +67,13 @@ export default function AboutPage() {
       <Section>
         <Shell>
           <div className="zx-stmt">
-            <motion.div {...rise()}><Eyebrow>Why this exists</Eyebrow></motion.div>
+            <motion.div {...rise()}>
+              <Eyebrow>Why this exists</Eyebrow>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)', marginTop: 22 }}>
+                <img src="/img/clinician-scrubs.jpg" alt="Healthcare practitioner in scrubs" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 16%', display: 'block' }} />
+              </div>
+            </motion.div>
             <motion.div {...rise(0.08)}>
               <H2 style={{ marginBottom: 28 }}>
                 Practitioners kept getting quoted agency prices for template work.
@@ -102,6 +107,10 @@ export default function AboutPage() {
               <Lead style={{ maxWidth: 340 }}>
                 These are the reasons the price and the timeline actually hold.
               </Lead>
+              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
+                <img src="/img/detail-stethoscope.jpg" alt="Clinical detail" loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 38%', display: 'block' }} />
+              </div>
             </motion.div>
             <div>
               {PRINCIPLES.map(([n, title, body], i) => (
@@ -123,28 +132,39 @@ export default function AboutPage() {
         </Shell>
       </Section>
 
-      {/* PHOTO BAND */}
-      <section style={{ position: 'relative', minHeight: 'clamp(300px,38vw,460px)', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
-        <img src="/img/detail-stethoscope.jpg" alt="Clinical detail" loading="lazy"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,15,26,0.92) 0%, rgba(10,15,26,0.40) 60%, rgba(10,15,26,0.15) 100%)' }} />
-        <Shell style={{ position: 'relative', width: '100%', paddingBottom: 'clamp(34px,4vw,56px)', paddingTop: 70 }}>
-          <motion.div {...rise()} style={{ maxWidth: 640 }}>
-            <H2 style={{ color: T.onDark }}>
-              Built for people who trained for years to do something else.
-            </H2>
-          </motion.div>
+      {/* WHO IT IS FOR - split */}
+      <section style={{ background: T.ink, color: T.onDark, padding: 'clamp(52px,6.5vw,88px) 0' }}>
+        <Shell>
+          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,72px)' }}>
+            <motion.div {...rise()}>
+              <Eyebrow dark>Who this is for</Eyebrow>
+              <H2 style={{ color: T.onDark, marginBottom: 18 }}>
+                Built for people who trained for years to do something else.
+              </H2>
+              <Lead dark style={{ maxWidth: 470 }}>
+                You did not go to school to compare hosting plans or argue with a page builder.
+                Hand it over once and it is handled.
+              </Lead>
+            </motion.div>
+            <motion.div {...rise(0.1)} className="zx-lift zx-zoom" style={{
+              borderRadius: 20, overflow: 'hidden', aspectRatio: '4/3',
+              boxShadow: '0 30px 76px rgba(0,0,0,0.45)',
+            }}>
+              <img src="/img/portrait-3.jpg" alt="Healthcare practitioner at a desk" loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 24%', display: 'block' }} />
+            </motion.div>
+          </div>
         </Shell>
       </section>
 
       {/* COMMITMENT + CTA */}
-      <Section dark>
+      <Section dark padBottom="clamp(34px,4vw,48px)">
         <Shell>
           <div className="zx-split" style={{ alignItems: 'center' }}>
             <motion.div {...rise()}>
               <Eyebrow dark>The commitment</Eyebrow>
               <H2 style={{ color: T.onDark, marginBottom: 26 }}>What you are guaranteed.</H2>
-              <Btn to="/contact" dark>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
             </motion.div>
             <motion.div {...rise(0.1)}>
               {[
