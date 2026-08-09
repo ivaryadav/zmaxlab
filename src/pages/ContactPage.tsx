@@ -87,10 +87,10 @@ export default function ContactPage() {
         paddingTop: 'clamp(168px,17vw,232px)', paddingBottom: 'clamp(72px,9vw,124px)',
       }}>
         <img src="/img/contact-bg.jpg" alt="" aria-hidden="true"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%' }} />
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%', filter: 'grayscale(0.55) blur(2px)', transform: 'scale(1.04)' }} />
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(105deg, rgba(7,37,58,0.95) 0%, rgba(7,37,58,0.86) 42%, rgba(10,74,82,0.62) 72%, rgba(11,122,110,0.34) 100%)',
+          background: 'linear-gradient(105deg, rgba(7,37,58,0.97) 0%, rgba(7,37,58,0.94) 45%, rgba(9,58,68,0.90) 75%, rgba(10,90,84,0.86) 100%)',
         }} />
         <Shell style={{ position: 'relative' }}>
           <motion.div {...rise()} style={{ maxWidth: 760 }}>

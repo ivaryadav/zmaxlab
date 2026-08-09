@@ -443,21 +443,27 @@ export default function HomePage() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
             </div>
             <div>
-            <blockquote style={{ margin: 0, fontSize: 'clamp(21px,2.6vw,34px)', lineHeight: 1.32, fontWeight: 600, letterSpacing: '-0.025em' }}>
-              "The design looks considerably more polished than the template sites most other
-              clinics in my area are using."
+            <blockquote style={{ margin: 0, fontSize: 'clamp(20px,2.4vw,31px)', lineHeight: 1.34, fontWeight: 600, letterSpacing: '-0.022em' }}>
+              No client logos on this page yet. ZmaxLab is early, and pretending otherwise
+              would be the first thing I would want you to distrust.
             </blockquote>
-            <figcaption style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-              <Mono style={{ color: T.muted, textTransform: 'uppercase', letterSpacing: '0.13em' }}>Chiropractor · Phoenix, AZ</Mono>
-              <span style={{
-                fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: T.gold, border: `1px solid ${T.gold}55`, padding: '4px 9px', borderRadius: 3,
-              }}>Illustrative example</span>
-            </figcaption>
-            <p style={{ fontSize: 12.5, color: T.faint, marginTop: 14, maxWidth: 560, lineHeight: 1.65 }}>
-              ZmaxLab is early - this reflects the kind of feedback the process is built to earn,
-              not a verified client review. Real case studies will replace it as they exist.
+            <p style={{ fontSize: 15.5, lineHeight: 1.7, color: T.muted, marginTop: 20, maxWidth: 560 }}>
+              What being early actually buys you: my full attention rather than a queue position,
+              direct access to the person writing the code, and a build I have every reason to get
+              right because it becomes the portfolio I show the next practitioner.
             </p>
+            <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px solid ${T.hairline}` }}>
+              {[
+                'Half up front - $250 is your entire exposure',
+                'Live in 7 business days or refunded in full',
+                'Full source code delivered - you own it outright',
+              ].map(t => (
+                <div key={t} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '6px 0' }}>
+                  <Check size={15} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontSize: 14.5, lineHeight: 1.6, color: T.text }}>{t}</span>
+                </div>
+              ))}
+            </div>
             </div>
           </motion.figure>
         </Shell>
