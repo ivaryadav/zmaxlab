@@ -57,7 +57,7 @@ export default function HomePage() {
               <Pill>Your practice's digital partner</Pill>
               <Display style={{ marginBottom: 22 }}>
                 See your practice's
-                website, <Grad>before youpay a thing</Grad>.
+                website, <Grad>before you pay a thing</Grad>.
               </Display>
               <Lead style={{ maxWidth: 480, marginBottom: 32, color: 'rgba(7,37,58,0.80)' }}>
                 Pick your specialty and watch a real site build itself. That is the standard
