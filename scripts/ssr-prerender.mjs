@@ -16,6 +16,8 @@ const ROUTES = [
     'From discovery call to live website in seven business days. See what happens each day, what you provide, and how payment works.'],
   ['/about',   'About Ravi | Healthcare Web Designer for NPI Practitioners - ZmaxLab',
     'ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.'],
+  ['/pricing', 'Pricing | $500 Flat Healthcare Website Design - ZmaxLab',
+    'A custom healthcare website for a flat $500, live in 7 business days. Full breakdown of what is included, what is not, and how it compares to agencies charging $3,000-$10,000.'],
   ['/contact', 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
     'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.'],
   ['/privacy', 'Privacy Policy - ZmaxLab', 'How ZmaxLab collects, uses and protects your information.'],
@@ -53,6 +55,13 @@ const SCHEMA = {
       name:'How a ZmaxLab healthcare website is built in 7 days', totalTime:'P7D',
       estimatedCost:{ '@type':'MonetaryAmount', currency:'USD', value:'500' },
       step: STEPS.map(([d,n,t],i) => ({ '@type':'HowToStep', position:i+1, name:n, text:`${d}: ${t}` })) },
+  ],
+  '/pricing': [
+    { '@context':'https://schema.org','@type':'Product', name:'Custom healthcare website',
+      description:'Custom-coded healthcare website for NPI-registered practitioners, delivered in 7 business days.',
+      brand:{ '@type':'Brand', name:'ZmaxLab' },
+      offers:{ '@type':'Offer', price:'500', priceCurrency:'USD', availability:'https://schema.org/InStock',
+        url:'https://zmaxlab.site/pricing' } },
   ],
   '/services': [
     { '@context':'https://schema.org','@type':'Service',

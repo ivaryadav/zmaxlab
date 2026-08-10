@@ -158,3 +158,6 @@ a { text-decoration: none; color: inherit; }
   background:#fff; border:3px solid #0B9C87; box-shadow:0 4px 14px rgba(11,156,135,0.4); cursor:grab; }
 .zx-range::-moz-range-thumb { width:26px; height:26px; border-radius:50%; background:#fff;
   border:3px solid #0B9C87; box-shadow:0 4px 14px rgba(11,156,135,0.4); cursor:grab; }
+
+@media (max-width: 700px) { .zx-price-row { grid-template-columns: 1fr auto !important; }
+  .zx-price-row > :last-child { grid-column: 1 / -1; } }

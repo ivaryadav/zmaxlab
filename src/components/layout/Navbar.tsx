@@ -9,6 +9,7 @@ const LINKS = [
   { to: '/',             label: 'Home' },
   { to: '/services',     label: 'Services' },
   { to: '/how-it-works', label: 'How It Works' },
+  { to: '/pricing',      label: 'Pricing' },
   { to: '/about',        label: 'About' },
   { to: '/contact',      label: 'Contact' },
 ]
@@ -100,7 +101,7 @@ export default function Navbar() {
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            <Link to="/services" className="zx-nav-desktop zx-price-chip" style={{
+            <Link to="/pricing" className="zx-nav-desktop zx-price-chip" style={{
               fontFamily: MONO, fontSize: 11.5, letterSpacing: '0.08em', fontWeight: 600,
               color: onDarkHero ? T.onDark : T.primaryDeep,
               background: onDarkHero ? 'rgba(255,255,255,0.16)' : T.primaryTint,

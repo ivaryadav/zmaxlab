@@ -7,6 +7,7 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage'))
 const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
+const PricingPage = lazy(() => import('./pages/PricingPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
@@ -17,6 +18,7 @@ const PAGE_CATEGORIES: Record<string, string> = {
   '/how-it-works': 'how-it-works',
   '/about': 'about',
   '/contact': 'contact',
+  '/pricing': 'pricing',
   '/privacy': 'legal',
   '/terms': 'legal',
   '/blog/custom-vs-template-medical-website': 'blog',
@@ -49,6 +51,7 @@ export default function App() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />

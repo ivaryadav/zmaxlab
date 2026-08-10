@@ -7,6 +7,7 @@ const COLS: [string, [string, string][]][] = [
     ['Website design', '/services'],
     ['Local SEO', '/services'],
     ['Reputation management', '/services'],
+    ['Pricing', '/pricing'],
     ['How it works', '/how-it-works'],
   ]],
   ['Company', [
