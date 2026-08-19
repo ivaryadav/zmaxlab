@@ -88,10 +88,18 @@ export default function AboutPage() {
                 That is a week of focused work, not a quarter of meetings. So ZmaxLab is priced
                 and scheduled like a week of focused work.
               </Lead>
-              <Lead style={{ maxWidth: 620, color: T.text, fontWeight: 600 }}>
+              <Lead style={{ maxWidth: 620, color: T.text, fontWeight: 600, marginBottom: 26 }}>
                 The trade-off is honest: I am one person, so I take a limited number of builds.
                 What you get in return is that the person you speak to is the person who builds it.
               </Lead>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <img src="/ravi.jpg" alt="Ravi, founder of ZmaxLab" loading="lazy"
+                  style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, boxShadow: T.shadowMd }} />
+                <div>
+                  <div style={{ fontFamily: 'Fraunces,Georgia,serif', fontWeight: 600, fontSize: 17 }}>Ravi</div>
+                  <Mono style={{ color: T.faint }}>Founder &amp; the person who builds your site</Mono>
+                </div>
+              </div>
             </motion.div>
           </div>
         </Shell>
@@ -101,7 +109,7 @@ export default function AboutPage() {
       <Section tint>
         <Shell>
           <div className="zx-sticky">
-            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+            <motion.div {...rise()} className="zx-sticky-col">
               <Eyebrow>How I work</Eyebrow>
               <H2 style={{ marginBottom: 20 }}>Four rules I do not bend.</H2>
               <Lead style={{ maxWidth: 340 }}>

@@ -172,7 +172,7 @@ export default function HowItWorksPage() {
       <Section>
         <Shell>
           <div className="zx-sticky">
-            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+            <motion.div {...rise()} className="zx-sticky-col">
               <Eyebrow>Questions</Eyebrow>
               <H2 style={{ marginBottom: 20 }}>The things people ask before booking.</H2>
               <Lead style={{ maxWidth: 320, marginBottom: 26 }}>

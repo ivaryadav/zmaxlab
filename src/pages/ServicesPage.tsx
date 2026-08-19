@@ -114,7 +114,7 @@ export default function ServicesPage() {
       <Section tint>
         <Shell>
           <div className="zx-sticky">
-            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+            <motion.div {...rise()} className="zx-sticky-col">
               <Eyebrow>The core build</Eyebrow>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginBottom: 10 }}>
                 <span style={{ fontSize: 26, fontWeight: 700, marginTop: 10 }}>$</span>

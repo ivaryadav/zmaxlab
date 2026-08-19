@@ -132,7 +132,7 @@ export default function HomePage() {
       <Section tint>
         <Shell>
           <div className="zx-sticky">
-            <motion.div {...rise()} style={{ position: 'sticky', top: 120 }}>
+            <motion.div {...rise()} className="zx-sticky-col">
               <Eyebrow>What you get</Eyebrow>
               <H2 style={{ marginBottom: 22 }}>Every digital <Grad>footprint</Grad>, handled.</H2>
               <Lead style={{ maxWidth: 380, marginBottom: 30 }}>

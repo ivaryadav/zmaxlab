@@ -57,11 +57,13 @@ a { text-decoration: none; color: inherit; }
 .zx-hero      { display:grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(32px,5vw,72px); align-items:center; }
 .zx-split     { display:grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,5vw,80px); }
 .zx-sticky    { display:grid; grid-template-columns: 0.82fr 1.18fr; gap: clamp(32px,5vw,88px); align-items:start; }
+.zx-sticky-col { position: sticky; top: 120px; }
 .zx-stmt      { display:grid; grid-template-columns: 0.34fr 0.66fr; gap: clamp(24px,4vw,64px); align-items:start; }
 .zx-trio      { display:grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
 .zx-steps     { display:grid; grid-template-columns: repeat(4,1fr); gap: 0; }
 @media (max-width: 980px) {
   .zx-hero, .zx-split, .zx-sticky, .zx-stmt { grid-template-columns: 1fr; }
+  .zx-sticky-col { position: static; top: auto; }
   .zx-steps { grid-template-columns: repeat(2,1fr); }
   .zx-hero-media { order:-1; }
 }
