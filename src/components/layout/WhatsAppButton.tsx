@@ -10,11 +10,12 @@ export default function BookingButton() {
 
   return (
     <div
+      className="zx-booking-fab"
       style={{
         position: 'fixed',
-        bottom: 32,
+        bottom: 100,
         right: 24,
-        zIndex: 9998,
+        zIndex: 9996,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'flex-end',

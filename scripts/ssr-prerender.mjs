@@ -12,12 +12,16 @@ const ROUTES = [
     'Custom healthcare website design for nurse practitioners, PAs, chiropractors and mental health providers. $500 flat, live in 7 business days, source code included. No contract.'],
   ['/services','Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
     'A $500 custom healthcare website in 7 days. Add local SEO, social, reputation or reporting separately. No bundles, no contracts.'],
+  ['/clients', 'Our Clients | Real Healthcare Websites - ZmaxLab',
+    'Live healthcare websites built by ZmaxLab, from solo and two-doctor practices to multi-location pain management groups.'],
   ['/how-it-works','How It Works | Healthcare Website Built in 7 Days - ZmaxLab',
     'From discovery call to live website in seven business days. See what happens each day, what you provide, and how payment works.'],
   ['/about',   'About Ravi | Healthcare Web Designer for NPI Practitioners - ZmaxLab',
     'ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.'],
   ['/pricing', 'Pricing | $500 Flat Healthcare Website Design - ZmaxLab',
     'A custom healthcare website for a flat $500, live in 7 business days. Full breakdown of what is included, what is not, and how it compares to agencies charging $3,000-$10,000.'],
+  ['/pay-now', 'Pay Now | Secure Online Payment - ZmaxLab',
+    'Pay your ZmaxLab invoice or deposit securely online. Processed by Razorpay, international cards accepted.'],
   ['/contact', 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
     'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.'],
   ['/privacy', 'Privacy Policy - ZmaxLab', 'How ZmaxLab collects, uses and protects your information.'],
@@ -75,6 +79,10 @@ const SCHEMA = {
   ],
 }
 
+// Utility pages that shouldn't be search-discoverable (a direct-link payment
+// page, not content) - mirrors the noindex passed to useSEO() client-side.
+const NOINDEX_ROUTES = new Set(['/pay-now'])
+
 const shell = await readFile(join(dist, 'index.html'), 'utf8')
 let n = 0
 
@@ -84,6 +92,10 @@ for (const [route, title, desc] of ROUTES) {
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${desc}">`)
     .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${canonical}" />`)
+
+  if (NOINDEX_ROUTES.has(route)) {
+    html = html.replace(/<meta name="robots" content="[^"]*"\s*\/?>/, `<meta name="robots" content="noindex,nofollow" />`)
+  }
 
   // og/twitter per route so shares are correct on every page
   html = html.replace('</head>', `  <meta property="og:title" content="${title}" />

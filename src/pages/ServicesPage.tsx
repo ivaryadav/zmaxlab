@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Sparkles } from 'lucide-react'
 import { T, MONO , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
@@ -226,6 +226,30 @@ export default function ServicesPage() {
               </motion.div>
             ))}
           </div>
+        </Shell>
+      </Section>
+
+      {/* AI ADD-ON CALLOUT */}
+      <Section>
+        <Shell>
+          <motion.div {...rise()} className="zx-svc-card" style={{
+            padding: 'clamp(28px,4vw,44px)', display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', gap: 28, flexWrap: 'wrap', background: T.gradPanel, border: 'none',
+          }}>
+            <div style={{ maxWidth: 560 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 12 }}>
+                <Sparkles size={16} style={{ color: T.primaryDeep }} />
+                <Mono style={{ color: T.primaryDeep, textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700 }}>New: the AI Add-on</Mono>
+              </div>
+              <h3 style={{ fontSize: 'clamp(20px,2.2vw,26px)', fontWeight: 650, letterSpacing: '-0.02em', margin: '0 0 10px' }}>
+                A chat assistant, auto-replies, instant quotes and payments - bundled for $650.
+              </h3>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: T.muted, margin: 0 }}>
+                Plus a logo and digital letterhead if you need them. Works alongside the $500 build or bolted onto a site you already have.
+              </p>
+            </div>
+            <TextLink to="/ai-addon">See the AI Add-on <ArrowRight size={15} /></TextLink>
+          </motion.div>
         </Shell>
       </Section>
 

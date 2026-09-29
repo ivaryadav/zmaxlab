@@ -212,6 +212,13 @@ export default function PricingPage() {
               ))}
             </div>
           </motion.div>
+
+          <motion.div {...rise()} style={{ marginTop: 'clamp(32px,4vw,48px)', paddingTop: 'clamp(28px,3.5vw,40px)', borderTop: `1px solid ${T.hairlineStrong}` }}>
+            <span style={{ fontSize: 15, color: T.muted }}>
+              Want a chat assistant, auto-replies and payments built in too?{' '}
+            </span>
+            <TextLink to="/ai-addon">See the AI Add-on <ArrowRight size={15} /></TextLink>
+          </motion.div>
         </Shell>
       </Section>
 

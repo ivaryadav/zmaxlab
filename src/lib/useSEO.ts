@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+const DEFAULT_ROBOTS = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
+
 interface SEOProps {
     title: string
     description: string
@@ -7,12 +9,15 @@ interface SEOProps {
     ogTitle?: string
     ogDescription?: string
     schema?: object | object[]
+    /** Utility pages (e.g. a payment page) that shouldn't be search-discoverable. */
+    noindex?: boolean
 }
 
-export function useSEO({ title, description, canonical, ogTitle, ogDescription, schema }: SEOProps) {
+export function useSEO({ title, description, canonical, ogTitle, ogDescription, schema, noindex }: SEOProps) {
     useEffect(() => {
           document.title = title
           setMeta('name', 'description', description)
+          setMeta('name', 'robots', noindex ? 'noindex,nofollow' : DEFAULT_ROBOTS)
           setMeta('property', 'og:title', ogTitle ?? title)
           setMeta('property', 'og:description', ogDescription ?? description)
           setMeta('property', 'og:url', canonical)
@@ -35,7 +40,7 @@ export function useSEO({ title, description, canonical, ogTitle, ogDescription, 
                   return () => {
                           document.querySelectorAll('script[data-seo-schema]').forEach(el => el.remove())
                   }
-    }, [title, description, canonical, ogTitle, ogDescription, schema])
+    }, [title, description, canonical, ogTitle, ogDescription, schema, noindex])
 }
 
 function setMeta(attr: string, key: string, content: string) {

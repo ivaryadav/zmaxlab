@@ -1,24 +1,29 @@
-import { Suspense, lazy, useEffect } from 'react'
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/layout/Layout'
-
-const HomePage = lazy(() => import('./pages/HomePage'))
-const ServicesPage = lazy(() => import('./pages/ServicesPage'))
-const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
-const AboutPage = lazy(() => import('./pages/AboutPage'))
-const ContactPage = lazy(() => import('./pages/ContactPage'))
-const PricingPage = lazy(() => import('./pages/PricingPage'))
-const BlogPage = lazy(() => import('./pages/BlogPage'))
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
-const TermsPage = lazy(() => import('./pages/TermsPage'))
+import HomePage from './pages/HomePage'
+import ServicesPage from './pages/ServicesPage'
+import ClientsPage from './pages/ClientsPage'
+import HowItWorksPage from './pages/HowItWorksPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import PricingPage from './pages/PricingPage'
+import AIAddonPage from './pages/AIAddonPage'
+import PayNowPage from './pages/PayNowPage'
+import BlogPage from './pages/BlogPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
 
 const PAGE_CATEGORIES: Record<string, string> = {
   '/': 'home',
   '/services': 'services',
+  '/clients': 'clients',
   '/how-it-works': 'how-it-works',
   '/about': 'about',
   '/contact': 'contact',
   '/pricing': 'pricing',
+  '/ai-addon': 'ai-addon',
+  '/pay-now': 'pay-now',
   '/privacy': 'legal',
   '/terms': 'legal',
   '/blog/custom-vs-template-medical-website': 'blog',
@@ -43,21 +48,22 @@ export default function App() {
   return (
     <BrowserRouter>
       <PageViewTracker />
-      <Suspense fallback={null}>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/clients" element={<ClientsPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/ai-addon" element={<AIAddonPage />} />
+          <Route path="/pay-now" element={<PayNowPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }

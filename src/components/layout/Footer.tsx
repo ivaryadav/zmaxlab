@@ -7,13 +7,16 @@ const COLS: [string, [string, string][]][] = [
     ['Website design', '/services'],
     ['Local SEO', '/services'],
     ['Reputation management', '/services'],
+    ['AI Add-on', '/ai-addon'],
     ['Pricing', '/pricing'],
     ['How it works', '/how-it-works'],
   ]],
   ['Company', [
     ['About Ravi', '/about'],
+    ['Our Clients', '/clients'],
     ['Contact', '/contact'],
     ['Journal', '/blog/custom-vs-template-medical-website'],
+    ['Pay an invoice', '/pay-now'],
   ]],
   ['Legal', [
     ['Privacy policy', '/privacy'],

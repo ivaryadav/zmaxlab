@@ -8,10 +8,13 @@ import { T, MONO, EASE, CALENDLY_URL } from '@/lib/theme'
 const LINKS = [
   { to: '/',             label: 'Home' },
   { to: '/services',     label: 'Services' },
+  { to: '/clients',      label: 'Our Clients' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/pricing',      label: 'Pricing' },
+  { to: '/ai-addon',     label: 'AI Add-on' },
   { to: '/about',        label: 'About' },
   { to: '/contact',      label: 'Contact' },
+  { to: '/pay-now',      label: 'Pay Now' },
 ]
 
 /* TODO(Ravi): replace with your real number, or tell me to remove the phone entirely. */

@@ -444,13 +444,12 @@ export default function HomePage() {
             </div>
             <div>
             <blockquote style={{ margin: 0, fontSize: 'clamp(20px,2.4vw,31px)', lineHeight: 1.34, fontWeight: 600, letterSpacing: '-0.022em' }}>
-              No client logos on this page yet. ZmaxLab is early, and pretending otherwise
-              would be the first thing I would want you to distrust.
+              The proof isn't on this page - it's live on theirs.
             </blockquote>
             <p style={{ fontSize: 15.5, lineHeight: 1.7, color: T.muted, marginTop: 20, maxWidth: 560 }}>
-              What being early actually buys you: my full attention rather than a queue position,
-              direct access to the person writing the code, and a build I have every reason to get
-              right because it becomes the portfolio I show the next practitioner.
+              Real practices are running on sites built this way, from a two-doctor Manhattan
+              clinic to a multi-location group. See what a finished build actually looks like,
+              not a rendering of one. <TextLink to="/clients">See the client work</TextLink>
             </p>
             <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px solid ${T.hairline}` }}>
               {[

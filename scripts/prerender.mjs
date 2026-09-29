@@ -18,8 +18,11 @@ const MIME = {
 const ROUTES = [
   '/',
   '/services',
+  '/clients',
   '/how-it-works',
   '/about',
+  '/pricing',
+  '/pay-now',
   '/contact',
   '/privacy',
   '/terms',
@@ -49,9 +52,14 @@ async function main() {
   const server = createServer((req, res) => { staticServer(req, res) })
   await new Promise((resolve) => server.listen(PORT, resolve))
 
+  // No hardcoded executablePath: Puppeteer's own bundled Chromium (downloaded
+  // at `npm install` time) works on every platform, including the Ubuntu CI
+  // runner that builds and FTP-deploys this site. Set CHROME_PATH only if you
+  // need to point at a system Chrome instead.
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    executablePath: process.env.CHROME_PATH || undefined,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
 
   for (const route of ROUTES) {
