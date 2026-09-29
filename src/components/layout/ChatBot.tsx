@@ -233,10 +233,10 @@ export default function ChatBot() {
         setLeadSent(true)
         setMessages(m => [...m, { id: uid(), role: 'bot', text: `Got it, ${leadName.split(' ')[0]} — that's with Ravi now. He replies within one business day.` }])
       } else {
-        setMessages(m => [...m, { id: uid(), role: 'bot', text: "That didn't quite go through — mind emailing ravi@zmaxlab.site directly instead?" }])
+        setMessages(m => [...m, { id: uid(), role: 'bot', text: "That didn't quite go through — mind trying again in a moment, or using the contact page?" }])
       }
     } catch {
-      setMessages(m => [...m, { id: uid(), role: 'bot', text: 'Network hiccup on my end — try again, or email ravi@zmaxlab.site.' }])
+      setMessages(m => [...m, { id: uid(), role: 'bot', text: 'Network hiccup on my end — mind trying again?' }])
     }
     setLeadSending(false)
   }

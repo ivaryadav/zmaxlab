@@ -52,7 +52,7 @@ export default function TermsPage() {
     },
     {
       title: '10. Termination',
-      body: `Either party may terminate monthly services with 30 days' written notice via email to ravi@zmaxlab.site. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
+      body: `Either party may terminate monthly services with 30 days' written notice sent through our contact page at zmaxlab.site/contact. Upon termination, all work completed to date will be delivered to you. No refunds are issued for completed service periods.`
     },
     {
       title: '11. Governing Law',
@@ -60,7 +60,7 @@ export default function TermsPage() {
     },
     {
       title: '12. Contact',
-      body: `For questions about these terms, email ravi@zmaxlab.site. We respond within 2 business days.`
+      body: `For questions about these terms, contact us at zmaxlab.site/contact. We respond within 2 business days.`
     }
   ]
 
@@ -100,7 +100,7 @@ export default function TermsPage() {
             <div>
               <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#0B1220', marginBottom: 8 }}>Questions about these terms?</div>
               <p style={{ fontSize: 14, color: 'rgba(11,18,32,0.6)', lineHeight: 1.75, marginBottom: 12 }}>
-                Email <a href="mailto:ravi@zmaxlab.site" style={{ color: '#1D4ED8', fontWeight: 600 }}>ravi@zmaxlab.site</a> and we'll respond within 2 business days.
+                Send us a message through our contact page and we'll respond within 2 business days.
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <Link to="/contact" style={{ ...GS, background: '#1D4ED8', color: '#fff', fontWeight: 700, fontSize: 13, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>

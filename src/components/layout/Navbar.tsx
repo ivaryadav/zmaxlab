@@ -60,9 +60,6 @@ export default function Navbar() {
                 {PHONE_DISPLAY}
               </a>
             )}
-            <a href="mailto:ravi@zmaxlab.site" style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.08em', color: T.onDarkMuted }}>
-              ravi@zmaxlab.site
-            </a>
           </span>
         </div>
       </div>

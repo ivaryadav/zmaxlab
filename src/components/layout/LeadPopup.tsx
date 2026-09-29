@@ -85,9 +85,9 @@ export default function LeadPopup() {
         gtagEvent('qualify_lead', { form_id: 'popup_lead', form_name: 'Popup Lead Form', specialty: form.specialty, page_category: pathRef.current, lead_status: 'new', method: 'popup_form' })
         setSent(true)
         setTimeout(close, 2600)
-      } else setError('Something went wrong. Please email ravi@zmaxlab.site directly.')
+      } else setError('Something went wrong. Please try again in a moment.')
     } catch {
-      setError('Network error. Please try again, or email ravi@zmaxlab.site.')
+      setError('Network error. Please check your connection and try again.')
     }
     setLoading(false)
   }

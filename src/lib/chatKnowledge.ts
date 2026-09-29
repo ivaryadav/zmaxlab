@@ -193,7 +193,7 @@ const KB: KBEntry[] = [
   {
     id: 'contact_info',
     keywords: ['contact', 'email address', 'email ravi', 'reach ravi', 'get in touch', 'phone number for ravi'],
-    answer: 'Email: ravi@zmaxlab.site — read personally, one business day turnaround. Or leave your details below and I\'ll get them to him now.',
+    answer: 'Use the contact page — Ravi reads every message personally, one business day turnaround. Or leave your details below and I\'ll get them to him now.',
     cta: true,
   },
   {

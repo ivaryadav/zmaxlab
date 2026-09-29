@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { ArrowRight, Check, Mail, Clock, ShieldCheck } from 'lucide-react'
-import { T, MONO, TYPE } from '@/lib/theme'
+import { T, MONO } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
 import { Shell, Section, Display, H2, Lead, Mono, Grad, rise, motion } from '@/components/ui/kit'
 
@@ -66,9 +66,9 @@ export default function ContactPage() {
       if (data.success) {
         gtagEvent('qualify_lead', { form_id:'contact_demo', form_name:'Free Demo Form', specialty:form.specialty, service:form.service, page_category:'contact', lead_status:'new', method:'contact_form' })
         setSent(true)
-      } else setError('Something went wrong. Please email ravi@zmaxlab.site directly.')
+      } else setError('Something went wrong. Please try again in a moment.')
     } catch {
-      setError('Network error. Please try again, or email ravi@zmaxlab.site.')
+      setError('Network error. Please check your connection and try again.')
     }
     setLoading(false)
   }
@@ -77,7 +77,7 @@ export default function ContactPage() {
     title: 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
     description: 'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.',
     canonical: 'https://zmaxlab.site/contact',
-    schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","email":"ravi@zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
+    schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
   })
 
   return (
@@ -251,15 +251,6 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <div style={{ marginTop: 30, padding: '26px 0', borderTop: `1px solid ${T.hairlineStrong}` }}>
-                <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 14 }}>
-                  Prefer email?
-                </Mono>
-                <a href="mailto:ravi@zmaxlab.site" className="zx-link-underline"
-                  style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', color: T.text }}>
-                  ravi@zmaxlab.site
-                </a>
-              </div>
             </motion.div>
           </div>
         </Shell>

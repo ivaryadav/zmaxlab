@@ -42,12 +42,12 @@ export default function Footer() {
               Custom-coded websites for NPI-registered healthcare practitioners across the
               United States. Built personally by Ravi - $500 flat, live in seven days.
             </p>
-            <a href="mailto:ravi@zmaxlab.site" style={{
+            <Link to="/contact" style={{
               display: 'inline-flex', alignItems: 'center', gap: 7, marginTop: 22,
               fontSize: 15, fontWeight: 600, color: T.onDark,
             }} className="zx-link-underline">
-              ravi@zmaxlab.site <ArrowUpRight size={15} />
-            </a>
+              Get in touch <ArrowUpRight size={15} />
+            </Link>
           </div>
 
           {COLS.map(([title, items]) => (

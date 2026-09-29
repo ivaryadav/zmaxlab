@@ -16,7 +16,7 @@ export default function PrivacyPage() {
   const SECTIONS = [
     {
       title: '1. Information We Collect',
-      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers - submissions are processed via Web3Forms and delivered directly to ravi@zmaxlab.site.`
+      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers - submissions are processed via Web3Forms and delivered directly to our inbox.`
     },
     {
       title: '2. How We Use Your Information',
@@ -36,11 +36,11 @@ export default function PrivacyPage() {
     },
     {
       title: '6. Data Retention',
-      body: `Email enquiries are retained in our email inbox for up to 2 years for business purposes. You may request deletion of your data at any time by emailing ravi@zmaxlab.site.`
+      body: `Email enquiries are retained in our email inbox for up to 2 years for business purposes. You may request deletion of your data at any time through our contact page at zmaxlab.site/contact.`
     },
     {
       title: '7. Your Rights',
-      body: `You have the right to request access to, correction of, or deletion of any personal information we hold about you. To exercise these rights, email ravi@zmaxlab.site. We will respond within 5 business days.`
+      body: `You have the right to request access to, correction of, or deletion of any personal information we hold about you. To exercise these rights, contact us at zmaxlab.site/contact. We will respond within 5 business days.`
     },
     {
       title: '8. Security',
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
     },
     {
       title: '10. Contact',
-      body: `For any privacy-related questions or requests, please contact: Ravi Kumar, ZmaxLab - ravi@zmaxlab.site`
+      body: `For any privacy-related questions or requests, please contact: Ravi Kumar, ZmaxLab - zmaxlab.site/contact`
     }
   ]
 
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             <div>
               <div style={{ ...GS, fontSize: 15, fontWeight: 700, color: '#0B1220', marginBottom: 8 }}>Questions about this policy?</div>
               <p style={{ fontSize: 14, color: 'rgba(11,18,32,0.6)', lineHeight: 1.75, marginBottom: 12 }}>
-                Email us at <a href="mailto:ravi@zmaxlab.site" style={{ color: '#1D4ED8', fontWeight: 600 }}>ravi@zmaxlab.site</a> and we'll respond within 2 business days.
+                Send us a message through our contact page and we'll respond within 2 business days.
               </p>
               <Link to="/contact" style={{ ...GS, background: '#1D4ED8', color: '#fff', fontWeight: 700, fontSize: 13, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
                 Contact Us
