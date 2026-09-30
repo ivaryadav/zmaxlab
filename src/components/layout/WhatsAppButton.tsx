@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CalendarCheck } from 'lucide-react'
-import { T } from '@/lib/theme'
-
-const CALENDLY_URL = 'https://calendly.com/ravi9235kumar/30min'
+import { T, CALENDLY_URL } from '@/lib/theme'
 
 export default function BookingButton() {
   const [hovered, setHovered] = useState(false)

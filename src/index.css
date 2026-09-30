@@ -190,3 +190,8 @@ a { text-decoration: none; color: inherit; }
   .zx-chat-panel { bottom: 84px !important; right: 12px !important; width: calc(100vw - 24px) !important; height: min(74vh, 600px) !important; }
   .zx-booking-fab { bottom: 84px !important; }
 }
+
+@media (max-width: 480px) { .zx-quick-grid { grid-template-columns: 1fr !important; } }
+.zx-growth-grid { display:grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
+@media (max-width: 1100px) { .zx-growth-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 600px) { .zx-growth-grid { grid-template-columns: 1fr; } }

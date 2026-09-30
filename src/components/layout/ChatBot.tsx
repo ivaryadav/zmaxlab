@@ -612,7 +612,7 @@ export default function ChatBot() {
             cursor: 'pointer', padding: 0,
           }}
         >
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           {open ? (
             <motion.span
               key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}

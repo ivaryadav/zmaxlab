@@ -17,7 +17,8 @@ export interface KBEntry {
   cta?: boolean   // show the inline "send my details to Ravi" lead card under this answer
 }
 
-export const CALENDLY_URL = 'https://calendly.com/ravi9235kumar/30min'
+import { CALENDLY_URL } from '@/lib/theme'
+export { CALENDLY_URL }
 
 export const BOT_NAME = 'Max'
 

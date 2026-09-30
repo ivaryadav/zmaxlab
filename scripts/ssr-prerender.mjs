@@ -11,7 +11,7 @@ const ROUTES = [
   ['/',        'Healthcare Website Design for Nurse Practitioners | $500 Flat - ZmaxLab',
     'Custom healthcare website design for nurse practitioners, PAs, chiropractors and mental health providers. $500 flat, live in 7 business days, source code included. No contract.'],
   ['/services','Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
-    'A $500 custom healthcare website in 7 days. Add local SEO, social, reputation or reporting separately. No bundles, no contracts.'],
+    'Healthcare website development from $500, plus SEO, Google Ads, Meta campaigns, lead generation, demand generation, digital marketing and reputation management for medical practices.'],
   ['/clients', 'Our Clients | Real Healthcare Websites - ZmaxLab',
     'Live healthcare websites built by ZmaxLab, from solo and two-doctor practices to multi-location pain management groups.'],
   ['/how-it-works','How It Works | Healthcare Website Built in 7 Days - ZmaxLab',

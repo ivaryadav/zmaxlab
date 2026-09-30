@@ -1,6 +1,7 @@
 import { ArrowRight, Check, Sparkles } from 'lucide-react'
 import { T, MONO , CALENDLY_URL } from '@/lib/theme'
 import { useSEO } from '@/lib/useSEO'
+import GrowthServices from '@/components/ui/GrowthServices'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const CORE = [
@@ -67,7 +68,7 @@ export default function ServicesPage() {
   useSEO({
     schema: serviceSchema,
     title: 'Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
-    description: 'A $500 custom healthcare website in 7 days. Add local SEO, social, reputation or reporting separately - no bundles, no contracts.',
+    description: 'Healthcare website development from $500, plus SEO, Google Ads, Meta campaigns, lead generation, demand generation, digital marketing and reputation management for medical practices.',
     canonical: 'https://zmaxlab.site/services',
   })
 
@@ -109,6 +110,9 @@ export default function ServicesPage() {
         </Shell>
       </section>
 
+
+      {/* GROWTH SERVICES */}
+      <GrowthServices />
 
       {/* CORE BUILD */}
       <Section tint>

@@ -2,6 +2,8 @@ import { ArrowRight, Check, ShieldCheck, CreditCard, FileCheck } from 'lucide-re
 import { T, MONO, TYPE , CALENDLY_URL } from '@/lib/theme'
 import LiveBuilder from '@/components/ui/LiveBuilder'
 import RoiCalc from '@/components/ui/RoiCalc'
+import HeroLeadForm from '@/components/ui/HeroLeadForm'
+import GrowthServices from '@/components/ui/GrowthServices'
 import { useSEO } from '@/lib/useSEO'
 import {
   Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, Slider, Reveal, rise, slideIn, motion,
@@ -59,14 +61,10 @@ export default function HomePage() {
                 See your practice's
                 website, <Grad>before you pay a thing</Grad>.
               </Display>
-              <Lead style={{ maxWidth: 480, marginBottom: 32, color: 'rgba(7,37,58,0.80)' }}>
-                Pick your specialty and watch a real site build itself. That is the standard
-                you get - domain, hosting, SEO and all - live in 7 business days for a flat $500.
+              <Lead style={{ maxWidth: 480, marginBottom: 22, color: 'rgba(7,37,58,0.80)' }}>
+                Domain, hosting, SEO and all - live in 7 business days for a flat $500.
               </Lead>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
-                <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
-                <TextLink to="/services">See what we handle</TextLink>
-              </div>
+              <HeroLeadForm />
               <div style={{ display: 'flex', gap: 'clamp(20px,3vw,44px)', flexWrap: 'wrap', marginTop: 38, paddingTop: 26, borderTop: '1px solid rgba(7,37,58,0.14)' }}>
                 {[['$500', 'flat fee'], ['7 days', 'to launch'], ['54%', 'below closest rival']].map(([v, l]) => (
                   <div key={l}>
@@ -98,6 +96,9 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+
+      {/* ══ 2b. GROWTH SERVICES ═══════════════════════════ */}
+      <GrowthServices compact tint />
 
       {/* ══ 3. STATEMENT ═════════════════════════════════════ */}
       <Section>
