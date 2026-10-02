@@ -104,7 +104,6 @@ export default function HeroLeadForm() {
     <div className="zx-slip" id="intake">
       <div className="zx-slip-head">
         <span>Practice intake</span>
-        <span className="zx-slip-live"><span className="zx-qf-dot" /> Reply in 1-2 min</span>
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
@@ -113,10 +112,7 @@ export default function HeroLeadForm() {
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}>
             <div className="zx-slip-stamp"><Check size={15} strokeWidth={2.5} /> Received</div>
             <h3 className="zx-slip-title">Thank you{firstName ? `, ${firstName}` : ''}.</h3>
-            <p className="zx-slip-note">
-              Ravi will call you within 1-2 minutes to talk through your
-              {specialty && specialty !== 'Other' ? ` ${specialty.toLowerCase()}` : ''} practice. Keep your phone nearby.
-            </p>
+            <p className="zx-slip-note">Our developer will contact you soon.</p>
           </motion.div>
         ) : (
           <motion.form key="form" onSubmit={submit} noValidate aria-label="Request a call back" className="zx-slip-body"
