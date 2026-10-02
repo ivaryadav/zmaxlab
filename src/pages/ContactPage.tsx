@@ -75,7 +75,7 @@ export default function ContactPage() {
 
   useSEO({
     title: 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
-    description: 'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.',
+    description: 'Book a 15-minute website consultation. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.',
     canonical: 'https://zmaxlab.site/contact',
     schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
   })
@@ -102,7 +102,7 @@ export default function ContactPage() {
               borderRadius: 999, marginBottom: 22, backdropFilter: 'blur(6px)',
             }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.primaryBright }} />
-              Free 20-minute demo
+              15-minute consultation
             </span>
             <Display style={{ marginBottom: 24, color: T.onDark }}>
               Let's talk about your <Grad>practice</Grad>.

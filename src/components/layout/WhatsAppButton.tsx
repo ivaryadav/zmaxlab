@@ -70,7 +70,7 @@ export default function BookingButton() {
 
             {/* Heading */}
             <div style={{ fontSize: 13, fontWeight: 700, color: T.ink, lineHeight: 1.45, marginBottom: 4 }}>
-              Got 20 minutes?
+              Got 15 minutes?
             </div>
 
             {/* Body */}

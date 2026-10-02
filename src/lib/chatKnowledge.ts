@@ -176,7 +176,7 @@ const KB: KBEntry[] = [
   {
     id: 'book_demo',
     keywords: ['book a call', 'book a demo', 'schedule a call', 'free demo', 'consultation', 'get started', 'i want to start'],
-    answer: "Free. 20 minutes. You'll see a live mockup for your specialty and get a straight answer on fit.",
+    answer: "Free. 15 minutes. You'll see a live mockup for your specialty and get a straight answer on fit.",
     link: { label: 'Book a free demo', href: CALENDLY_URL },
   },
   {

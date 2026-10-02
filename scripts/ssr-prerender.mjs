@@ -23,7 +23,7 @@ const ROUTES = [
   ['/pay-now', 'Pay Now | Secure Online Payment - ZmaxLab',
     'Pay your ZmaxLab invoice or deposit securely online. Processed by Razorpay, international cards accepted.'],
   ['/contact', 'Contact | Book a Free Demo - ZmaxLab Healthcare Web Design',
-    'Book a free 20-minute demo. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.'],
+    'Book a 15-minute website consultation. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.'],
   ['/privacy', 'Privacy Policy - ZmaxLab', 'How ZmaxLab collects, uses and protects your information.'],
   ['/terms',   'Terms of Service - ZmaxLab', 'Terms governing ZmaxLab website design and marketing services.'],
   ['/blog/custom-vs-template-medical-website',
