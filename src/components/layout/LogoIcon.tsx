@@ -185,18 +185,18 @@ export default function LogoIcon({ height = 38 }: { height?: number }) {
 
       {/* ── Wordmark ── */}
       <text x="64" y="34"
-        fontFamily="'Space Grotesk','Inter','Segoe UI',system-ui,sans-serif"
+        fontFamily="'Space Grotesk','Geist','Segoe UI',system-ui,sans-serif"
         fontWeight="800" fontSize="24" letterSpacing="-0.8"
         fill="url(#lg-zmax)">Zmax</text>
 
       <text x="130" y="34"
-        fontFamily="'Space Grotesk','Inter','Segoe UI',system-ui,sans-serif"
+        fontFamily="'Space Grotesk','Geist','Segoe UI',system-ui,sans-serif"
         fontWeight="800" fontSize="24" letterSpacing="-0.8"
         fill="url(#lg-lab)">Lab</text>
 
       <circle cx="64" cy="46" r="1.4" fill="rgba(255,255,255,0.2)"/>
       <text x="71" y="49"
-        fontFamily="'Inter','Segoe UI',system-ui,sans-serif"
+        fontFamily="'Geist','Segoe UI',system-ui,sans-serif"
         fontWeight="500" fontSize="9"
         fill="rgba(255,255,255,0.35)"
         letterSpacing="1.8">HEALTHCARE WEBSITES</text>

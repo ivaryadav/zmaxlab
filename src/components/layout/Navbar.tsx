@@ -116,7 +116,7 @@ export default function Navbar() {
               fontSize: 13.5, fontWeight: 650,
               padding: '11px 20px', borderRadius: 999, whiteSpace: 'nowrap',
             }}>
-              Free demo <ArrowRight size={14} />
+              Book a call <ArrowRight size={14} />
             </a>
             <button
               className="zx-nav-mobile"
@@ -165,7 +165,7 @@ export default function Navbar() {
               display: 'inline-flex', alignItems: 'center', gap: 9, marginTop: 34,
               background: T.blue, color: '#fff', fontSize: 15, fontWeight: 700,
               padding: '15px 28px', borderRadius: 999,
-            }}>Book a free demo <ArrowRight size={16} /></a>
+            }}>Book a consultation <ArrowRight size={16} /></a>
           </motion.div>
         )}
       </AnimatePresence>

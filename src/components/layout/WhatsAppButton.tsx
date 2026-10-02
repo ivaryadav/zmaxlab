@@ -85,7 +85,7 @@ export default function BookingButton() {
               color: '#fff', fontSize: 12, fontWeight: 700,
               padding: '8px 14px', borderRadius: 10,
             }}>
-              Book free call →
+              Book a 15-min call →
             </div>
 
             {/* Right-pointing arrow tail */}
@@ -107,7 +107,7 @@ export default function BookingButton() {
         href={CALENDLY_URL}
         target="_blank"
         rel="noreferrer"
-        aria-label="Book a free call with Ravi"
+        aria-label="Book a 15-minute call with Ravi"
         animate={{ scale: hovered ? 1.1 : 1 }}
         transition={{ type: 'spring', stiffness: 380, damping: 24 }}
         style={{

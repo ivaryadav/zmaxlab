@@ -42,7 +42,7 @@ let counter = 0
 const uid = () => `m${Date.now()}_${counter++}`
 
 const cardShadow = '0 24px 60px rgba(7,37,58,0.22)'
-const SERIF = "'Fraunces',Georgia,serif"
+const SERIF = "'Newsreader',Georgia,serif"
 
 export default function ChatBot() {
   const { pathname } = useLocation()

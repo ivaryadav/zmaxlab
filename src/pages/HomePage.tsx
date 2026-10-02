@@ -1,41 +1,56 @@
-import { ArrowRight, Check, ShieldCheck, CreditCard, FileCheck } from 'lucide-react'
-import { T, MONO, TYPE , CALENDLY_URL } from '@/lib/theme'
+import { ArrowRight, ArrowUpRight, Check } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { MotionConfig, motion } from 'framer-motion'
+import { CALENDLY_URL, EASE } from '@/lib/theme'
 import LiveBuilder from '@/components/ui/LiveBuilder'
-import RoiCalc from '@/components/ui/RoiCalc'
 import HeroLeadForm from '@/components/ui/HeroLeadForm'
-import GrowthServices from '@/components/ui/GrowthServices'
+import { GROWTH_SERVICES } from '@/components/ui/GrowthServices'
 import { useSEO } from '@/lib/useSEO'
-import {
-  Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, Slider, Reveal, rise, slideIn, motion,
-} from '@/components/ui/kit'
+import './home.css'
 
-const SPECIALTIES = [
-  'Nurse Practitioners', 'Physician Assistants', 'Mental Health', 'Dental & Oral Care',
-  'Chiropractic & Rehab', 'PT / OT / Speech', 'Multi-Specialty Groups', 'Concierge Medicine',
+const enter = (delay = 0) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, delay, ease: EASE },
+})
+const reveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.7, delay, ease: EASE },
+})
+
+const WORK = [
+  { img: '/img/clients/manhattan-cardiology.jpg', name: 'Manhattan Cardiology', meta: 'Cardiology · New York, NY', url: 'manhattancardiology.com' },
+  { img: '/img/clients/mango-pediatrics.jpg', name: 'Mango Pediatrics', meta: 'Pediatrics · Jacksonville, FL', url: 'mangopediatrics.com' },
+  { img: '/img/clients/nw-womens-healthcare.jpg', name: "Northwest Women's HealthCare", meta: 'OB/GYN · Seattle, WA', url: 'www.nwwomenshealth.com' },
 ]
 
-const INCLUDED = [
-  ['01', 'Your domain, in your name', 'Choosing the right domain affects how patients find and remember you. I help you pick the strongest option, you register it directly in your own name, and I configure everything - you never touch a DNS setting.'],
-  ['02', 'Custom-coded, not templated', 'Every page is written from scratch for your specialty. No WordPress theme, no page builder, no recycled layout with your logo swapped in.'],
-  ['03', 'Credentials built into the design', 'Your NPI number, license, and specialty are structured into the page - so patients and search engines both read you as legitimate.'],
-  ['04', 'Booking that actually connects', 'Wired into Calendly, Jane, or SimplePractice. Patients book without emailing you first.'],
-  ['05', 'HIPAA-aware contact forms', 'Secure intake, no plain-text patient detail sitting in an inbox.'],
-  ['06', 'Full SEO foundation', 'Meta structure, schema markup, sitemap, Search Console, and Analytics configured before launch - not sold back to you later.'],
-  ['07', 'You own the source code', 'Delivered to you outright. No licence, no lock-in, no hostage situation if you leave.'],
+const QUESTIONS = [
+  ['Do you take my insurance?', 'An insurance and billing page, linked from every header.'],
+  ['How soon can I be seen?', 'Live booking through Calendly, Jane or SimplePractice.'],
+  ['Are you the right specialist for this?', 'A clear page for each condition and service you offer.'],
+  ['Are you properly licensed?', 'NPI, licence and specialty shown where patients look for them.'],
+  ['Can I book outside office hours?', 'Booking and intake that work at 11pm on a Sunday.'],
+  ['Are you close to me?', 'Google Business Profile, map and local search markup.'],
 ]
 
 const STEPS = [
-  ['Day 1', 'Discovery call', 'Thirty minutes. Your specialty, your patients, your market.'],
-  ['Days 2-4', 'Design & build', 'Written from scratch. You see progress, not a black box.'],
-  ['Day 5', 'SEO foundation', 'Structure, schema, Search Console, Business Profile.'],
-  ['Days 6-7', 'Launch', 'Live on your domain with SSL. Source files handed over.'],
+  ['Day 1', 'Consultation', 'A short call about your specialty, your patients and your market.'],
+  ['Days 2–4', 'Design and build', 'Written from scratch. You see the design and approve it before code.'],
+  ['Day 5', 'Search foundation', 'Page structure, schema, Search Console and your Business Profile.'],
+  ['Days 6–7', 'Launch', 'Live on your domain with SSL. Source files handed over.'],
 ]
 
-const COMPARE = [
-  ['Healthcare marketing agency', '$3,000 - $10,000', false],
-  ['Closest NP-focused competitor', '$1,097.50', false],
-  ['Wix / Squarespace', '$29/mo, forever', false],
-  ['ZmaxLab', '$500, once', true],
+const INCLUDED = [
+  'Custom design, up to six pages',
+  'Copy written for every page',
+  'Online booking connected',
+  'Secure contact and intake forms',
+  'SEO foundation and analytics',
+  'Domain, hosting and SSL set up for you',
+  'One revision after launch',
+  'Full source code',
 ]
 
 export default function HomePage() {
@@ -46,456 +61,220 @@ export default function HomePage() {
   })
 
   return (
-    <>
-      {/* ══ 1. HERO ══════════════════════════════════════════ */}
-      <section style={{ paddingTop: 'clamp(96px,11vw,132px)', paddingBottom: 'clamp(40px,5vw,72px)' }}>
-        <Shell wide>
-          <motion.div {...rise()} style={{
-            display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)',
-            borderRadius: 24, overflow: 'hidden', background: T.gradPanel,
-            boxShadow: '0 30px 80px rgba(7,37,58,0.13)',
-          }} className="zx-hero-panel">
-            <div style={{ padding: 'clamp(32px,4.5vw,68px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <Pill>Your practice's digital partner</Pill>
-              <Display style={{ marginBottom: 22 }}>
-                See your practice's
-                website, <Grad>before you pay a thing</Grad>.
-              </Display>
-              <Lead style={{ maxWidth: 480, marginBottom: 22, color: 'rgba(7,37,58,0.80)' }}>
-                A fast, custom-coded website with SEO built in - live in 7 business days for a flat $500. On your own domain and hosting, so you own every piece.
-              </Lead>
-              <HeroLeadForm />
-              <div style={{ display: 'flex', gap: 'clamp(20px,3vw,44px)', flexWrap: 'wrap', marginTop: 38, paddingTop: 26, borderTop: '1px solid rgba(7,37,58,0.14)' }}>
-                {[['$500', 'flat fee'], ['7 days', 'to launch'], ['54%', 'below closest rival']].map(([v, l]) => (
-                  <div key={l}>
-                    <div style={{ fontSize: 25, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, color: T.primaryDeep }}>{v}</div>
-                    <Mono style={{ color: T.faint, textTransform: 'uppercase', display: 'block', marginTop: 6 }}>{l}</Mono>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="zx-hero-img" style={{ padding: 'clamp(20px,3vw,40px)', display: 'flex', alignItems: 'center' }}>
-              <LiveBuilder />
-            </div>
-          </motion.div>
-        </Shell>
-      </section>
+    <MotionConfig reducedMotion="user">
+      <div className="hm">
 
-      {/* ══ 2. TICKER ════════════════════════════════════════ */}
-      <div style={{ background: T.ink, color: T.onDark, padding: '17px 0', overflow: 'hidden' }}>
-        <div className="zx-marquee-track">
-          {[0, 1].map(dup => (
-            <div key={dup} style={{ display: 'flex', flexShrink: 0 }} aria-hidden={dup === 1}>
-              {SPECIALTIES.map(s => (
-                <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 34, paddingRight: 34, whiteSpace: 'nowrap' }}>
-                  <Mono style={{ color: T.onDarkMuted, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{s}</Mono>
-                  <span style={{ width: 3, height: 3, borderRadius: '50%', background: T.gold, flexShrink: 0 }} />
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ══ 2b. GROWTH SERVICES ═══════════════════════════ */}
-      <GrowthServices compact tint />
-
-      {/* ══ 3. STATEMENT ═════════════════════════════════════ */}
-      <Section>
-        <Shell>
-          <div className="zx-stmt">
-            <motion.div {...rise()}>
-              <Eyebrow>The problem</Eyebrow>
-              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)', marginTop: 22 }}>
-                <img src="/img/clinician-hero.jpg" alt="Nurse practitioner" loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 18%', display: 'block' }} />
-              </div>
-            </motion.div>
-            <motion.div {...rise(0.08)}>
-              <H2 style={{ marginBottom: 30 }}>
-                Most healthcare websites are a template with a stethoscope
-                photo dropped in, and <Grad>patients can tell</Grad>.
-              </H2>
-              <Lead style={{ maxWidth: 620, marginBottom: 18 }}>
-                They load slowly, say nothing specific about your credentials, and look
-                identical to the clinic three streets over. Meanwhile a $3,000 agency wants a
-                retainer and twelve weeks before anything goes live.
-              </Lead>
-              <Lead style={{ maxWidth: 620, color: T.text, fontWeight: 600 }}>
-                ZmaxLab is one specialist writing your site by hand, for a flat $500, in a week.
-              </Lead>
-            </motion.div>
-          </div>
-        </Shell>
-      </Section>
-
-      {/* ══ 4. WHAT'S INCLUDED ══════════════════════════════ */}
-      <Section tint>
-        <Shell>
-          <div className="zx-sticky">
-            <motion.div {...rise()} className="zx-sticky-col">
-              <Eyebrow>What you get</Eyebrow>
-              <H2 style={{ marginBottom: 22 }}>Every digital <Grad>footprint</Grad>, handled.</H2>
-              <Lead style={{ maxWidth: 380, marginBottom: 30 }}>
-                From choosing the right domain to launching the site itself. No starter tier, no upsell call, nothing held back to charge for later.
-              </Lead>
-              <TextLink to="/services">Full service breakdown</TextLink>
-              <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
-                <img src="/img/practice-room.jpg" alt="A modern clinical treatment room" loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 45%', display: 'block' }} />
-              </div>
-            </motion.div>
-
-            <div>
-              {INCLUDED.map(([n, title, body], i) => (
-                <motion.div key={n} {...rise(i * 0.05)} className="zx-row" style={{
-                  display: 'grid', gridTemplateColumns: '44px 1fr', gap: 18,
-                  padding: '26px 14px 26px 0',
-                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : 'none',
-                  borderBottom: `1px solid ${T.hairline}`,
-                }}>
-                  <Index n={n} />
-                  <div>
-                    <h3 style={{ fontSize: TYPE.h3, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 9 }}>{title}</h3>
-                    <p style={{ fontSize: 15.5, lineHeight: 1.68, color: T.muted, margin: 0, maxWidth: 560 }}>{body}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </Shell>
-      </Section>
-
-      {/* ══ 4b. WHAT I UNDERSTAND ═══════════════════════════ */}
-      <Section>
-        <Shell>
-          <div className="zx-split">
-            <motion.div {...rise()}>
-              <Eyebrow>Why practitioners pick this</Eyebrow>
-              <H2 style={{ marginBottom: 22 }}>
-                A site only works if it answers what the patient is actually asking.
-              </H2>
-              <Lead style={{ maxWidth: 440 }}>
-                Patients do not compare clinics the way they compare restaurants. They arrive
-                anxious, in a hurry, and looking for a few specific answers. If your site does
-                not give them quickly, they go back to the search results.
-              </Lead>
-            </motion.div>
-            <motion.div {...rise(0.1)}>
-              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 18 }}>
-                What every page is built to answer
-              </Mono>
-              {[
-                'Do you take my insurance?',
-                'How soon can I actually be seen?',
-                'Is this the right specialty for what I have?',
-                'Are you properly licensed and credentialed?',
-                'Can I book without phoning during work hours?',
-                'Has anyone like me been treated here before?',
-              ].map((q, i) => (
-                <div key={q} style={{
-                  display: 'flex', gap: 14, alignItems: 'baseline', padding: '15px 0',
-                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
-                }}>
-                  <Mono style={{ color: T.blue, flexShrink: 0 }}>{`0${i + 1}`}</Mono>
-                  <span style={{ fontSize: 16.5, lineHeight: 1.5, fontWeight: 550 }}>{q}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </Shell>
-      </Section>
-
-      {/* ══ 4c. DIGITAL PARTNER / VIDEO SPLIT ═══════════════ */}
-      <Section tint>
-        <Shell>
-          <div className="zx-split" style={{ alignItems: 'center' }}>
-            <motion.div {...slideIn('left')} className="zx-lift zx-zoom" style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/5', maxHeight: 560, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
-              <Vid src="/video/laptop-clinician.mp4" poster="/img/poster-laptop-clinician.jpg"
-                style={{ objectPosition: '68% 16%', transform: 'scale(1.12)' }} />
-            </motion.div>
-            <motion.div {...slideIn('right', 0.08)}>
-              <Pill tone="coral">One partner, not five vendors</Pill>
-              <H2 style={{ marginBottom: 22 }}>
-                Stop juggling a domain registrar, a host, a designer and an <Grad>SEO guy</Grad>.
-              </H2>
-              <Lead style={{ marginBottom: 28, maxWidth: 480 }}>
-                Most practitioners end up with four different logins, four invoices, and nobody
-                who actually owns the outcome. ZmaxLab is one person holding all of it.
-              </Lead>
-              {[
-                ['Domain', 'Chosen with you, kept in your name, connected for you.'],
-                ['Hosting', 'Your own plan, set up and secured with SSL by us.'],
-                ['Website', 'Custom-coded for your specialty in 7 days.'],
-                ['Visibility', 'SEO, Google Business Profile, directories, reviews.'],
-              ].map(([k, v], i) => (
-                <div key={k} style={{
-                  display: 'grid', gridTemplateColumns: '112px 1fr', gap: 16, padding: '14px 0',
-                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
-                }}>
-                  <Mono style={{ color: T.primaryDeep, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{k}</Mono>
-                  <span style={{ fontSize: 15.5, lineHeight: 1.6, color: T.muted }}>{v}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </Shell>
-      </Section>
-
-      {/* ══ 5. WHY IT MATTERS - split, portrait media framed properly ══ */}
-      <section style={{ background: T.ink, color: T.onDark, padding: 'clamp(56px,7vw,96px) 0' }}>
-        <Shell>
-          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,72px)' }}>
-            <motion.div {...slideIn('left')} className="zx-lift zx-zoom" style={{
-              borderRadius: 20, overflow: 'hidden', aspectRatio: '3/4', maxHeight: 520,
-              boxShadow: '0 30px 76px rgba(0,0,0,0.45)',
-            }}>
-              <Vid src="/video/hero-clinicians.mp4" poster="/img/poster-hero-clinicians.jpg"
-                style={{ objectPosition: 'center 26%' }} />
-            </motion.div>
-
-            <motion.div {...slideIn('right', 0.08)}>
-              <Eyebrow dark>Why it matters</Eyebrow>
-              <H2 style={{ color: T.onDark, marginBottom: 20 }}>
-                Your website is the <Grad>first appointment</Grad>.
-              </H2>
-              <Lead dark style={{ maxWidth: 480, marginBottom: 30 }}>
-                It is where a patient decides whether you look like someone they trust with
-                their health, usually before they ever pick up the phone.
-              </Lead>
-              {[
-                ['They are deciding in seconds', 'Slow, dated or generic and they are back on the search results.'],
-                ['Credentials have to be visible', 'Licence, NPI and specialty should be readable at a glance, not buried.'],
-                ['Booking has to be one tap', 'Every extra step between interest and appointment loses people.'],
-              ].map(([t, b], i) => (
-                <div key={t} style={{
-                  padding: '16px 0',
-                  borderTop: `1px solid ${T.onDarkLine}`,
-                  ...(i === 2 ? { borderBottom: `1px solid ${T.onDarkLine}` } : {}),
-                }}>
-                  <div style={{ fontSize: 16.5, fontWeight: 600, color: T.onDark, marginBottom: 5, letterSpacing: '-0.01em' }}>{t}</div>
-                  <div style={{ fontSize: 14.5, lineHeight: 1.6, color: T.onDarkMuted }}>{b}</div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </Shell>
-      </section>
-
-      {/* ══ 6. PROCESS ══════════════════════════════════════ */}
-      <Section dark>
-        <Shell>
-          <motion.div {...rise()} style={{ marginBottom: 'clamp(44px,6vw,72px)', maxWidth: 620 }}>
-            <Eyebrow dark>The build</Eyebrow>
-            <H2 style={{ color: T.onDark, marginBottom: 18 }}>Seven days, <Grad>start to live</Grad>.</H2>
-            <Lead dark>Not seven months, and not a queue behind twelve other accounts.</Lead>
-          </motion.div>
-          <div className="zx-steps">
-            {STEPS.map(([day, title, body], i) => (
-              <motion.div key={title} {...rise(i * 0.08)} style={{
-                padding: 'clamp(24px,3vw,34px) clamp(18px,2vw,28px) clamp(30px,4vw,44px) 0',
-                borderTop: `1px solid ${T.onDarkLine}`,
-                position: 'relative',
-              }}>
-                <Mono style={{ color: T.goldBright, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: 22, fontWeight: 600 }}>{day}</Mono>
-                <h3 style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em', marginBottom: 10 }}>{title}</h3>
-                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.onDarkMuted, margin: 0 }}>{body}</p>
+        {/* ── Hero ─────────────────────────────────────────── */}
+        <section className="hm-hero">
+          <div className="hm-wrap hm-hero-grid">
+            <div className="hm-hero-copy">
+              <motion.p {...enter(0)} className="hm-kicker">Healthcare web design · United States</motion.p>
+              <motion.h1 {...enter(0.08)} className="hm-h1">
+                Websites for independent practices, <em>built by hand.</em>
+              </motion.h1>
+              <motion.p {...enter(0.16)} className="hm-lead">
+                A custom-coded site for nurse practitioners, therapists, chiropractors and
+                specialists. Live in seven business days for a flat $500, on your own domain,
+                with the code handed to you.
+              </motion.p>
+              <motion.dl {...enter(0.24)} className="hm-facts">
+                <div><dt>$500</dt><dd>Flat fee, paid in two halves</dd></div>
+                <div><dt>7 days</dt><dd>From your content to live</dd></div>
+                <div><dt>Yours</dt><dd>Domain, hosting and source code</dd></div>
+              </motion.dl>
+              <motion.div {...enter(0.3)} className="hm-hero-links">
+                <a href="#work" className="hm-link">See recent work <ArrowRight size={15} /></a>
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="hm-link hm-link-quiet">
+                  Book a 15-minute consultation <ArrowUpRight size={15} />
+                </a>
               </motion.div>
-            ))}
-          </div>
-        </Shell>
-      </Section>
+            </div>
 
-      {/* ══ 7. PRICING ══════════════════════════════════════ */}
-      <Section>
-        <Shell>
-          <div className="zx-split" style={{ alignItems: 'center' }}>
-            <motion.div {...rise()}>
-              <Eyebrow>Pricing</Eyebrow>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
-                <span style={{ fontSize: 'clamp(26px,3vw,34px)', fontWeight: 700, marginTop: 'clamp(6px,1vw,12px)', letterSpacing: '-0.02em' }}>$</span>
-                <span style={{ fontSize: 'clamp(78px,11vw,150px)', fontWeight: 800, letterSpacing: '-0.055em', lineHeight: 0.85 }}>500</span>
-              </div>
-              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.16em', display: 'block', marginBottom: 30 }}>
-                One payment · No contract · No retainer
-              </Mono>
-              <Lead style={{ maxWidth: 400, marginBottom: 32 }}>
-                Half up front, half on launch day once you have approved the live site.
-                If it is not live in seven business days, you are refunded.
-              </Lead>
-              <Btn to={CALENDLY_URL}>Start your build <ArrowRight size={17} /></Btn>
+            <motion.div
+              initial={{ opacity: 0, y: 40, rotate: 1.5 }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: EASE }}
+              className="hm-hero-slip"
+            >
+              <HeroLeadForm />
             </motion.div>
+          </div>
+        </section>
 
-            <motion.div {...rise(0.1)}>
-              <Mono style={{ color: T.faint, textTransform: 'uppercase', letterSpacing: '0.14em', display: 'block', marginBottom: 20 }}>
-                What the market charges
-              </Mono>
-              {COMPARE.map(([label, price, mine], i) => (
-                <div key={label as string} style={{
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 20,
-                  padding: '20px 0',
-                  borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}`,
-                }}>
-                  <span style={{ fontSize: 15.5, color: mine ? T.text : T.muted, fontWeight: mine ? 700 : 400 }}>{label}</span>
-                  <span style={{
-                    fontFamily: MONO, fontSize: 14.5, whiteSpace: 'nowrap',
-                    color: mine ? T.gold : T.faint, fontWeight: mine ? 700 : 500,
-                  }}>{price}</span>
-                </div>
+        {/* ── Recent work ──────────────────────────────────── */}
+        <section className="hm-sec" id="work">
+          <div className="hm-wrap">
+            <motion.header {...reveal()} className="hm-head hm-head-row">
+              <div>
+                <p className="hm-eyebrow">Recent work</p>
+                <h2 className="hm-h2">Live practice sites, <em>not mockups.</em></h2>
+              </div>
+              <Link to="/clients" className="hm-link">All client work <ArrowRight size={15} /></Link>
+            </motion.header>
+            <div className="hm-work">
+              {WORK.map((w, i) => (
+                <motion.a {...reveal(i * 0.08)} key={w.name} href={`https://${w.url}`} target="_blank" rel="noopener noreferrer" className="hm-work-card">
+                  <div className="hm-frame">
+                    <div className="hm-frame-bar"><i /><i /><i /><span>{w.url}</span></div>
+                    <img src={w.img} alt={`${w.name} website`} loading="lazy" />
+                  </div>
+                  <div className="hm-work-meta">
+                    <h3>{w.name}</h3>
+                    <p>{w.meta}</p>
+                  </div>
+                </motion.a>
               ))}
-              <p style={{ fontSize: 12.5, lineHeight: 1.7, color: T.faint, marginTop: 20, borderTop: `1px solid ${T.hairline}`, paddingTop: 18 }}>
-                Roughly 54% below the closest comparable NP-focused offer and 83-95% below typical
-                agency pricing. Based on publicly listed prices at time of writing.
+            </div>
+          </div>
+        </section>
+
+        {/* ── Specialty preview ────────────────────────────── */}
+        <section className="hm-sec hm-sec-tint">
+          <div className="hm-wrap hm-split">
+            <motion.div {...reveal()} className="hm-split-copy">
+              <p className="hm-eyebrow">Try it</p>
+              <h2 className="hm-h2">Pick a specialty. <em>Watch the page change.</em></h2>
+              <p className="hm-body">
+                Every build starts from your specialty: the words patients search, the
+                credentials they look for, the way they book. This preview shows the
+                structure. Your site is written for your practice.
               </p>
             </motion.div>
+            <motion.div {...reveal(0.1)}>
+              <LiveBuilder />
+            </motion.div>
           </div>
-        </Shell>
-      </Section>
+        </section>
 
-      {/* ══ 7b. IS IT WORTH IT ══════════════════════════════ */}
-      <Section tint>
-        <Shell>
-          <div className="zx-split" style={{ alignItems: 'center', gap: 'clamp(28px,5vw,68px)' }}>
-            <motion.div {...slideIn('left')}>
-              <Pill>Return on the spend</Pill>
-              <H2 style={{ marginBottom: 20 }}>
-                One patient usually pays for the <Grad>whole thing</Grad>.
-              </H2>
-              <Lead style={{ maxWidth: 460, marginBottom: 26 }}>
-                A website is not a running cost like ads. It is built once, you own the code,
-                and it keeps working every hour your front desk is closed.
-              </Lead>
-              {[
-                ['You own the asset', 'Full source code is delivered to you. No licence, no monthly fee to keep it alive.'],
-                ['It does not stop', 'It answers questions and takes bookings at 11pm and on a Sunday.'],
-                ['The cost is fixed', 'No retainer, no scope creep, no invoice you did not expect.'],
-              ].map(([t, b], i) => (
-                <div key={t} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 0', borderTop: i === 0 ? `1px solid ${T.hairlineStrong}` : `1px solid ${T.hairline}` }}>
-                  <Check size={16} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
-                  <div>
-                    <div style={{ fontSize: 15.5, fontWeight: 600, marginBottom: 3 }}>{t}</div>
-                    <div style={{ fontSize: 14, lineHeight: 1.6, color: T.muted }}>{b}</div>
-                  </div>
+        {/* ── Patient questions ────────────────────────────── */}
+        <section className="hm-sec">
+          <div className="hm-wrap">
+            <motion.header {...reveal()} className="hm-head">
+              <p className="hm-eyebrow">How it is built</p>
+              <h2 className="hm-h2">A patient decides in seconds. <em>Every page answers first.</em></h2>
+            </motion.header>
+            <motion.div {...reveal(0.05)} className="hm-qa" role="table" aria-label="Patient questions and where the site answers them">
+              <div className="hm-qa-row hm-qa-headrow" role="row">
+                <span role="columnheader">The patient asks</span>
+                <span role="columnheader">Where your site answers</span>
+              </div>
+              {QUESTIONS.map(([q, a]) => (
+                <div key={q} className="hm-qa-row" role="row">
+                  <span role="cell" className="hm-qa-q">{q}</span>
+                  <span role="cell" className="hm-qa-a">{a}</span>
                 </div>
               ))}
             </motion.div>
+          </div>
+        </section>
 
-            <motion.div {...slideIn('right', 0.08)}>
-              <RoiCalc />
+        {/* ── Process ──────────────────────────────────────── */}
+        <section className="hm-sec hm-sec-ink">
+          <div className="hm-wrap">
+            <motion.header {...reveal()} className="hm-head">
+              <p className="hm-eyebrow">The build</p>
+              <h2 className="hm-h2">Seven business days, <em>start to live.</em></h2>
+            </motion.header>
+            <ol className="hm-steps">
+              {STEPS.map(([day, title, body], i) => (
+                <motion.li {...reveal(i * 0.08)} key={title}>
+                  <span className="hm-step-day">{day}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ── Pricing ──────────────────────────────────────── */}
+        <section className="hm-sec">
+          <div className="hm-wrap hm-price">
+            <motion.div {...reveal()} className="hm-price-main">
+              <p className="hm-eyebrow">Pricing</p>
+              <p className="hm-price-fig"><sup>$</sup>500</p>
+              <p className="hm-body">
+                One price for the build, paid in two halves: $250 to start, and $250 once you
+                have approved the live site. Agencies typically quote $3,000 to $10,000 for the same scope.
+              </p>
+              <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="hm-btn">
+                Book a 15-minute consultation <ArrowUpRight size={16} />
+              </a>
+            </motion.div>
+            <motion.div {...reveal(0.08)} className="hm-price-lists">
+              <div>
+                <h3 className="hm-list-title">Included</h3>
+                <ul className="hm-list">
+                  {INCLUDED.map(t => <li key={t}><Check size={15} />{t}</li>)}
+                </ul>
+              </div>
+              <div>
+                <h3 className="hm-list-title">Paid directly by you, at cost</h3>
+                <ul className="hm-list hm-list-plain">
+                  <li><span>Domain, in your name</span><span>about $12–15 / year</span></li>
+                  <li><span>Hosting plan, in your name</span><span>about $3–6 / month</span></li>
+                </ul>
+                <p className="hm-small">No markup and no middleman. If you ever move on, everything moves with you.</p>
+              </div>
             </motion.div>
           </div>
-        </Shell>
-      </Section>
+          <div className="hm-wrap">
+            <motion.ul {...reveal(0.1)} className="hm-promises">
+              <li><strong>Live in seven business days,</strong> or a full refund.</li>
+              <li><strong>You approve the design</strong> before any code is written.</li>
+              <li><strong>Source code delivered.</strong> No licence, no lock-in.</li>
+            </motion.ul>
+          </div>
+        </section>
 
-      {/* ══ 7c. RISK REVERSAL ═══════════════════════════════ */}
-      <Section pad="clamp(52px,6vw,80px)">
-        <Shell>
-          <motion.div {...rise()} style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto clamp(30px,4vw,44px)' }}>
-            <Pill tone="coral">Your risk, removed</Pill>
-            <H2 style={{ marginBottom: 16 }}>Three ways you cannot lose money here.</H2>
-            <Lead>Every one of these is in writing before you pay anything.</Lead>
-          </motion.div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
-            {[
-              [ShieldCheck, 'Live in 7 days, or refunded', 'If your site is not live on your domain within seven business days of receiving your content, you get every dollar back. No conditions.'],
-              [CreditCard, 'You only risk $250', 'Half up front, half on launch day, and only once you have approved the live site. If you walk away at mockup stage, that is where it ends.'],
-              [FileCheck, 'You approve before code', 'Nothing gets built until you have signed off the design. Changes at that stage cost nothing.'],
-            ].map(([Icon, t, b], i) => {
-              const I = Icon as typeof ShieldCheck
-              return (
-                <motion.div key={t as string} {...rise(i * 0.07)} className="zx-svc-card" style={{ padding: '26px 24px' }}>
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    width: 42, height: 42, borderRadius: 12, background: T.primaryTint, marginBottom: 16,
-                  }}>
-                    <I size={19} style={{ color: T.primaryDeep }} />
-                  </span>
-                  <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', marginBottom: 8 }}>{t as string}</h3>
-                  <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{b as string}</p>
+        {/* ── Beyond the website ───────────────────────────── */}
+        <section className="hm-sec hm-sec-tint">
+          <div className="hm-wrap">
+            <motion.header {...reveal()} className="hm-head hm-head-row">
+              <div>
+                <p className="hm-eyebrow">After launch</p>
+                <h2 className="hm-h2">Beyond the website.</h2>
+              </div>
+              <p className="hm-body hm-head-aside">Add the channels that bring patients in. Nothing is bundled, and every service is month to month.</p>
+            </motion.header>
+            <div className="hm-svc">
+              {GROWTH_SERVICES.slice(1).map(({ title, tag, desc }, i) => (
+                <motion.div {...reveal(i * 0.04)} key={title} className="hm-svc-row">
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                  <span>{tag}</span>
                 </motion.div>
-              )
-            })}
+              ))}
+            </div>
+            <Link to="/services" className="hm-link hm-svc-more">Services and pricing <ArrowRight size={15} /></Link>
           </div>
-        </Shell>
-      </Section>
+        </section>
 
-      {/* ══ 8. PROOF ════════════════════════════════════════ */}
-      <Section tint>
-        <Shell>
-          <motion.div {...rise()} style={{ marginBottom: 'clamp(38px,5vw,58px)' }}>
-            <Eyebrow>Built for specialists</Eyebrow>
-            <H2 style={{ maxWidth: 640 }}>Designed around how patients actually choose a provider.</H2>
-          </motion.div>
+        {/* ── A note from Ravi ─────────────────────────────── */}
+        <section className="hm-sec hm-sec-ink hm-note">
+          <div className="hm-wrap hm-note-grid">
+            <motion.figure {...reveal()} className="hm-note-photo">
+              <img src="/ravi.jpg" alt="Ravi Kumar, founder of ZmaxLab" loading="lazy" />
+            </motion.figure>
+            <motion.div {...reveal(0.08)}>
+              <p className="hm-eyebrow">From the person who builds it</p>
+              <blockquote className="hm-note-quote">
+                I'm one person, so I take a limited number of builds each month. The person you
+                speak to is the person who writes your site. No account manager, no hand-offs,
+                and a straight answer on whether it's the right fit.
+              </blockquote>
+              <p className="hm-note-sign"><em>Ravi Kumar</em><span>Founder, ZmaxLab</span></p>
+              <div className="hm-note-ctas">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="hm-btn hm-btn-light">
+                  Book a 15-minute consultation <ArrowUpRight size={16} />
+                </a>
+                <a href="#intake" className="hm-link hm-link-light">Or request a call back <ArrowRight size={15} /></a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-          <Reveal>
-            <Slider slides={[
-              { img: '/img/portrait-1.jpg', focus: 'center 18%', title: 'Credentials first',    body: 'NPI, licence and specialty structured into the page so patients and search engines both read you as legitimate.' },
-              { img: '/img/clinician-friendly.jpg', focus: 'center 14%', title: 'Clarity over clutter', body: 'One clear action per screen. No six competing buttons, no hunting for a phone number.' },
-              { img: '/img/specialty-dental.jpg', focus: 'center 30%', title: 'Built to be found',    body: 'Technical SEO handled at build time, not sold back to you as an upgrade later.' },
-            ]} />
-          </Reveal>
-
-          <div style={{ height: 'clamp(44px,6vw,72px)' }} />
-
-          <motion.figure {...rise()} style={{ margin: 0, borderTop: `1px solid ${T.hairlineStrong}`, paddingTop: 'clamp(30px,4vw,48px)' }} className="zx-quote">
-            <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)' }}>
-              <img src="/img/portrait-2.jpg" alt="Healthcare practitioner" loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
-            </div>
-            <div>
-            <blockquote style={{ margin: 0, fontSize: 'clamp(20px,2.4vw,31px)', lineHeight: 1.34, fontWeight: 600, letterSpacing: '-0.022em' }}>
-              The proof isn't on this page - it's live on theirs.
-            </blockquote>
-            <p style={{ fontSize: 15.5, lineHeight: 1.7, color: T.muted, marginTop: 20, maxWidth: 560 }}>
-              Real practices are running on sites built this way, from a two-doctor Manhattan
-              clinic to a multi-location group. See what a finished build actually looks like,
-              not a rendering of one. <TextLink to="/clients">See the client work</TextLink>
-            </p>
-            <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px solid ${T.hairline}` }}>
-              {[
-                'Half up front - $250 is your entire exposure',
-                'Live in 7 business days or refunded in full',
-                'Full source code delivered - you own it outright',
-              ].map(t => (
-                <div key={t} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '6px 0' }}>
-                  <Check size={15} style={{ color: T.primary, flexShrink: 0, marginTop: 3 }} />
-                  <span style={{ fontSize: 14.5, lineHeight: 1.6, color: T.text }}>{t}</span>
-                </div>
-              ))}
-            </div>
-            </div>
-          </motion.figure>
-        </Shell>
-      </Section>
-
-      {/* ══ 9. CTA ══════════════════════════════════════════ */}
-      <Section dark pad="clamp(80px,10vw,132px)" padBottom="clamp(34px,4vw,48px)">
-        <Shell>
-          <motion.div {...rise()} style={{ maxWidth: 780 }}>
-            <Eyebrow dark>Next step</Eyebrow>
-            <H2 style={{ color: T.onDark, marginBottom: 24 }}>
-              Twenty minutes, and you will know exactly what your site would look like.
-            </H2>
-            <Lead dark style={{ maxWidth: 560, marginBottom: 38 }}>
-              A short call - your specialty, your market, what the build would involve.
-              No obligation and nothing to prepare.
-            </Lead>
-            <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
-              <TextLink to="/how-it-works" dark>How the 7 days work</TextLink>
-            </div>
-            <div style={{ display: 'flex', gap: 26, flexWrap: 'wrap', marginTop: 52, paddingTop: 26, borderTop: `1px solid ${T.onDarkLine}` }}>
-              {['Source code included', 'No contract', '7-day guarantee or refunded'].map(t => (
-                <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                  <Check size={14} style={{ color: T.primaryBright }} />
-                  <Mono style={{ color: T.onDarkMuted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t}</Mono>
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        </Shell>
-      </Section>
-    </>
+      </div>
+    </MotionConfig>
   )
 }

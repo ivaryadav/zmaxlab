@@ -43,8 +43,9 @@ export const T = {
   shadowLg: '0 24px 70px rgba(7,37,58,0.16)',
 }
 
-export const MONO = "'Inter',system-ui,-apple-system,sans-serif"
-export const DISPLAY = "'Fraunces','Instrument Serif',Georgia,serif"
+export const MONO = "'Geist',system-ui,-apple-system,sans-serif"
+export const CODE = "'Geist Mono',ui-monospace,SFMono-Regular,monospace"
+export const DISPLAY = "'Newsreader',Georgia,serif"
 
 export const TYPE = {
   display: 'clamp(36px, 4.6vw, 66px)',

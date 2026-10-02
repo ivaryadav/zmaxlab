@@ -27,7 +27,7 @@ export default function AboutPage() {
             <motion.div {...rise()}>
               <Pill>About ZmaxLab</Pill>
               <Display style={{ marginBottom: 26 }}>
-                Not an agency.
+                Not an agency.{' '}
                 <Grad>One specialist</Grad>,
                 building carefully.
               </Display>
@@ -96,7 +96,7 @@ export default function AboutPage() {
                 <img src="/ravi.jpg" alt="Ravi, founder of ZmaxLab" loading="lazy"
                   style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, boxShadow: T.shadowMd }} />
                 <div>
-                  <div style={{ fontFamily: 'Fraunces,Georgia,serif', fontWeight: 600, fontSize: 17 }}>Ravi</div>
+                  <div style={{ fontFamily: 'Newsreader,Georgia,serif', fontWeight: 600, fontSize: 17 }}>Ravi</div>
                   <Mono style={{ color: T.faint }}>Founder &amp; the person who builds your site</Mono>
                 </div>
               </div>

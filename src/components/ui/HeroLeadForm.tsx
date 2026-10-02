@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Check, ChevronDown, Clock, Lock, ShieldCheck, Stethoscope, User } from 'lucide-react'
-import { T, MONO, DISPLAY } from '@/lib/theme'
+import { ArrowRight, Check, ChevronDown } from 'lucide-react'
 
 // Web3Forms key - submissions are emailed to the inbox tied to this key (never shown on the site).
 const WEB3FORMS_KEY = '5a1bc976-474a-422f-bdb3-0c7f11eaed3d'
@@ -42,35 +41,6 @@ function formatLocal(digits: string, dial: string) {
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`
 }
 
-function Chip({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
-  return (
-    <button type="button" onClick={onClick} aria-pressed={active} className="zx-qf-chip" style={{
-      display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '9px 14px', borderRadius: 999, fontSize: 11, fontWeight: 600,
-      fontFamily: MONO, letterSpacing: '0.06em', textTransform: 'uppercase',
-      cursor: 'pointer', lineHeight: 1.2,
-      border: `1.5px solid ${active ? T.primary : 'rgba(7,37,58,0.13)'}`,
-      background: active ? T.primaryTint : '#fff',
-      color: active ? T.primaryDeep : T.text,
-      boxShadow: active ? `0 0 0 3px ${T.primary}1f` : '0 1px 2px rgba(7,37,58,0.05)',
-      transition: 'all .2s ease',
-    }}>
-      {active && <Check size={12} strokeWidth={3} />}
-      {children}
-    </button>
-  )
-}
-
-const shell: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 10, background: '#fff',
-  border: '1.5px solid rgba(7,37,58,0.13)', borderRadius: 12, padding: '0 14px',
-  transition: 'border-color .2s, box-shadow .2s', position: 'relative',
-}
-const bare: React.CSSProperties = {
-  flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-  padding: '14px 0', fontSize: 15.5, color: T.text, fontFamily: 'inherit',
-}
-
 export default function HeroLeadForm() {
   const [name, setName] = useState('')
   const [country, setCountry] = useState(COUNTRIES[0])
@@ -86,7 +56,7 @@ export default function HeroLeadForm() {
   const touch = () => {
     if (started.current) return
     started.current = true
-    gtagEvent('form_start', { form_id: 'hero_quick', form_name: 'Hero Quick Form', page_category: 'home' })
+    gtagEvent('form_start', { form_id: 'hero_quick', form_name: 'Hero Intake Form', page_category: 'home' })
   }
   const toggleNeed = (n: string) => { touch(); setNeeds(v => v.includes(n) ? v.filter(x => x !== n) : [...v, n]) }
 
@@ -97,8 +67,8 @@ export default function HeroLeadForm() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     setTouched(true)
-    if (!nameOk) { setError('Please enter your full name.'); return }
-    if (!phoneOk) { setError(country.dial === '+1' ? 'Please enter a 10-digit US cell number.' : 'Please enter a valid cell phone number.'); return }
+    if (!nameOk) { setError('Enter your full name.'); return }
+    if (!phoneOk) { setError(country.dial === '+1' ? 'Enter a 10-digit US cell number.' : 'Enter a valid cell phone number.'); return }
     setLoading(true); setError('')
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -113,145 +83,105 @@ export default function HeroLeadForm() {
           country: country.name,
           specialty: specialty || '(not specified)',
           looking_for: needs.length ? needs.join(', ') : '(not specified)',
-          source: 'Homepage hero quick form',
+          source: 'Homepage intake form',
           botcheck: '',
         }),
       })
       const data = await res.json()
       if (data.success) {
-        gtagEvent('qualify_lead', { form_id: 'hero_quick', form_name: 'Hero Quick Form', specialty, page_category: 'home', method: 'hero_form' })
+        gtagEvent('qualify_lead', { form_id: 'hero_quick', form_name: 'Hero Intake Form', specialty, page_category: 'home', method: 'hero_form' })
         setSent(true)
-      } else setError('Something went wrong. Please try again in a moment.')
+      } else setError('That did not go through. Try again in a moment.')
     } catch {
-      setError('Network error. Please check your connection and try again.')
+      setError('No connection. Check your internet and try again.')
     }
     setLoading(false)
   }
 
-  const bad = (ok: boolean) => touched && !ok ? { borderColor: '#E5484D', boxShadow: '0 0 0 3px rgba(229,72,77,0.12)' } : {}
   const firstName = titleCase(name).split(' ')[0]
 
   return (
-    <div className="zx-qf" style={{
-      position: 'relative', maxWidth: 520, borderRadius: 20, padding: 1.5,
-      background: `linear-gradient(135deg, ${T.primary}66, rgba(255,255,255,0.6) 45%, ${T.primary}33)`,
-      boxShadow: '0 24px 60px rgba(7,37,58,0.16), 0 2px 6px rgba(7,37,58,0.06)',
-    }}>
-      <div style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderRadius: 18.5, overflow: 'hidden' }}>
-        {/* header */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
-          padding: '16px 22px', background: T.gradPanelDeep, color: '#fff',
-        }}>
-          <div>
-            <div style={{ fontFamily: DISPLAY, fontSize: 20, fontWeight: 600, letterSpacing: '-0.015em', lineHeight: 1.2 }}>
-              {sent ? 'Request received' : 'Get your free website plan'}
-            </div>
-            <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.72)', marginTop: 2 }}>
-              {sent ? 'A specialist is on it' : 'Takes 20 seconds · No obligation'}
-            </div>
-          </div>
-          <span style={{
-            display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0,
-            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: 999, padding: '6px 11px', fontFamily: MONO, fontSize: 10.5,
-            letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600,
-          }}>
-            <span className="zx-qf-dot" />
-            Call back in 1-2 min
-          </span>
-        </div>
-
-        <div style={{ padding: 'clamp(18px,2.4vw,24px) clamp(18px,2.4vw,24px) 20px' }}>
-          <AnimatePresence mode="wait" initial={false}>
-            {sent ? (
-              <motion.div key="done" role="status"
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}
-                style={{ textAlign: 'center', padding: '10px 4px 6px' }}>
-                <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.1 }}
-                  style={{ width: 58, height: 58, borderRadius: '50%', background: T.gradBtn, color: '#fff', display: 'inline-grid', placeItems: 'center', boxShadow: '0 12px 28px rgba(11,156,135,0.35)' }}>
-                  <Check size={28} strokeWidth={3} />
-                </motion.span>
-                <div style={{ fontFamily: DISPLAY, fontSize: 24, fontWeight: 600, letterSpacing: '-0.015em', color: T.text, margin: '16px 0 8px' }}>
-                  Thank you{firstName ? `, ${firstName}` : ''}!
-                </div>
-                <p style={{ fontSize: 15, lineHeight: 1.6, color: T.muted, margin: '0 auto', maxWidth: 360 }}>
-                  We'll call you within <strong style={{ color: T.text }}>1-2 minutes</strong> to talk through your
-                  {specialty && specialty !== 'Other' ? ` ${specialty.toLowerCase()}` : ''} practice's website. Keep your phone close.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form key="form" onSubmit={submit} noValidate aria-label="Request a free call back"
-                exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease }}>
-                <div style={{ display: 'grid', gap: 10, marginBottom: 16 }}>
-                  {/* name */}
-                  <label className="zx-qf-field" style={{ ...shell, ...bad(nameOk) }}>
-                    <User size={17} style={{ color: T.primary, flexShrink: 0 }} />
-                    <input required aria-required="true" placeholder="Full name *" autoComplete="name" aria-label="Full name (required)"
-                      value={name} onChange={e => { touch(); setName(e.target.value) }} style={bare} />
-                  </label>
-
-                  {/* phone with country code */}
-                  <div className="zx-qf-field" style={{ ...shell, padding: 0, ...bad(phoneOk) }}>
-                    <label style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 6, padding: '0 10px 0 14px', borderRight: '1.5px solid rgba(7,37,58,0.10)', alignSelf: 'stretch', cursor: 'pointer' }}>
-                      <span style={{ fontSize: 18, lineHeight: 1 }}>{country.flag}</span>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: T.text }}>{country.dial}</span>
-                      <ChevronDown size={14} style={{ color: T.faint }} />
-                      <select aria-label="Country code" value={country.id}
-                        onChange={e => { const c = COUNTRIES.find(x => x.id === e.target.value)!; setCountry(c); setPhone(formatLocal(digits, c.dial)) }}
-                        style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', fontSize: 16 }}>
-                        {COUNTRIES.map(c => <option key={c.id} value={c.id}>{c.flag} {c.name} ({c.dial})</option>)}
-                      </select>
-                    </label>
-                    <input required aria-required="true" type="tel" inputMode="tel" autoComplete="tel-national" aria-label="Cell phone number (required)"
-                      placeholder={country.dial === '+1' ? '(555) 123-4567 *' : 'Cell phone number *'}
-                      value={phone} onChange={e => { touch(); setPhone(formatLocal(e.target.value.replace(/\D/g, ''), country.dial)) }}
-                      style={{ ...bare, paddingLeft: 12, paddingRight: 14 }} />
-                  </div>
-
-                  {/* specialty */}
-                  <label className="zx-qf-field" style={shell}>
-                    <Stethoscope size={17} style={{ color: T.primary, flexShrink: 0 }} />
-                    <select aria-label="Your specialty" value={specialty} onChange={e => { touch(); setSpecialty(e.target.value) }}
-                      style={{ ...bare, appearance: 'none', cursor: 'pointer', color: specialty ? T.text : T.faint }}>
-                      <option value="">Your specialty</option>
-                      {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                    <ChevronDown size={16} style={{ color: T.faint, flexShrink: 0, pointerEvents: 'none' }} />
-                  </label>
-                </div>
-
-                <div className="zx-qf-label">What are you looking for? <span style={{ color: T.faint, fontWeight: 500, textTransform: 'none', letterSpacing: 0 }}>(pick any)</span></div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 18 }}>
-                  {NEEDS.map(n => <Chip key={n} active={needs.includes(n)} onClick={() => toggleNeed(n)}>{n}</Chip>)}
-                </div>
-
-                <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" style={{ display: 'none' }} />
-
-                <button type="submit" disabled={loading} className="zx-qf-submit" style={{
-                  width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                  background: T.gradBtn, color: '#fff', fontSize: 15.5, fontWeight: 700, letterSpacing: '-0.005em',
-                  padding: '15px 22px', borderRadius: 12, border: 'none', fontFamily: 'inherit',
-                  cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.8 : 1,
-                  boxShadow: '0 12px 28px rgba(11,156,135,0.34)',
-                }}>
-                  {loading ? 'Sending...' : <>Call me in 1-2 minutes <ArrowRight size={17} /></>}
-                </button>
-
-                {error && <p role="alert" style={{ color: '#B42318', fontSize: 13.5, margin: '10px 0 0', textAlign: 'center' }}>{error}</p>}
-
-                <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 16px', marginTop: 14 }}>
-                  {([[Lock, 'Private & secure'], [ShieldCheck, 'No spam, ever'], [Clock, 'Free consultation']] as const).map(([I, t]) => (
-                    <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: T.faint }}>
-                      <I size={13} style={{ color: T.primary }} /> {t}
-                    </span>
-                  ))}
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </div>
+    <div className="zx-slip" id="intake">
+      <div className="zx-slip-head">
+        <span>Practice intake</span>
+        <span className="zx-slip-live"><span className="zx-qf-dot" /> Reply in 1-2 min</span>
       </div>
+
+      <AnimatePresence mode="wait" initial={false}>
+        {sent ? (
+          <motion.div key="done" role="status" className="zx-slip-body"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}>
+            <div className="zx-slip-stamp"><Check size={15} strokeWidth={2.5} /> Received</div>
+            <h3 className="zx-slip-title">Thank you{firstName ? `, ${firstName}` : ''}.</h3>
+            <p className="zx-slip-note">
+              Ravi will call you within 1-2 minutes to talk through your
+              {specialty && specialty !== 'Other' ? ` ${specialty.toLowerCase()}` : ''} practice. Keep your phone nearby.
+            </p>
+          </motion.div>
+        ) : (
+          <motion.form key="form" onSubmit={submit} noValidate aria-label="Request a call back" className="zx-slip-body"
+            exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3, ease }}>
+            <h3 className="zx-slip-title">Request a call back</h3>
+
+            <label className={`zx-line${touched && !nameOk ? ' is-bad' : ''}`}>
+              <span className="zx-line-label">Full name <i>required</i></span>
+              <input required aria-required="true" autoComplete="name" placeholder="Dr. Jane Carter"
+                value={name} onChange={e => { touch(); setName(e.target.value) }} />
+            </label>
+
+            <div className={`zx-line${touched && !phoneOk ? ' is-bad' : ''}`}>
+              <span className="zx-line-label">Cell phone <i>required</i></span>
+              <div className="zx-line-row">
+                <label className="zx-dial">
+                  <span aria-hidden="true">{country.flag} {country.dial}</span>
+                  <ChevronDown size={13} aria-hidden="true" />
+                  <select aria-label="Country code" value={country.id}
+                    onChange={e => { const c = COUNTRIES.find(x => x.id === e.target.value)!; setCountry(c); setPhone(formatLocal(digits, c.dial)) }}>
+                    {COUNTRIES.map(c => <option key={c.id} value={c.id}>{c.flag} {c.name} ({c.dial})</option>)}
+                  </select>
+                </label>
+                <input required aria-required="true" aria-label="Cell phone number" type="tel" inputMode="tel" autoComplete="tel-national"
+                  placeholder={country.dial === '+1' ? '(555) 123-4567' : 'Phone number'}
+                  value={phone} onChange={e => { touch(); setPhone(formatLocal(e.target.value.replace(/\D/g, ''), country.dial)) }} />
+              </div>
+            </div>
+
+            <label className="zx-line">
+              <span className="zx-line-label">Specialty</span>
+              <div className="zx-line-row">
+                <select value={specialty} onChange={e => { touch(); setSpecialty(e.target.value) }} className={specialty ? '' : 'is-empty'}>
+                  <option value="">Select your specialty</option>
+                  {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+                <ChevronDown size={15} aria-hidden="true" className="zx-line-caret" />
+              </div>
+            </label>
+
+            <fieldset className="zx-ticks">
+              <legend className="zx-line-label">Looking for <i>tick any</i></legend>
+              <div className="zx-ticks-grid">
+                {NEEDS.map(n => {
+                  const on = needs.includes(n)
+                  return (
+                    <button type="button" key={n} aria-pressed={on} onClick={() => toggleNeed(n)} className={`zx-tick${on ? ' is-on' : ''}`}>
+                      <span className="zx-tick-box">{on && <Check size={11} strokeWidth={3.2} />}</span>
+                      {n}
+                    </button>
+                  )
+                })}
+              </div>
+            </fieldset>
+
+            <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" style={{ display: 'none' }} />
+
+            <button type="submit" disabled={loading} className="zx-slip-submit">
+              {loading ? 'Sending...' : <>Request a call back <ArrowRight size={16} /></>}
+            </button>
+            {error && <p role="alert" className="zx-slip-error">{error}</p>}
+            <p className="zx-slip-fine">Used only to contact you about your website. Never shared.</p>
+          </motion.form>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

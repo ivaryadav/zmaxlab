@@ -132,7 +132,7 @@ export default function LeadPopup() {
                   }}>
                     <Check size={22} style={{ color: T.primaryDeep }} />
                   </span>
-                  <h3 style={{ fontFamily: 'Fraunces,Georgia,serif', fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', margin: '0 0 10px' }}>
+                  <h3 style={{ fontFamily: 'Newsreader,Georgia,serif', fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', margin: '0 0 10px' }}>
                     Got it - talk soon.
                   </h3>
                   <p style={{ fontSize: 14.5, lineHeight: 1.6, color: T.muted, margin: 0 }}>
@@ -150,7 +150,7 @@ export default function LeadPopup() {
                     <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.primaryBright }} />
                     Before you go
                   </span>
-                  <h3 style={{ fontFamily: 'Fraunces,Georgia,serif', fontSize: 'clamp(22px,3vw,26px)', fontWeight: 600, letterSpacing: '-0.018em', lineHeight: 1.2, margin: '0 0 10px' }}>
+                  <h3 style={{ fontFamily: 'Newsreader,Georgia,serif', fontSize: 'clamp(22px,3vw,26px)', fontWeight: 600, letterSpacing: '-0.018em', lineHeight: 1.2, margin: '0 0 10px' }}>
                     Want to see your site before you pay for it?
                   </h3>
                   <p style={{ fontSize: 14.5, lineHeight: 1.6, color: T.muted, margin: '0 0 24px' }}>

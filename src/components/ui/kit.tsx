@@ -28,7 +28,7 @@ export function Section({
   children, dark, tint, pad = 'clamp(88px,11vw,150px)', padBottom, style, id,
 }: { children: ReactNode; dark?: boolean; tint?: boolean; pad?: string; padBottom?: string; style?: CSSProperties; id?: string }) {
   return (
-    <section id={id} style={{
+    <section id={id} className={dark ? 'zx-dark' : undefined} style={{
       paddingTop: pad,
       paddingBottom: padBottom ?? pad,
       background: dark ? T.ink : tint ? T.surface : T.bg,
@@ -52,11 +52,11 @@ export function Eyebrow({ children, dark, color }: { children: ReactNode; dark?:
 }
 
 export function Display({ children, style }: { children: ReactNode; style?: CSSProperties }) {
-  return <h1 style={{ fontSize: TYPE.display, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, maxWidth: '17ch', ...style }}>{children}</h1>
+  return <h1 style={{ fontSize: TYPE.display, lineHeight: 1.04, fontWeight: 450, letterSpacing: '-0.022em', margin: 0, maxWidth: '17ch', ...style }}>{children}</h1>
 }
 
 export function H2({ children, style }: { children: ReactNode; style?: CSSProperties }) {
-  return <h2 style={{ fontSize: TYPE.h2, lineHeight: 1.14, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, maxWidth: '24ch', ...style }}>{children}</h2>
+  return <h2 style={{ fontSize: TYPE.h2, lineHeight: 1.1, fontWeight: 450, letterSpacing: '-0.02em', margin: 0, maxWidth: '24ch', ...style }}>{children}</h2>
 }
 
 export function Lead({ children, dark, style }: { children: ReactNode; dark?: boolean; style?: CSSProperties }) {
@@ -125,10 +125,7 @@ export function Panel({ children, deep, style }: { children: ReactNode; deep?: b
 /** gradient headline word */
 export function Grad({ children }: { children: ReactNode }) {
   return (
-    <span style={{
-      background: T.gradText, WebkitBackgroundClip: 'text', backgroundClip: 'text',
-      WebkitTextFillColor: 'transparent', color: 'transparent',
-    }}>{children}</span>
+    <em className="zx-em">{children}</em>
   )
 }
 
