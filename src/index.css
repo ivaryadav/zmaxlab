@@ -191,7 +191,17 @@ a { text-decoration: none; color: inherit; }
   .zx-booking-fab { bottom: 84px !important; }
 }
 
-@media (max-width: 480px) { .zx-quick-grid { grid-template-columns: 1fr !important; } }
 .zx-growth-grid { display:grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
 @media (max-width: 1100px) { .zx-growth-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 600px) { .zx-growth-grid { grid-template-columns: 1fr; } }
+
+/* Hero quick lead form */
+.zx-qf-label { font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #07253A; margin-bottom: 10px; }
+.zx-qf-chip:hover { border-color: #0B9C87 !important; transform: translateY(-1px); }
+.zx-qf-chip:focus-visible, .zx-qf-submit:focus-visible { outline: 2px solid #0B9C87; outline-offset: 2px; }
+.zx-qf-field:focus-within { border-color: #0B9C87 !important; box-shadow: 0 0 0 4px rgba(11,156,135,0.14); }
+.zx-qf-submit { transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s; }
+.zx-qf-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(11,156,135,0.42) !important; }
+.zx-qf-dot { width: 7px; height: 7px; border-radius: 50%; background: #34D399; box-shadow: 0 0 0 0 rgba(52,211,153,.7); animation: zx-qf-pulse 1.8s infinite; }
+@keyframes zx-qf-pulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.7) } 70% { box-shadow: 0 0 0 8px rgba(52,211,153,0) } 100% { box-shadow: 0 0 0 0 rgba(52,211,153,0) } }
+@media (prefers-reduced-motion: reduce) { .zx-qf-dot { animation: none; } }
