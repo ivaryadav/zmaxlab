@@ -1,18 +1,28 @@
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Check, Clock, Lock, Phone, ShieldCheck, User } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, Clock, Lock, ShieldCheck, Stethoscope, User } from 'lucide-react'
 import { T, MONO } from '@/lib/theme'
 
 // Web3Forms key - submissions are emailed to the inbox tied to this key (never shown on the site).
 const WEB3FORMS_KEY = '5a1bc976-474a-422f-bdb3-0c7f11eaed3d'
 
 const SPECIALTIES = [
-  'Nurse Practitioner', 'Chiropractor', 'Mental Health', 'Primary Care',
-  'Dental', 'Physical Therapy', 'Pain Management', 'Other',
+  'Nurse Practitioner', 'Physician Assistant', 'Chiropractor', 'Mental Health / Therapist',
+  'Psychiatry', 'Primary Care', 'Dental', 'Physical Therapy', 'Pain Management', 'Other',
 ]
 const NEEDS = [
   'New website', 'Website redesign', 'SEO / Google ranking', 'Google & Meta ads',
   'More patient leads', 'Reviews & reputation',
+]
+const COUNTRIES = [
+  { id: 'US', flag: '🇺🇸', dial: '+1', name: 'United States' },
+  { id: 'CA', flag: '🇨🇦', dial: '+1', name: 'Canada' },
+  { id: 'GB', flag: '🇬🇧', dial: '+44', name: 'United Kingdom' },
+  { id: 'IN', flag: '🇮🇳', dial: '+91', name: 'India' },
+  { id: 'AU', flag: '🇦🇺', dial: '+61', name: 'Australia' },
+  { id: 'AE', flag: '🇦🇪', dial: '+971', name: 'United Arab Emirates' },
+  { id: 'MX', flag: '🇲🇽', dial: '+52', name: 'Mexico' },
+  { id: 'PH', flag: '🇵🇭', dial: '+63', name: 'Philippines' },
 ]
 
 const ease = [0.16, 1, 0.3, 1] as const
@@ -23,11 +33,20 @@ function gtagEvent(name: string, params: Record<string, string | number | boolea
 
 const titleCase = (s: string) => s.trim().toLowerCase().replace(/\b\p{L}/gu, c => c.toUpperCase())
 
+/** US/Canada numbers shown as (555) 123-4567 while typing; other countries left as digits. */
+function formatLocal(digits: string, dial: string) {
+  if (dial !== '+1') return digits
+  const d = digits.slice(0, 10)
+  if (d.length < 4) return d
+  if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`
+  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`
+}
+
 function Chip({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} aria-pressed={active} className="zx-qf-chip" style={{
       display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '8px 13px', borderRadius: 999, fontSize: 13.5, fontWeight: 600,
+      padding: '7px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600,
       fontFamily: 'inherit', cursor: 'pointer', lineHeight: 1.2,
       border: `1.5px solid ${active ? T.primary : 'rgba(7,37,58,0.13)'}`,
       background: active ? T.primaryTint : '#fff',
@@ -41,28 +60,23 @@ function Chip({ active, children, onClick }: { active: boolean; children: React.
   )
 }
 
-function Field({ icon: Icon, ...props }: { icon: typeof User } & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="zx-qf-field" style={{
-      display: 'flex', alignItems: 'center', gap: 10, background: '#fff',
-      border: '1.5px solid rgba(7,37,58,0.13)', borderRadius: 12, padding: '0 14px',
-      transition: 'border-color .2s, box-shadow .2s',
-    }}>
-      <Icon size={17} style={{ color: T.primary, flexShrink: 0 }} />
-      <input {...props} style={{
-        flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-        padding: '14px 0', fontSize: 15.5, color: T.text, fontFamily: 'inherit',
-      }} />
-    </label>
-  )
+const shell: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 10, background: '#fff',
+  border: '1.5px solid rgba(7,37,58,0.13)', borderRadius: 12, padding: '0 14px',
+  transition: 'border-color .2s, box-shadow .2s', position: 'relative',
+}
+const bare: React.CSSProperties = {
+  flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
+  padding: '14px 0', fontSize: 15.5, color: T.text, fontFamily: 'inherit',
 }
 
 export default function HeroLeadForm() {
-  const [step, setStep] = useState<1 | 2>(1)
+  const [name, setName] = useState('')
+  const [country, setCountry] = useState(COUNTRIES[0])
+  const [phone, setPhone] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [needs, setNeeds] = useState<string[]>([])
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
+  const [touched, setTouched] = useState(false)
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
@@ -75,16 +89,15 @@ export default function HeroLeadForm() {
   }
   const toggleNeed = (n: string) => { touch(); setNeeds(v => v.includes(n) ? v.filter(x => x !== n) : [...v, n]) }
 
-  const next = () => {
-    if (!specialty) { setError('Pick your specialty to continue.'); return }
-    setError(''); setStep(2)
-  }
+  const digits = phone.replace(/\D/g, '')
+  const nameOk = name.trim().length >= 2
+  const phoneOk = country.dial === '+1' ? digits.length === 10 : digits.length >= 6 && digits.length <= 14
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (step === 1) { next(); return }
-    if (name.trim().length < 2) { setError('Please enter your name.'); return }
-    if (phone.replace(/\D/g, '').length < 10) { setError('Please enter a valid cell phone number.'); return }
+    setTouched(true)
+    if (!nameOk) { setError('Please enter your full name.'); return }
+    if (!phoneOk) { setError(country.dial === '+1' ? 'Please enter a 10-digit US cell number.' : 'Please enter a valid cell phone number.'); return }
     setLoading(true); setError('')
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -95,8 +108,9 @@ export default function HeroLeadForm() {
           subject: 'New Inquiry',
           from_name: 'ZmaxLab Website',
           name: titleCase(name),
-          cell_phone: phone.trim(),
-          specialty,
+          cell_phone: `${country.dial} ${formatLocal(digits, country.dial)}`,
+          country: country.name,
+          specialty: specialty || '(not specified)',
           looking_for: needs.length ? needs.join(', ') : '(not specified)',
           source: 'Homepage hero quick form',
           botcheck: '',
@@ -113,6 +127,7 @@ export default function HeroLeadForm() {
     setLoading(false)
   }
 
+  const bad = (ok: boolean) => touched && !ok ? { borderColor: '#E5484D', boxShadow: '0 0 0 3px rgba(229,72,77,0.12)' } : {}
   const firstName = titleCase(name).split(' ')[0]
 
   return (
@@ -121,10 +136,10 @@ export default function HeroLeadForm() {
       background: `linear-gradient(135deg, ${T.primary}66, rgba(255,255,255,0.6) 45%, ${T.primary}33)`,
       boxShadow: '0 24px 60px rgba(7,37,58,0.16), 0 2px 6px rgba(7,37,58,0.06)',
     }}>
-      <div style={{ background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(10px)', borderRadius: 18.5, overflow: 'hidden' }}>
+      <div style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderRadius: 18.5, overflow: 'hidden' }}>
         {/* header */}
         <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
           padding: '16px 22px', background: T.gradPanelDeep, color: '#fff',
         }}>
           <div>
@@ -146,14 +161,6 @@ export default function HeroLeadForm() {
           </span>
         </div>
 
-        {/* progress */}
-        {!sent && (
-          <div style={{ height: 3, background: 'rgba(7,37,58,0.07)' }}>
-            <motion.div animate={{ width: step === 1 ? '50%' : '100%' }} transition={{ duration: 0.5, ease }}
-              style={{ height: '100%', background: T.gradBtn }} />
-          </div>
-        )}
-
         <div style={{ padding: 'clamp(18px,2.4vw,24px) clamp(18px,2.4vw,24px) 20px' }}>
           <AnimatePresence mode="wait" initial={false}>
             {sent ? (
@@ -173,44 +180,50 @@ export default function HeroLeadForm() {
                 </p>
               </motion.div>
             ) : (
-              <motion.form key={`step${step}`} onSubmit={submit} noValidate aria-label="Request a free call back"
-                initial={{ opacity: 0, x: step === 1 ? -16 : 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: step === 1 ? -16 : 16 }}
-                transition={{ duration: 0.3, ease }}>
-                {step === 1 ? (
-                  <>
-                    <div className="zx-qf-label">1. Your specialty</div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 18 }}>
-                      {SPECIALTIES.map(s => (
-                        <Chip key={s} active={specialty === s} onClick={() => { touch(); setSpecialty(s); setError('') }}>{s}</Chip>
-                      ))}
-                    </div>
-                    <div className="zx-qf-label">2. What are you looking for? <span style={{ color: T.faint, fontWeight: 500, textTransform: 'none', letterSpacing: 0 }}>(pick any)</span></div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 20 }}>
-                      {NEEDS.map(n => <Chip key={n} active={needs.includes(n)} onClick={() => toggleNeed(n)}>{n}</Chip>)}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 14 }}>
-                      <div className="zx-qf-label" style={{ margin: 0 }}>3. Where should we call you?</div>
-                      <button type="button" onClick={() => { setStep(1); setError('') }} style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 5, background: 'none', border: 'none',
-                        color: T.primaryDeep, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', padding: 0,
-                      }}><ArrowLeft size={14} /> Back</button>
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
-                      {[specialty, ...needs].map(t => (
-                        <span key={t} style={{ fontSize: 12, fontWeight: 600, color: T.primaryDeep, background: T.primaryTint, borderRadius: 999, padding: '4px 10px' }}>{t}</span>
-                      ))}
-                    </div>
-                    <div style={{ display: 'grid', gap: 10, marginBottom: 18 }}>
-                      <Field icon={User} required placeholder="Full name" autoComplete="name" aria-label="Full name"
-                        value={name} onChange={e => setName(e.target.value)} autoFocus />
-                      <Field icon={Phone} required type="tel" inputMode="tel" placeholder="Cell phone number" autoComplete="tel" aria-label="Cell phone number"
-                        value={phone} onChange={e => setPhone(e.target.value)} />
-                    </div>
-                  </>
-                )}
+              <motion.form key="form" onSubmit={submit} noValidate aria-label="Request a free call back"
+                exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease }}>
+                <div style={{ display: 'grid', gap: 10, marginBottom: 16 }}>
+                  {/* name */}
+                  <label className="zx-qf-field" style={{ ...shell, ...bad(nameOk) }}>
+                    <User size={17} style={{ color: T.primary, flexShrink: 0 }} />
+                    <input required aria-required="true" placeholder="Full name *" autoComplete="name" aria-label="Full name (required)"
+                      value={name} onChange={e => { touch(); setName(e.target.value) }} style={bare} />
+                  </label>
+
+                  {/* phone with country code */}
+                  <div className="zx-qf-field" style={{ ...shell, padding: 0, ...bad(phoneOk) }}>
+                    <label style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 6, padding: '0 10px 0 14px', borderRight: '1.5px solid rgba(7,37,58,0.10)', alignSelf: 'stretch', cursor: 'pointer' }}>
+                      <span style={{ fontSize: 18, lineHeight: 1 }}>{country.flag}</span>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: T.text }}>{country.dial}</span>
+                      <ChevronDown size={14} style={{ color: T.faint }} />
+                      <select aria-label="Country code" value={country.id}
+                        onChange={e => { const c = COUNTRIES.find(x => x.id === e.target.value)!; setCountry(c); setPhone(formatLocal(digits, c.dial)) }}
+                        style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', fontSize: 16 }}>
+                        {COUNTRIES.map(c => <option key={c.id} value={c.id}>{c.flag} {c.name} ({c.dial})</option>)}
+                      </select>
+                    </label>
+                    <input required aria-required="true" type="tel" inputMode="tel" autoComplete="tel-national" aria-label="Cell phone number (required)"
+                      placeholder={country.dial === '+1' ? '(555) 123-4567 *' : 'Cell phone number *'}
+                      value={phone} onChange={e => { touch(); setPhone(formatLocal(e.target.value.replace(/\D/g, ''), country.dial)) }}
+                      style={{ ...bare, paddingLeft: 12, paddingRight: 14 }} />
+                  </div>
+
+                  {/* specialty */}
+                  <label className="zx-qf-field" style={shell}>
+                    <Stethoscope size={17} style={{ color: T.primary, flexShrink: 0 }} />
+                    <select aria-label="Your specialty" value={specialty} onChange={e => { touch(); setSpecialty(e.target.value) }}
+                      style={{ ...bare, appearance: 'none', cursor: 'pointer', color: specialty ? T.text : T.faint }}>
+                      <option value="">Your specialty</option>
+                      {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                    <ChevronDown size={16} style={{ color: T.faint, flexShrink: 0, pointerEvents: 'none' }} />
+                  </label>
+                </div>
+
+                <div className="zx-qf-label">What are you looking for? <span style={{ color: T.faint, fontWeight: 500, textTransform: 'none', letterSpacing: 0 }}>(pick any)</span></div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 18 }}>
+                  {NEEDS.map(n => <Chip key={n} active={needs.includes(n)} onClick={() => toggleNeed(n)}>{n}</Chip>)}
+                </div>
 
                 <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" style={{ display: 'none' }} />
 
@@ -221,22 +234,17 @@ export default function HeroLeadForm() {
                   cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.8 : 1,
                   boxShadow: '0 12px 28px rgba(11,156,135,0.34)',
                 }}>
-                  {loading ? 'Sending...' : step === 1
-                    ? <>Continue <ArrowRight size={17} /></>
-                    : <>Call me in 1-2 minutes <ArrowRight size={17} /></>}
+                  {loading ? 'Sending...' : <>Call me in 1-2 minutes <ArrowRight size={17} /></>}
                 </button>
 
                 {error && <p role="alert" style={{ color: '#B42318', fontSize: 13.5, margin: '10px 0 0', textAlign: 'center' }}>{error}</p>}
 
                 <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '6px 16px', marginTop: 14 }}>
-                  {[[Lock, 'Private & secure'], [ShieldCheck, 'No spam, ever'], [Clock, 'Free consultation']].map(([Icon, t]) => {
-                    const I = Icon as typeof Lock
-                    return (
-                      <span key={t as string} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: T.faint }}>
-                        <I size={13} style={{ color: T.primary }} /> {t as string}
-                      </span>
-                    )
-                  })}
+                  {([[Lock, 'Private & secure'], [ShieldCheck, 'No spam, ever'], [Clock, 'Free consultation']] as const).map(([I, t]) => (
+                    <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, color: T.faint }}>
+                      <I size={13} style={{ color: T.primary }} /> {t}
+                    </span>
+                  ))}
                 </div>
               </motion.form>
             )}
