@@ -55,6 +55,6 @@ export const TYPE = {
   body: '17px', small: '14px', micro: '11.5px',
 }
 
-export const CALENDLY_URL = 'https://calendly.com/ravi9235kumar/30min'
+export const CALENDLY_URL = 'https://calendly.com/zmaxlab/30min'
 
 export const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
