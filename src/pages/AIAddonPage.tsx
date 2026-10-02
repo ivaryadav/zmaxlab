@@ -57,7 +57,7 @@ export default function AIAddonPage() {
               add-on for a new build or a site you already have.
             </Lead>
             <div style={{ display: 'flex', gap: 26, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a consultation <ArrowRight size={17} /></Btn>
               <TextLink to="/pricing">See the core $500 build</TextLink>
             </div>
           </motion.div>
@@ -204,7 +204,7 @@ export default function AIAddonPage() {
             <Lead dark style={{ maxWidth: 520, marginBottom: 32 }}>
               Twenty minutes. I'll show you the assistant answering real questions, not a slide deck.
             </Lead>
-            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>

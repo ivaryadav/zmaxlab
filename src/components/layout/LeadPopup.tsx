@@ -192,7 +192,7 @@ export default function LeadPopup() {
                       cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.7 : 1,
                       fontFamily: 'inherit', boxShadow: '0 10px 26px rgba(11,156,135,0.32)',
                     }}>
-                      {loading ? 'Sending...' : <>Get my free preview <ArrowRight size={16} /></>}
+                      {loading ? 'Sending...' : <>Request my preview <ArrowRight size={16} /></>}
                     </button>
                   </form>
 

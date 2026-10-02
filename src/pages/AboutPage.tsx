@@ -37,7 +37,7 @@ export default function AboutPage() {
                 takes a week instead of a quarter.
               </Lead>
               <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-                <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+                <Btn to={CALENDLY_URL}>Book a consultation <ArrowRight size={17} /></Btn>
                 <TextLink to="/how-it-works">How the build works</TextLink>
               </div>
             </motion.div>
@@ -172,7 +172,7 @@ export default function AboutPage() {
             <motion.div {...rise()}>
               <Eyebrow dark>The commitment</Eyebrow>
               <H2 style={{ color: T.onDark, marginBottom: 26 }}>What you are guaranteed.</H2>
-              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
             </motion.div>
             <motion.div {...rise(0.1)}>
               {[

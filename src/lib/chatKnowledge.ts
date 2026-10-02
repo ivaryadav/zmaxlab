@@ -38,7 +38,7 @@ const KB: KBEntry[] = [
   {
     id: 'pricing_included',
     keywords: ['whats included', 'what is included', 'what do i get', 'included in the price', 'included in 500', 'comes with', 'features included'],
-    answer: "You get: custom-coded design (no themes, no builder), up to 6 pages, a fast static build, domain and hosting setup with SSL (on accounts in your name), a mobile-first build, your NPI/licence/specialty worked into the page, online booking wired up, HIPAA-aware forms, the SEO basics (meta, schema, sitemap, Search Console, GA4), copy written for every page, one free revision, and the full source code — yours to keep.",
+    answer: "You get: custom-coded design (no themes, no builder), up to 6 pages, a fast static build, domain and hosting setup with SSL (on accounts in your name), a mobile-first build, your NPI/licence/specialty worked into the page, online booking wired up, HIPAA-aware forms, the SEO basics (meta, schema, sitemap, Search Console, GA4), copy written for every page, one revision after launch, and the full source code — yours to keep.",
     link: { label: 'See it all on Pricing', to: '/pricing' },
   },
   {
@@ -76,7 +76,7 @@ const KB: KBEntry[] = [
   {
     id: 'revisions_changes',
     keywords: ['revision', 'changes after launch', 'edit my site', 'update content', 'change design', 'can i make changes'],
-    answer: "One revision's included after launch, free. Past that it's $50/hr, or unlimited small edits on the $200/mo support plan. Before launch, changes cost nothing at all — that's what the mockup review is for.",
+    answer: "One revision's included after launch. Past that it's $50/hr, or unlimited small edits on the $200/mo support plan. Before launch, changes cost nothing at all — that's what the mockup review is for.",
   },
   {
     id: 'domain_hosting',
@@ -176,8 +176,8 @@ const KB: KBEntry[] = [
   {
     id: 'book_demo',
     keywords: ['book a call', 'book a demo', 'schedule a call', 'free demo', 'consultation', 'get started', 'i want to start'],
-    answer: "Free. 15 minutes. You'll see a live mockup for your specialty and get a straight answer on fit.",
-    link: { label: 'Book a free demo', href: CALENDLY_URL },
+    answer: "15 minutes, no obligation. You'll see a live mockup for your specialty and get a straight answer on fit.",
+    link: { label: 'Book a consultation', href: CALENDLY_URL },
   },
   {
     id: 'ai_addon',

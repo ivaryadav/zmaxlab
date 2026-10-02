@@ -9,7 +9,7 @@ const CORE = [
   'Meta, schema and sitemap configured', 'Online booking (Calendly / Jane / SimplePractice)',
   'Insurance & billing page', 'HIPAA-aware contact forms', 'Analytics 4 + Search Console',
   'NPI, licence & specialty displayed', 'Live on your domain in 7 days', 'Full source code delivered',
-  'One free post-launch revision',
+  'One post-launch revision included',
 ]
 
 const MONTHLY: [string, string, string, string[]][] = [
@@ -89,7 +89,7 @@ export default function ServicesPage() {
               month, cancel whenever.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a consultation <ArrowRight size={17} /></Btn>
               <TextLink to="/how-it-works">See the 7-day process</TextLink>
             </div>
           </motion.div>
@@ -267,7 +267,7 @@ export default function ServicesPage() {
               Book the call. I will tell you what is worth doing and what is not - including
               when the answer is that you only need the website.
             </Lead>
-            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>

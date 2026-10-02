@@ -81,7 +81,7 @@ export default function GrowthServices({ compact = false, tint = false }: { comp
         </div>
 
         <motion.div {...rise(0.1)} style={{ display: 'flex', gap: 26, alignItems: 'center', flexWrap: 'wrap', marginTop: 'clamp(30px,4vw,44px)' }}>
-          <Btn to={CALENDLY_URL}>Get a free growth plan <ArrowRight size={17} /></Btn>
+          <Btn to={CALENDLY_URL}>Request a growth plan <ArrowRight size={17} /></Btn>
           {compact && <TextLink to="/services">See all services & pricing</TextLink>}
         </motion.div>
       </Shell>

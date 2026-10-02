@@ -417,7 +417,7 @@ export default function ChatBot() {
                         <span style={{ fontFamily: MONO, fontWeight: 800, fontSize: 15, color: T.primaryDeep }}>$250</span>
                       </div>
                       <div style={{ fontSize: 11, color: T.faint, marginTop: 9, lineHeight: 1.5 }}>
-                        Half now, half at launch{m.quote.monthly != null ? '. Add-on billing starts once you\'re live.' : '.'} Estimate only — confirmed on your free call.
+                        Half now, half at launch{m.quote.monthly != null ? '. Add-on billing starts once you\'re live.' : '.'} Estimate only — confirmed on your consultation call.
                       </div>
                     </motion.div>
                   )}

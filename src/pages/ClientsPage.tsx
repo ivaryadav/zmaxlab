@@ -189,7 +189,7 @@ export default function ClientsPage() {
               specialty on the call.
             </Lead>
             <div style={{ display: 'flex', gap: 26, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
               <TextLink to="/pricing" dark>See pricing</TextLink>
             </div>
           </motion.div>

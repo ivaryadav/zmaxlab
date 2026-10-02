@@ -16,7 +16,7 @@ const INCLUDED = [
   'Meta structure, schema markup and sitemap',
   'Google Search Console and Analytics 4 configured',
   'Copywriting for every page',
-  'One free revision after launch',
+  'One revision after launch',
   'Full source code delivered to you',
 ]
 
@@ -55,7 +55,7 @@ const FAQS: [string, string][] = [
   ['What if it is late?',
    'If your site is not live within seven business days of receiving your content, you get a full refund. Not a partial credit or a discount on future work.'],
   ['What if I do not like the design?',
-   'You approve a full mockup before any code is written. Changes at that stage cost nothing. After launch you get one free revision.'],
+   'You approve a full mockup before any code is written. Changes at that stage cost nothing. One revision after launch is included.'],
   ['Do I actually own it?',
    'Yes. The full source code is delivered to you, the domain is registered in your name, and the hosting account is yours. If you want to move to someone else later, nothing stops you.'],
   ['Do you offer payment plans?',
@@ -85,7 +85,7 @@ export default function PricingPage() {
               and does not cover.
             </Lead>
             <div style={{ display: 'flex', gap: 26, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a consultation <ArrowRight size={17} /></Btn>
               <TextLink to="/how-it-works">See the 7-day process</TextLink>
             </div>
           </motion.div>
@@ -248,7 +248,7 @@ export default function PricingPage() {
               If a $500 site is not the right answer for your practice, I will say so on the call
               rather than sell you one.
             </Lead>
-            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>

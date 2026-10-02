@@ -14,14 +14,14 @@ const STEPS: [string, string, string, string[]][] = [
   ['Day 5', 'SEO foundation', 'Technical structure done properly at build time, not sold back to you as an add-on later.',
     ['Meta structure and schema markup', 'Sitemap generated and submitted', 'Google Search Console verified', 'Analytics 4 configured']],
   ['Days 6-7', 'Launch and handover', 'Live on your domain with SSL, and every source file handed over to you.',
-    ['Live on your domain with SSL', 'Hosting connected', 'Full source code delivered', 'One free revision included']],
+    ['Live on your domain with SSL', 'Hosting connected', 'Full source code delivered', 'One revision included']],
 ]
 
 const FAQS: [string, string][] = [
   ['What do I need to provide?', 'Your name, practice name, specialty, services list, location, phone number, and any photos you have. I handle design, copywriting, code and launch.'],
   ["What if I don't have photos?", 'Not a problem. I source professional healthcare photography that matches your specialty and location, at no extra cost.'],
   ['How does payment work?', '50% ($250) to start, 50% ($250) on launch day once you have approved the live site. Monthly services are billed monthly from signup.'],
-  ['Can I make changes after launch?', 'Yes - one free revision is included. Further edits are $50/hour, or unlimited small updates under the $200/month support plan.'],
+  ['Can I make changes after launch?', 'Yes - one revision is included. Further edits are $50/hour, or unlimited small updates under the $200/month support plan.'],
   ['How do I connect my domain?', 'If you already have one, I walk you through the DNS change - about five minutes. If not, I will recommend where to buy one and set it up for you.'],
   ['What hosting do I need?', 'Any basic shared hosting works - roughly $3-6/month. The site is static, so it runs fast even on the cheapest plans. I will help you choose and configure it.'],
   ['What if I want design changes?', 'You review the full mockup before coding starts. Colours, layout, content - request changes then. Once approved, we build.'],
@@ -95,7 +95,7 @@ export default function HowItWorksPage() {
               and exactly what is needed from you. Which is very little.
             </Lead>
             <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Btn to={CALENDLY_URL}>Book a free demo <ArrowRight size={17} /></Btn>
+              <Btn to={CALENDLY_URL}>Book a consultation <ArrowRight size={17} /></Btn>
               <TextLink to="/services">What's included</TextLink>
             </div>
           </motion.div>
@@ -203,7 +203,7 @@ export default function HowItWorksPage() {
             <Lead dark style={{ maxWidth: 500, marginBottom: 34 }}>
               Nothing to prepare and nothing to sign. If it is not a fit, I will say so on the call.
             </Lead>
-            <Btn to={CALENDLY_URL} dark>Book a free demo <ArrowRight size={17} /></Btn>
+            <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
           </motion.div>
         </Shell>
       </Section>
