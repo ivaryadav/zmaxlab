@@ -46,15 +46,16 @@ function Chip({ active, children, onClick }: { active: boolean; children: React.
   return (
     <button type="button" onClick={onClick} aria-pressed={active} className="zx-qf-chip" style={{
       display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '7px 12px', borderRadius: 999, fontSize: 13, fontWeight: 600,
-      fontFamily: 'inherit', cursor: 'pointer', lineHeight: 1.2,
+      padding: '9px 14px', borderRadius: 999, fontSize: 11, fontWeight: 600,
+      fontFamily: MONO, letterSpacing: '0.06em', textTransform: 'uppercase',
+      cursor: 'pointer', lineHeight: 1.2,
       border: `1.5px solid ${active ? T.primary : 'rgba(7,37,58,0.13)'}`,
       background: active ? T.primaryTint : '#fff',
       color: active ? T.primaryDeep : T.text,
       boxShadow: active ? `0 0 0 3px ${T.primary}1f` : '0 1px 2px rgba(7,37,58,0.05)',
       transition: 'all .2s ease',
     }}>
-      {active && <Check size={13} strokeWidth={3} />}
+      {active && <Check size={12} strokeWidth={3} />}
       {children}
     </button>
   )
