@@ -85,12 +85,12 @@ export default function Navbar() {
           </Link>
 
           {/* desktop links */}
-          <nav className="zx-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
+          <nav className="zx-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px, 1.9vw, 34px)' }}>
             {LINKS.map(l => {
               const active = pathname === l.to
               return (
                 <Link key={l.to} to={l.to} className="zx-link-underline" style={{
-                  fontSize: 14.5, fontWeight: active ? 700 : 500,
+                  fontSize: 14.5, fontWeight: active ? 700 : 500, whiteSpace: 'nowrap',
                   color: onDarkHero
                     ? (active ? T.onDark : T.onDarkMuted)
                     : (active ? T.ink : T.muted),

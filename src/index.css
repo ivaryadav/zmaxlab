@@ -70,7 +70,8 @@ a { text-decoration: none; color: inherit; }
 
 /* nav responsive */
 .zx-nav-mobile { display: none !important; }
-@media (max-width: 900px) {
+@media (max-width: 1340px) { .zx-price-chip { display: none !important; } }
+@media (max-width: 1180px) {
   .zx-nav-desktop { display: none !important; }
   .zx-nav-mobile  { display: inline-flex !important; }
 }
