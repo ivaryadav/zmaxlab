@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown, Clock, Lock, ShieldCheck, Stethoscope, User } from 'lucide-react'
-import { T, MONO } from '@/lib/theme'
+import { T, MONO, DISPLAY } from '@/lib/theme'
 
 // Web3Forms key - submissions are emailed to the inbox tied to this key (never shown on the site).
 const WEB3FORMS_KEY = '5a1bc976-474a-422f-bdb3-0c7f11eaed3d'
@@ -143,7 +143,7 @@ export default function HeroLeadForm() {
           padding: '16px 22px', background: T.gradPanelDeep, color: '#fff',
         }}>
           <div>
-            <div style={{ fontSize: 16.5, fontWeight: 750, letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: DISPLAY, fontSize: 20, fontWeight: 600, letterSpacing: '-0.015em', lineHeight: 1.2 }}>
               {sent ? 'Request received' : 'Get your free website plan'}
             </div>
             <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.72)', marginTop: 2 }}>
@@ -171,7 +171,7 @@ export default function HeroLeadForm() {
                   style={{ width: 58, height: 58, borderRadius: '50%', background: T.gradBtn, color: '#fff', display: 'inline-grid', placeItems: 'center', boxShadow: '0 12px 28px rgba(11,156,135,0.35)' }}>
                   <Check size={28} strokeWidth={3} />
                 </motion.span>
-                <div style={{ fontSize: 21, fontWeight: 750, letterSpacing: '-0.02em', color: T.text, margin: '16px 0 8px' }}>
+                <div style={{ fontFamily: DISPLAY, fontSize: 24, fontWeight: 600, letterSpacing: '-0.015em', color: T.text, margin: '16px 0 8px' }}>
                   Thank you{firstName ? `, ${firstName}` : ''}!
                 </div>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: T.muted, margin: '0 auto', maxWidth: 360 }}>

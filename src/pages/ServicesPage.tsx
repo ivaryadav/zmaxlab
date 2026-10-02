@@ -47,7 +47,7 @@ export default function ServicesPage() {
       "name": "Custom healthcare website",
       "price": "500",
       "priceCurrency": "USD",
-      "description": "Custom-coded healthcare website delivered in 7 business days. Domain, hosting setup, SEO foundation and source code included.",
+      "description": "Custom-coded static healthcare website delivered in 7 business days. Domain and hosting setup on your own accounts, SEO foundation and source code included.",
       "availability": "https://schema.org/InStock",
     },
     ...MONTHLY.map(([title, price]) => ({
@@ -84,7 +84,7 @@ export default function ServicesPage() {
               One partner for your entire <Grad>digital presence</Grad>.
             </Display>
             <Lead style={{ maxWidth: 580, marginBottom: 34 }}>
-              Domain, hosting, website, SEO, reviews, booking. Start with the $500 build,
+              Website, SEO, reviews, booking - on a domain and hosting you own. Start with the $500 build,
               live in seven business days, then add only what you actually need - month to
               month, cancel whenever.
             </Lead>
@@ -98,7 +98,7 @@ export default function ServicesPage() {
               <Mono style={{ color: T.primaryBright, textTransform: 'uppercase', letterSpacing: '0.16em', display: 'block', marginBottom: 22, fontWeight: 600 }}>
                 We handle
               </Mono>
-              {[['Domain', 'Researched, bought, configured'], ['Hosting', 'Set up, secured, monitored'], ['Website', 'Custom-coded in 7 days'], ['Visibility', 'SEO, reviews, directories']].map(([k, v], i) => (
+              {[['Domain', 'Chosen with you, in your name'], ['Hosting', 'Your plan, set up & secured'], ['Website', 'Custom-coded in 7 days'], ['Visibility', 'SEO, reviews, directories']].map(([k, v], i) => (
                 <div key={k} style={{ padding: '15px 0', borderTop: i === 0 ? 'none' : `1px solid ${T.onDarkLine}` }}>
                   <div style={{ fontSize: 19, fontWeight: 750, color: T.onDark, letterSpacing: '-0.02em' }}>{k}</div>
                   <div style={{ fontSize: 13.5, color: T.onDarkMuted, marginTop: 4 }}>{v}</div>

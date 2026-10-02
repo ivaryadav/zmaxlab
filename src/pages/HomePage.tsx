@@ -15,7 +15,7 @@ const SPECIALTIES = [
 ]
 
 const INCLUDED = [
-  ['01', 'We find and buy your domain', 'Choosing the right domain affects how patients find and remember you. I check what is available, advise on the strongest option, register it, and configure it - you never touch a DNS setting.'],
+  ['01', 'Your domain, in your name', 'Choosing the right domain affects how patients find and remember you. I help you pick the strongest option, you register it directly in your own name, and I configure everything - you never touch a DNS setting.'],
   ['02', 'Custom-coded, not templated', 'Every page is written from scratch for your specialty. No WordPress theme, no page builder, no recycled layout with your logo swapped in.'],
   ['03', 'Credentials built into the design', 'Your NPI number, license, and specialty are structured into the page - so patients and search engines both read you as legitimate.'],
   ['04', 'Booking that actually connects', 'Wired into Calendly, Jane, or SimplePractice. Patients book without emailing you first.'],
@@ -62,7 +62,7 @@ export default function HomePage() {
                 website, <Grad>before you pay a thing</Grad>.
               </Display>
               <Lead style={{ maxWidth: 480, marginBottom: 22, color: 'rgba(7,37,58,0.80)' }}>
-                Domain, hosting, SEO and all - live in 7 business days for a flat $500.
+                A fast, custom-coded website with SEO built in - live in 7 business days for a flat $500. On your own domain and hosting, so you own every piece.
               </Lead>
               <HeroLeadForm />
               <div style={{ display: 'flex', gap: 'clamp(20px,3vw,44px)', flexWrap: 'wrap', marginTop: 38, paddingTop: 26, borderTop: '1px solid rgba(7,37,58,0.14)' }}>
@@ -137,7 +137,7 @@ export default function HomePage() {
               <Eyebrow>What you get</Eyebrow>
               <H2 style={{ marginBottom: 22 }}>Every digital <Grad>footprint</Grad>, handled.</H2>
               <Lead style={{ maxWidth: 380, marginBottom: 30 }}>
-                From buying the right domain to the site itself. No starter tier, no upsell call, nothing held back to charge for later.
+                From choosing the right domain to launching the site itself. No starter tier, no upsell call, nothing held back to charge for later.
               </Lead>
               <TextLink to="/services">Full service breakdown</TextLink>
               <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
@@ -224,8 +224,8 @@ export default function HomePage() {
                 who actually owns the outcome. ZmaxLab is one person holding all of it.
               </Lead>
               {[
-                ['Domain', 'Researched, registered and pointed at your site.'],
-                ['Hosting', 'Set up, secured with SSL, and kept running.'],
+                ['Domain', 'Chosen with you, kept in your name, connected for you.'],
+                ['Hosting', 'Your own plan, set up and secured with SSL by us.'],
                 ['Website', 'Custom-coded for your specialty in 7 days.'],
                 ['Visibility', 'SEO, Google Business Profile, directories, reviews.'],
               ].map(([k, v], i) => (

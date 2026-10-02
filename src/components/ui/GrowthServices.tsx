@@ -7,7 +7,7 @@ type Service = { icon: LucideIcon; title: string; tag: string; desc: string; per
 
 export const GROWTH_SERVICES: Service[] = [
   { icon: Code2, title: 'Website Development', tag: '$500 flat', featured: true,
-    desc: 'Custom-coded practice website, live in 7 business days. Domain, hosting and SEO foundation included.',
+    desc: 'Custom-coded practice website, live in 7 business days. SEO foundation included, set up on a domain and hosting you own.',
     perks: ['Mobile-first, zero templates', 'Online booking built in', 'Full source code delivered'] },
   { icon: Search, title: 'SEO', tag: 'From $230/mo',
     desc: 'Rank when patients search your specialty and city - Google Maps 3-pack and organic results.',

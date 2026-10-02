@@ -7,8 +7,8 @@ import RoiCalc from '@/components/ui/RoiCalc'
 const INCLUDED = [
   'Custom-coded design - no theme, no page builder',
   'Up to 6 pages (home, about, services, contact, and two more)',
-  'Domain researched, registered and configured',
-  'Hosting set up and secured with SSL',
+  'Fast, secure static website - built to load instantly',
+  'Domain and hosting setup, DNS and SSL configured for you',
   'Mobile-first build, tested across devices',
   'NPI, licence and specialty structured into the page',
   'Online booking wired to Calendly, Jane or SimplePractice',
@@ -21,8 +21,8 @@ const INCLUDED = [
 ]
 
 const NOT_INCLUDED = [
-  ['Hosting fees after setup', 'Roughly $3-6/month, paid directly to your host. I set it up; you own the account.'],
-  ['Domain renewal', 'About $12-15/year, again in your name, not mine.'],
+  ['Your hosting plan', 'Roughly $3-6/month, paid directly to your host with no markup. I set it up; you own the account.'],
+  ['Your domain', 'About $12-15/year, registered in your name, not mine - you own it outright.'],
   ['Ongoing SEO or content', 'Optional monthly services, priced separately below.'],
   ['Logo or brand identity design', 'I will work with the logo you have. If you need one made, I will point you somewhere good.'],
   ['Custom software or patient portals', 'Outside what a $500 site can honestly cover.'],

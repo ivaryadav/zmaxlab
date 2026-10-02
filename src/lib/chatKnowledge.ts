@@ -38,13 +38,13 @@ const KB: KBEntry[] = [
   {
     id: 'pricing_included',
     keywords: ['whats included', 'what is included', 'what do i get', 'included in the price', 'included in 500', 'comes with', 'features included'],
-    answer: "You get: custom-coded design (no themes, no builder), up to 6 pages, a domain researched and registered, hosting with SSL, a mobile-first build, your NPI/licence/specialty worked into the page, online booking wired up, HIPAA-aware forms, the SEO basics (meta, schema, sitemap, Search Console, GA4), copy written for every page, one free revision, and the full source code — yours to keep.",
+    answer: "You get: custom-coded design (no themes, no builder), up to 6 pages, a fast static build, domain and hosting setup with SSL (on accounts in your name), a mobile-first build, your NPI/licence/specialty worked into the page, online booking wired up, HIPAA-aware forms, the SEO basics (meta, schema, sitemap, Search Console, GA4), copy written for every page, one free revision, and the full source code — yours to keep.",
     link: { label: 'See it all on Pricing', to: '/pricing' },
   },
   {
     id: 'pricing_not_included',
     keywords: ['not included', 'whats not included', 'what is not included', 'hidden fees', 'extra cost', 'additional cost', 'excluded'],
-    answer: "A few things stay outside the $500, on purpose: hosting after setup (~$3-6/mo, paid to your host, not me), domain renewal (~$12-15/yr), ongoing SEO or content (priced separately if you want it), a logo if you don't already have one, and anything like a patient portal — that's a different kind of project entirely.",
+    answer: "A few things stay outside the $500, on purpose: your own hosting plan (~$3-6/mo, paid straight to your host — no markup) and domain (~$12-15/yr, in your name), ongoing SEO or content (priced separately if you want it), a logo if you don't already have one, and anything like a patient portal — that's a different kind of project entirely.",
   },
   {
     id: 'payment_terms',
@@ -81,7 +81,7 @@ const KB: KBEntry[] = [
   {
     id: 'domain_hosting',
     keywords: ['domain', 'hosting', 'dns', 'buy a domain', 'which host', 'ssl', 'connect my domain'],
-    answer: "Already have a domain? Five-minute DNS change, and I walk you through it. Starting from scratch? I'll pick one and set it up. Hosting's any basic shared plan, $3-6/mo — the site's static, so it stays fast even on the cheap stuff.",
+    answer: "Already have a domain? Five-minute DNS change, and I walk you through it. Starting from scratch? I'll help you pick one, you register it in your name, and I set it all up. Hosting's any basic shared plan, $3-6/mo — the site's static, so it stays fast even on the cheap stuff.",
   },
   {
     id: 'monthly_addons',

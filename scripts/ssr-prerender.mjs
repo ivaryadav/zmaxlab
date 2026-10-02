@@ -73,7 +73,7 @@ const SCHEMA = {
       provider:{ '@type':'Organization', name:'ZmaxLab', url:'https://zmaxlab.site' },
       areaServed:{ '@type':'Country', name:'United States' },
       offers:[{ '@type':'Offer', name:'Custom healthcare website', price:'500', priceCurrency:'USD',
-        description:'Custom-coded healthcare website delivered in 7 business days. Domain, hosting setup, SEO foundation and source code included.',
+        description:'Custom-coded static healthcare website delivered in 7 business days. Domain and hosting setup on your own accounts, SEO foundation and source code included.',
         availability:'https://schema.org/InStock' },
         ...MONTHLY.map(([n,pr]) => ({ '@type':'Offer', name:n, price:pr, priceCurrency:'USD' }))] },
   ],
