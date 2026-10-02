@@ -137,13 +137,38 @@
 .zx-line-caret { position: absolute; right: 0; color: #77848C; pointer-events: none; }
 .zx-line.is-bad input { border-bottom-color: #C2410C; box-shadow: 0 1px 0 #C2410C; }
 
-.zx-dial {
-  position: relative; display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;
-  font-size: 15px; font-weight: 550; padding: 8px 12px 9px 0; margin-right: 12px;
-  border-bottom: 1px solid rgba(13,26,34,0.22); color: #0D1A22; cursor: pointer;
+/* custom dropdown (specialty + country code) */
+.zx-dd { position: relative; }
+.zx-dd-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: transparent; border: 0; border-bottom: 1px solid rgba(13,26,34,0.22); border-radius: 0;
+  font: inherit; font-size: 16px; color: #0D1A22; padding: 8px 0 9px; cursor: pointer; text-align: left;
+  transition: border-color .2s, box-shadow .2s;
 }
-.zx-dial svg { color: #77848C; }
-.zx-dial select { position: absolute; inset: 0; opacity: 0; cursor: pointer; border: 0; }
+.zx-dd-trigger:hover { border-bottom-color: rgba(13,26,34,0.45); }
+.zx-dd-trigger:focus-visible, .zx-dd.is-open .zx-dd-trigger { outline: none; border-bottom-color: #0B6E61; box-shadow: 0 1px 0 #0B6E61; }
+.zx-dd-ph { color: #A3AEB4; }
+.zx-dd-caret { color: #77848C; flex-shrink: 0; transition: transform .2s; }
+.zx-dd.is-open .zx-dd-caret { transform: rotate(180deg); color: #0B6E61; }
+.zx-dd-panel {
+  position: absolute; z-index: 40; top: calc(100% + 8px); left: 0; width: 100%;
+  max-height: 272px; overflow-y: auto; list-style: none; padding: 6px; margin: 0;
+  background: #fff; border: 1px solid rgba(13,26,34,0.12); border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(13,26,34,0.06), 0 24px 48px -16px rgba(13,26,34,0.28);
+  scrollbar-width: thin;
+}
+.zx-dd-opt {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 5px;
+  font-size: 15px; color: #26343D; cursor: pointer; user-select: none;
+}
+.zx-dd-opt.is-active { background: #EEF5F2; color: #0D1A22; }
+.zx-dd-opt.is-sel { color: #0B6E61; font-weight: 550; }
+.zx-dd-meta { margin-left: auto; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12.5px; color: #77848C; }
+.zx-dd-check { margin-left: auto; color: #0B6E61; flex-shrink: 0; }
+.zx-dd-meta + .zx-dd-check { margin-left: 8px; }
+.zx-dd-dial { flex-shrink: 0; margin-right: 12px; }
+.zx-dd-dial .zx-dd-trigger { width: auto; gap: 6px; padding-right: 2px; font-size: 15px; font-weight: 550; }
+.zx-dd-dialval { white-space: nowrap; }
 
 .zx-ticks { border: 0; margin-top: 20px; min-width: 0; }
 .zx-ticks legend { padding: 0; }

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown } from 'lucide-react'
 
@@ -39,6 +39,84 @@ function formatLocal(digits: string, dial: string) {
   if (d.length < 4) return d
   if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`
+}
+
+
+type Opt = { value: string; label: string; meta?: string }
+
+/** Styled single-select listbox that matches the intake slip (replaces the native OS dropdown). */
+function Dropdown({ value, options, onChange, placeholder, ariaLabel, trigger, panelWidth, className }: {
+  value: string; options: Opt[]; onChange: (v: string) => void; placeholder?: string; ariaLabel: string
+  trigger?: React.ReactNode; panelWidth?: number; className?: string
+}) {
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState(0)
+  const root = useRef<HTMLDivElement>(null)
+  const list = useRef<HTMLUListElement>(null)
+  const typed = useRef({ q: '', t: 0 })
+  const id = useId()
+  const selected = options.find(o => o.value === value)
+
+  useEffect(() => {
+    if (!open) return
+    const close = (e: MouseEvent) => { if (!root.current?.contains(e.target as Node)) setOpen(false) }
+    document.addEventListener('mousedown', close)
+    return () => document.removeEventListener('mousedown', close)
+  }, [open])
+  useEffect(() => {
+    if (open) list.current?.querySelector<HTMLElement>(`[data-i="${active}"]`)?.scrollIntoView({ block: 'nearest' })
+  }, [open, active])
+
+  const openList = () => { setActive(Math.max(0, options.findIndex(o => o.value === value))); setOpen(true) }
+  const pick = (i: number) => { onChange(options[i].value); setOpen(false) }
+
+  const onKey = (e: React.KeyboardEvent) => {
+    if (!open) {
+      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) { e.preventDefault(); openList() }
+      return
+    }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(a => Math.min(options.length - 1, a + 1)) }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(a => Math.max(0, a - 1)) }
+    else if (e.key === 'Home') { e.preventDefault(); setActive(0) }
+    else if (e.key === 'End') { e.preventDefault(); setActive(options.length - 1) }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(active) }
+    else if (e.key === 'Escape' || e.key === 'Tab') setOpen(false)
+    else if (e.key.length === 1) {
+      const now = Date.now()
+      typed.current.q = (now - typed.current.t < 600 ? typed.current.q : '') + e.key.toLowerCase()
+      typed.current.t = now
+      const i = options.findIndex(o => o.label.toLowerCase().startsWith(typed.current.q))
+      if (i >= 0) setActive(i)
+    }
+  }
+
+  return (
+    <div ref={root} className={`zx-dd${open ? ' is-open' : ''}${className ? ' ' + className : ''}`}>
+      <button type="button" className="zx-dd-trigger" aria-haspopup="listbox" aria-expanded={open} aria-label={ariaLabel}
+        aria-controls={id} onClick={() => (open ? setOpen(false) : openList())} onKeyDown={onKey}>
+        {trigger ?? <span className={selected ? '' : 'zx-dd-ph'}>{selected ? selected.label : placeholder}</span>}
+        <ChevronDown size={15} aria-hidden="true" className="zx-dd-caret" />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.ul ref={list} id={id} role="listbox" aria-label={ariaLabel} className="zx-dd-panel"
+            style={panelWidth ? { width: panelWidth } : undefined}
+            initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.16, ease }}>
+            {options.map((o, i) => (
+              <li key={o.value} data-i={i} role="option" aria-selected={o.value === value}
+                className={`zx-dd-opt${i === active ? ' is-active' : ''}${o.value === value ? ' is-sel' : ''}`}
+                onMouseEnter={() => setActive(i)} onMouseDown={e => e.preventDefault()} onClick={() => pick(i)}>
+                <span>{o.label}</span>
+                {o.meta && <span className="zx-dd-meta">{o.meta}</span>}
+                {o.value === value && <Check size={14} strokeWidth={2.6} className="zx-dd-check" />}
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  )
 }
 
 export default function HeroLeadForm() {
@@ -128,30 +206,22 @@ export default function HeroLeadForm() {
             <div className={`zx-line${touched && !phoneOk ? ' is-bad' : ''}`}>
               <span className="zx-line-label">Cell phone <i>required</i></span>
               <div className="zx-line-row">
-                <label className="zx-dial">
-                  <span aria-hidden="true">{country.flag} {country.dial}</span>
-                  <ChevronDown size={13} aria-hidden="true" />
-                  <select aria-label="Country code" value={country.id}
-                    onChange={e => { const c = COUNTRIES.find(x => x.id === e.target.value)!; setCountry(c); setPhone(formatLocal(digits, c.dial)) }}>
-                    {COUNTRIES.map(c => <option key={c.id} value={c.id}>{c.flag} {c.name} ({c.dial})</option>)}
-                  </select>
-                </label>
+                <Dropdown className="zx-dd-dial" ariaLabel="Country code" value={country.id} panelWidth={270}
+                  options={COUNTRIES.map(c => ({ value: c.id, label: `${c.flag}  ${c.name}`, meta: c.dial }))}
+                  trigger={<span className="zx-dd-dialval">{country.flag} {country.dial}</span>}
+                  onChange={v => { const c = COUNTRIES.find(x => x.id === v)!; setCountry(c); setPhone(formatLocal(digits, c.dial)) }} />
                 <input required aria-required="true" aria-label="Cell phone number" type="tel" inputMode="tel" autoComplete="tel-national"
                   placeholder={country.dial === '+1' ? '(555) 123-4567' : 'Phone number'}
                   value={phone} onChange={e => { touch(); setPhone(formatLocal(e.target.value.replace(/\D/g, ''), country.dial)) }} />
               </div>
             </div>
 
-            <label className="zx-line">
+            <div className="zx-line">
               <span className="zx-line-label">Specialty</span>
-              <div className="zx-line-row">
-                <select value={specialty} onChange={e => { touch(); setSpecialty(e.target.value) }} className={specialty ? '' : 'is-empty'}>
-                  <option value="">Select your specialty</option>
-                  {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-                <ChevronDown size={15} aria-hidden="true" className="zx-line-caret" />
-              </div>
-            </label>
+              <Dropdown ariaLabel="Specialty" value={specialty} placeholder="Select your specialty"
+                options={SPECIALTIES.map(x => ({ value: x, label: x }))}
+                onChange={v => { touch(); setSpecialty(v) }} />
+            </div>
 
             <fieldset className="zx-ticks">
               <legend className="zx-line-label">Looking for <i>tick any</i></legend>
