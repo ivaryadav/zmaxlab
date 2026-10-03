@@ -114,6 +114,16 @@ async function main() {
         el.setAttribute('data-pr', '')
       }
     })
+    // React hydration needs a <!-- --> marker between adjacent text nodes (what react-dom/server
+    // emits). A serialised live DOM loses those boundaries, so add the markers before saving.
+    await page.evaluate(() => {
+      const walker = document.createTreeWalker(document.getElementById('root'), NodeFilter.SHOW_TEXT)
+      const texts = []
+      while (walker.nextNode()) texts.push(walker.currentNode)
+      for (const t of texts) {
+        if (t.previousSibling && t.previousSibling.nodeType === Node.TEXT_NODE) t.parentNode.insertBefore(document.createComment(''), t)
+      }
+    })
     let html = '<!doctype html>\n' + await page.evaluate(() => document.documentElement.outerHTML)
     html = await inlineCss(html)
     const title = await page.title()

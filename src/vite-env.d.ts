@@ -24,4 +24,6 @@ interface Window {
   Calendly?: { initPopupWidget: (opts: { url: string; prefill?: Record<string, unknown>; utm?: Record<string, string> }) => void }
   /** Set by the prerender script so no tracking runs while static HTML is generated. */
   __PRERENDER__?: boolean
+  /** Set in a test browser to log hydration mismatches in production builds. */
+  __ZX_HYDRATION_DEBUG__?: boolean
 }

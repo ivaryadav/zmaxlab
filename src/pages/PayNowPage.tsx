@@ -29,7 +29,8 @@ export default function PayNowPage() {
 
   useEffect(() => {
     const host = formHost.current
-    if (!host) return
+    // Not while prerendering: the injected form must not be baked into the static HTML.
+    if (!host || window.__PRERENDER__) return
     const form = document.createElement('form')
     const script = document.createElement('script')
     script.src = 'https://checkout.razorpay.com/v1/payment-button.js'

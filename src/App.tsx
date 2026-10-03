@@ -17,7 +17,17 @@ function PageViewTracker() {
  * by the prerender (marked data-pr) are removed before paint; animations are enabled from here on.
  */
 function BootDone() {
-  useLayoutEffect(() => { document.head.querySelectorAll('[data-pr]').forEach(el => el.remove()) }, [])
+  useLayoutEffect(() => {
+    // Drop a prerendered head tag only if React rendered its own copy (hydration may adopt it instead).
+    const key = (el: Element) => el.tagName + (el.getAttribute('name') ?? el.getAttribute('property') ?? el.getAttribute('rel') ?? el.getAttribute('type') ?? '')
+    const live = new Set([...document.head.children].filter(el => !el.hasAttribute('data-pr')).map(key))
+    document.head.querySelectorAll('[data-pr]').forEach(el => { if (live.has(key(el)) && el.tagName !== 'SCRIPT') el.remove() })
+    // JSON-LD: keep only one copy of each block
+    const seen = new Set<string>()
+    document.head.querySelectorAll('script[type="application/ld+json"]:not([data-static])').forEach(el => {
+      if (seen.has(el.textContent ?? '')) el.remove(); else seen.add(el.textContent ?? '')
+    })
+  }, [])
   useEffect(() => { endBoot() }, [])
   return null
 }

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { useMotionValue, useTransform, useInView, animate } from 'framer-motion'
 import { T, MONO, CALENDLY_URL } from '@/lib/theme'
 import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Pill, Grad, rise, motion } from '@/components/ui/kit'
 import { imgSize } from '@/lib/images'
+import { isBooting } from '@/lib/boot'
 
 // Darker shade of each accent for text, so labels meet 4.5:1 contrast.
 const TEXT_TONE: Record<string, string> = { '#FF6B3D': '#C2410C', '#D93A22': '#B42318', '#F2A413': '#8F5600', '#0E8FA8': '#0B6F82' }
@@ -73,14 +74,16 @@ function domainOf(href: string) {
 function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.6 })
-  const count = useMotionValue(0)
+  // On the first (hydrating) render show the final number, matching the prerendered HTML.
+  const [start] = useState(() => (isBooting() ? to : 0))
+  const count = useMotionValue(start)
   const rounded = useTransform(count, v => Math.round(v).toLocaleString() + suffix)
 
   useEffect(() => {
-    if (!inView) return
+    if (!inView || start === to) return
     const controls = animate(count, to, { duration: 1.4, ease: [0.16, 1, 0.3, 1] })
     return controls.stop
-  }, [inView, to, count])
+  }, [inView, to, count, start])
 
   return <motion.span ref={ref}>{rounded}</motion.span>
 }
