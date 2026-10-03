@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import { PAGE_LOADERS, NOT_FOUND_LOADER, routeElement } from './routes'
@@ -12,8 +12,12 @@ function PageViewTracker() {
   return null
 }
 
-/** Marks the end of the first render; animations are enabled for anything mounted afterwards. */
+/**
+ * End of the first render. React has now written its own head tags, so the static copies baked in
+ * by the prerender (marked data-pr) are removed before paint; animations are enabled from here on.
+ */
 function BootDone() {
+  useLayoutEffect(() => { document.head.querySelectorAll('[data-pr]').forEach(el => el.remove()) }, [])
   useEffect(() => { endBoot() }, [])
   return null
 }

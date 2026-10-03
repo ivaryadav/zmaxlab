@@ -226,7 +226,7 @@ export default function ServicesPage() {
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 14, marginBottom: 10 }}>
                   <h3 style={{ fontSize: 17.5, fontWeight: 750, letterSpacing: '-0.02em', margin: 0 }}>{title}</h3>
-                  <span style={{ fontFamily: MONO, fontSize: 15, fontWeight: 700, color: T.gold }}>{price}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 15, fontWeight: 700, color: T.goldText }}>{price}</span>
                 </div>
                 <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{desc}</p>
               </motion.div>

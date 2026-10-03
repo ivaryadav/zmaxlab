@@ -122,7 +122,7 @@ export default function PricingPage() {
             </motion.div>
 
             <motion.div {...rise(0.08)}>
-              <Mono style={{ color: T.coral, textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, display: 'block', marginBottom: 18 }}>
+              <Mono style={{ color: T.coralText, textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, display: 'block', marginBottom: 18 }}>
                 Not included - so there are no surprises
               </Mono>
               {NOT_INCLUDED.map(([t, b], i) => (
@@ -220,7 +220,7 @@ export default function PricingPage() {
               {ONETIME.map(([t, p], i) => (
                 <div key={t} style={{ display: 'flex', justifyContent: 'space-between', gap: 14, padding: '13px 0', borderTop: `1px solid ${i < 2 ? T.hairlineStrong : T.hairline}` }}>
                   <span style={{ fontSize: 15, color: T.text }}>{t}</span>
-                  <span style={{ fontFamily: MONO, fontSize: 14.5, fontWeight: 700, color: T.gold, whiteSpace: 'nowrap' }}>{p}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 14.5, fontWeight: 700, color: T.goldText, whiteSpace: 'nowrap' }}>{p}</span>
                 </div>
               ))}
             </div>

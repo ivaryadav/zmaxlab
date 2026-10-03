@@ -130,11 +130,11 @@ export function trackPageView(path: string) {
   if (!canTrack() || path === lastPagePath) return
   const isFirst = lastPagePath === ''
   lastPagePath = path
-  // Wait two frames so react-helmet-async has written this page's <title>.
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  // Next task, so this page's <title> is committed. (Not requestAnimationFrame: it is paused in background tabs.)
+  setTimeout(() => {
     gtag('event', 'page_view', { page_path: path, page_location: window.location.href, page_title: document.title })
     if (!isFirst) fbq('track', 'PageView') // first PageView is sent by initMeta()
-  }))
+  }, 0)
 }
 
 // ── Conversions ──────────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@
    paper  #F3F6F5  cool clinical white (hero + tinted bands)
    ink    #0D1A22  text, dark bands, primary button
    slate  #46545D  body copy
-   faint  #77848C  labels, captions
+   faint  #5F6C74  labels, captions
    teal   #0B6E61  brand: emphasis, ticks, links
    mint   #8FE0CC  emphasis on ink
    Type   Newsreader (display) · Geist (body/UI) · Geist Mono (labels, figures)
@@ -13,7 +13,7 @@
   --paper: #F3F6F5;
   --ink: #0D1A22;
   --slate: #46545D;
-  --faint: #77848C;
+  --faint: #5F6C74;
   --line: rgba(13, 26, 34, 0.12);
   --line-strong: rgba(13, 26, 34, 0.22);
   --teal: #0B6E61;
@@ -106,7 +106,7 @@
 .zx-slip-head {
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
   padding: 20px 28px 14px; border-bottom: 3px double rgba(13,26,34,0.22);
-  font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #77848C;
+  font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F6C74;
 }
 .zx-slip-live { display: inline-flex; align-items: center; gap: 7px; color: #0B6E61; }
 .zx-slip-body { padding: 22px 28px 26px; }
@@ -121,7 +121,7 @@
 .zx-line { display: block; margin-top: 18px; }
 .zx-line-label {
   display: block; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10.5px;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #77848C; margin-bottom: 4px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #5F6C74; margin-bottom: 4px;
 }
 .zx-line-label i { font-style: normal; text-transform: none; letter-spacing: 0; color: #0B6E61; margin-left: 4px; }
 .zx-line-row { display: flex; align-items: center; position: relative; }
@@ -134,7 +134,7 @@
 .zx-line select.is-empty, .zx-line input::placeholder { color: #A3AEB4; }
 .zx-line input:focus, .zx-line select:focus { border-bottom-color: #0B6E61; box-shadow: 0 1px 0 #0B6E61; }
 .zx-line input:focus-visible, .zx-line select:focus-visible { outline: none; }
-.zx-line-caret { position: absolute; right: 0; color: #77848C; pointer-events: none; }
+.zx-line-caret { position: absolute; right: 0; color: #5F6C74; pointer-events: none; }
 .zx-line.is-bad input { border-bottom-color: #C2410C; box-shadow: 0 1px 0 #C2410C; }
 
 /* custom dropdown (specialty + country code) */
@@ -148,7 +148,7 @@
 .zx-dd-trigger:hover { border-bottom-color: rgba(13,26,34,0.45); }
 .zx-dd-trigger:focus-visible, .zx-dd.is-open .zx-dd-trigger { outline: none; border-bottom-color: #0B6E61; box-shadow: 0 1px 0 #0B6E61; }
 .zx-dd-ph { color: #A3AEB4; }
-.zx-dd-caret { color: #77848C; flex-shrink: 0; transition: transform .2s; }
+.zx-dd-caret { color: #5F6C74; flex-shrink: 0; transition: transform .2s; }
 .zx-dd.is-open .zx-dd-caret { transform: rotate(180deg); color: #0B6E61; }
 .zx-dd-panel {
   position: absolute; z-index: 40; top: calc(100% + 8px); left: 0; width: 100%;
@@ -163,7 +163,7 @@
 }
 .zx-dd-opt.is-active { background: #EEF5F2; color: #0D1A22; }
 .zx-dd-opt.is-sel { color: #0B6E61; font-weight: 550; }
-.zx-dd-meta { margin-left: auto; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12.5px; color: #77848C; }
+.zx-dd-meta { margin-left: auto; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12.5px; color: #5F6C74; }
 .zx-dd-check { margin-left: auto; color: #0B6E61; flex-shrink: 0; }
 .zx-dd-meta + .zx-dd-check { margin-left: 8px; }
 .zx-dd-dial { flex-shrink: 0; margin-right: 12px; }
@@ -192,7 +192,7 @@
 .zx-slip-submit:hover:not(:disabled) { background: #0B6E61; }
 .zx-slip-submit:disabled { opacity: 0.7; cursor: wait; }
 .zx-slip-error { color: #C2410C; font-size: 13.5px; margin-top: 10px; }
-.zx-slip-fine { font-size: 12px; color: #77848C; margin-top: 12px; text-align: center; }
+.zx-slip-fine { font-size: 12px; color: #5F6C74; margin-top: 12px; text-align: center; }
 
 /* ── work ── */
 .hm-work { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px); }

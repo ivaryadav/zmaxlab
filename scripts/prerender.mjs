@@ -96,6 +96,13 @@ async function main() {
     await page.waitForSelector('h1', { timeout: 10000 })
     // react-helmet-async writes the head asynchronously; wait for its tags.
     await page.waitForSelector('meta[name="description"]', { timeout: 10000 })
+    // Mark head tags rendered by React (title, meta, canonical, JSON-LD) so the client can remove
+    // them before its first render - otherwise React adds a second copy of each one.
+    await page.evaluate(() => {
+      for (const el of document.head.querySelectorAll('title, meta[name="description"], meta[name="robots"], link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"], script[type="application/ld+json"]:not([data-static])')) {
+        el.setAttribute('data-pr', '')
+      }
+    })
     const html = '<!doctype html>\n' + await page.evaluate(() => document.documentElement.outerHTML)
     const title = await page.title()
     await page.close()

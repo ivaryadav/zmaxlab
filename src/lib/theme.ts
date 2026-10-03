@@ -7,7 +7,7 @@ export const T = {
 
   text: '#07253A',
   muted: 'rgba(7,37,58,0.84)',
-  faint: 'rgba(7,37,58,0.68)',
+  faint: 'rgba(7,37,58,0.76)',
   hairline: 'rgba(7,37,58,0.12)',
   hairlineStrong: 'rgba(7,37,58,0.22)',
 
@@ -22,8 +22,10 @@ export const T = {
   primaryDeep: '#077A6B',
   primaryTint: '#DFF7F2',
   coral: '#FF6B3D',
+  coralText: '#C2410C', // coral for text: 4.5:1 on light backgrounds
   coralTint: '#FFEDE6',
   gold: '#F2A413',
+  goldText: '#8F5600', // gold for text: 4.5:1 on light backgrounds
 
   // gradients - the thing that makes it feel alive
   gradPanel: 'linear-gradient(135deg,#DFF8F3 0%,#D3F0F7 52%,#E4EEFB 100%)',

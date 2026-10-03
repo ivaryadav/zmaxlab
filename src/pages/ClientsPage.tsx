@@ -6,6 +6,9 @@ import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Pill, Grad, rise, motion } from '@/components/ui/kit'
 import { imgSize } from '@/lib/images'
 
+// Darker shade of each accent for text, so labels meet 4.5:1 contrast.
+const TEXT_TONE: Record<string, string> = { '#FF6B3D': '#C2410C', '#D93A22': '#B42318', '#F2A413': '#8F5600', '#0E8FA8': '#0B6F82' }
+const textTone = (c: string) => TEXT_TONE[c] ?? c
 const CORAL = '#FF6B3D'    // pain management
 const ROSE = '#D93A22'     // cardiology
 const GOLD = '#F2A413'     // gastroenterology
@@ -149,7 +152,7 @@ export default function ClientsPage() {
                     }}>
                       {domainOf(href)}
                     </div>
-                    <span style={{ fontFamily: MONO, fontSize: 9, color: accent, fontWeight: 700, flexShrink: 0 }}>LIVE</span>
+                    <span style={{ fontFamily: MONO, fontSize: 9, color: textTone(accent), fontWeight: 700, flexShrink: 0 }}>LIVE</span>
                   </div>
                   <div className="zx-zoom" style={{ aspectRatio: '16/10' }}>
                     <img src={img} {...imgSize(img)} decoding="async" alt={`${name} website`} loading="lazy"
@@ -161,7 +164,7 @@ export default function ClientsPage() {
                 <div style={{ padding: '20px 4px 0' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9 }}>
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-                    <Mono style={{ color: accent, textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em' }}>{meta}</Mono>
+                    <Mono style={{ color: textTone(accent), textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em' }}>{meta}</Mono>
                   </div>
                   <h2 style={{
                     display: 'flex', alignItems: 'center', gap: 7,

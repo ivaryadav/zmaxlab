@@ -24,6 +24,9 @@ preloadRoute(window.location.pathname)
       </HelmetProvider>,
     )
     const idle = (fn: () => void) => ('requestIdleCallback' in window ? window.requestIdleCallback(fn, { timeout: 5000 }) : setTimeout(fn, 3000))
-    if (document.readyState === 'complete') idle(prefetchAllRoutes)
-    else window.addEventListener('load', () => idle(prefetchAllRoutes), { once: true })
+    // Not while prerendering: prefetched chunks would inject other pages' CSS into the static HTML.
+    if (!window.__PRERENDER__) {
+      if (document.readyState === 'complete') idle(prefetchAllRoutes)
+      else window.addEventListener('load', () => idle(prefetchAllRoutes), { once: true })
+    }
   })

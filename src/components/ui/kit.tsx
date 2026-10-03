@@ -137,7 +137,7 @@ export function Pill({ children, tone = 'teal' }: { children: ReactNode; tone?: 
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 8,
       background: teal ? T.primaryTint : T.coralTint,
-      color: teal ? T.primaryDeep : T.coral,
+      color: teal ? T.primaryDeep : T.coralText,
       fontFamily: MONO, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase',
       fontWeight: 600, padding: '7px 14px', borderRadius: 999, marginBottom: 20,
     }}>

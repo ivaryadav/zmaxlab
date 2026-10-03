@@ -181,7 +181,7 @@ export default function ContactPage() {
 
                   <button type="submit" disabled={loading} style={{
                     display: 'inline-flex', alignItems: 'center', gap: 10,
-                    background: T.blue, color: '#fff', fontSize: 15, fontWeight: 700,
+                    background: T.primaryDeep, color: '#fff', fontSize: 15, fontWeight: 700,
                     padding: '15px 30px', borderRadius: 999, border: 'none',
                     cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.6 : 1,
                     fontFamily: 'inherit',
