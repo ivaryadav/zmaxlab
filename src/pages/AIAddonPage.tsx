@@ -1,6 +1,6 @@
 import { ArrowRight, Bot, MessageSquareText, Calculator, CreditCard, Palette, FileText, Check } from 'lucide-react'
 import { T, MONO, CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, Panel, rise, motion } from '@/components/ui/kit'
 
 const FEATURES: [typeof Bot, string, string, string][] = [
@@ -24,10 +24,10 @@ const FAQS: [string, string][] = [
 ]
 
 export default function AIAddonPage() {
-  useSEO({
-    title: 'AI Add-on | Chat Assistant, Auto-Reply & Payments - ZmaxLab',
-    description: 'A chat assistant, automated replies, instant quotes, payment gateway setup, logo and digital letterhead - bundled as one AI Add-on for your practice website.',
-    canonical: 'https://zmaxlab.site/ai-addon',
+  const seo: SeoProps = {
+    title: "AI Chat Assistant for Medical Practice Websites | ZmaxLab",
+    description: "Add an AI chat assistant, automated replies, instant quotes and online payments to your practice website. One add-on, set up for you.",
+    path: '/ai-addon',
     schema: [{
       '@context': 'https://schema.org',
       '@type': 'Service',
@@ -39,10 +39,11 @@ export default function AIAddonPage() {
         description: 'AI chat assistant, automated reply handling, instant quote tool, payment gateway setup, logo design and digital letterhead.',
       },
     }],
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO */}
       <section style={{ paddingTop: 'clamp(112px,13vw,164px)', paddingBottom: 'clamp(48px,6vw,72px)' }}>
         <Shell>
@@ -202,7 +203,7 @@ export default function AIAddonPage() {
           <motion.div {...rise()} style={{ maxWidth: 680 }}>
             <H2 style={{ color: T.onDark, marginBottom: 20 }}>See it running before you decide anything.</H2>
             <Lead dark style={{ maxWidth: 520, marginBottom: 32 }}>
-              Twenty minutes. I'll show you the assistant answering real questions, not a slide deck.
+              Fifteen minutes. I'll show you the assistant answering real questions, not a slide deck.
             </Lead>
             <Btn to={CALENDLY_URL} dark>Book a consultation <ArrowRight size={17} /></Btn>
           </motion.div>

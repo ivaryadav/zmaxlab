@@ -1,6 +1,6 @@
 import { ArrowRight, Check, X } from 'lucide-react'
 import { T, MONO, CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, H2, Lead, Mono, Btn, TextLink, Display, Grad, Pill, rise, motion } from '@/components/ui/kit'
 import RoiCalc from '@/components/ui/RoiCalc'
 
@@ -63,14 +63,27 @@ const FAQS: [string, string][] = [
 ]
 
 export default function PricingPage() {
-  useSEO({
-    title: 'Pricing | $500 Flat Healthcare Website Design - ZmaxLab',
-    description: 'A custom healthcare website for a flat $500, live in 7 business days. Full breakdown of what is included, what is not, and how it compares to agencies charging $3,000-$10,000.',
-    canonical: 'https://zmaxlab.site/pricing',
-  })
+  const seo: SeoProps = {
+    title: "Medical Website Pricing: $500 Flat | ZmaxLab",
+    description: "One flat $500 for a custom healthcare website, live in 7 business days. See what is included, what you pay directly, and how it compares.",
+    path: '/pricing',
+    schema: [
+      {
+        '@context': 'https://schema.org', '@type': 'FAQPage',
+        mainEntity: FAQS.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+      },
+      {
+        '@context': 'https://schema.org', '@type': 'Product', name: 'Custom healthcare website',
+        description: 'Custom-coded healthcare website for NPI-registered practitioners, delivered in 7 business days.',
+        brand: { '@type': 'Brand', name: 'ZmaxLab' },
+        offers: { '@type': 'Offer', price: '500', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://zmaxlab.site/pricing' },
+      },
+    ],
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO - lead with the number */}
       <section style={{ paddingTop: 'clamp(112px,13vw,164px)', paddingBottom: 'clamp(40px,5vw,64px)' }}>
         <Shell>
@@ -243,7 +256,7 @@ export default function PricingPage() {
       <Section dark pad="clamp(64px,8vw,104px)" padBottom="clamp(34px,4vw,48px)">
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 680 }}>
-            <H2 style={{ color: T.onDark, marginBottom: 20 }}>Twenty minutes, and no obligation.</H2>
+            <H2 style={{ color: T.onDark, marginBottom: 20 }}>Fifteen minutes, and no obligation.</H2>
             <Lead dark style={{ maxWidth: 520, marginBottom: 32 }}>
               If a $500 site is not the right answer for your practice, I will say so on the call
               rather than sell you one.

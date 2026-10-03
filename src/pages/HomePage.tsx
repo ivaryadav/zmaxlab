@@ -5,25 +5,27 @@ import { CALENDLY_URL, EASE } from '@/lib/theme'
 import LiveBuilder from '@/components/ui/LiveBuilder'
 import HeroLeadForm from '@/components/ui/HeroLeadForm'
 import { GROWTH_SERVICES } from '@/components/ui/GrowthServices'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
+import { isBooting } from '@/lib/boot'
 import './home.css'
+import { imgSize } from '@/lib/images'
 
 const enter = (delay = 0) => ({
-  initial: { opacity: 0, y: 18 },
+  initial: isBooting() ? false as const : { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.8, delay, ease: EASE },
 })
 const reveal = (delay = 0) => ({
-  initial: { opacity: 0, y: 22 },
+  initial: isBooting() ? false as const : { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.2 },
   transition: { duration: 0.7, delay, ease: EASE },
 })
 
 const WORK = [
-  { img: '/img/clients/manhattan-cardiology.jpg', name: 'Manhattan Cardiology', meta: 'Cardiology · New York, NY', url: 'manhattancardiology.com' },
-  { img: '/img/clients/mango-pediatrics.jpg', name: 'Mango Pediatrics', meta: 'Pediatrics · Jacksonville, FL', url: 'mangopediatrics.com' },
-  { img: '/img/clients/nw-womens-healthcare.jpg', name: "Northwest Women's HealthCare", meta: 'OB/GYN · Seattle, WA', url: 'www.nwwomenshealth.com' },
+  { img: '/img/clients/manhattan-cardiology.webp', name: 'Manhattan Cardiology', meta: 'Cardiology · New York, NY', url: 'manhattancardiology.com' },
+  { img: '/img/clients/mango-pediatrics.webp', name: 'Mango Pediatrics', meta: 'Pediatrics · Jacksonville, FL', url: 'mangopediatrics.com' },
+  { img: '/img/clients/nw-womens-healthcare.webp', name: "Northwest Women's HealthCare", meta: 'OB/GYN · Seattle, WA', url: 'www.nwwomenshealth.com' },
 ]
 
 const QUESTIONS = [
@@ -54,14 +56,15 @@ const INCLUDED = [
 ]
 
 export default function HomePage() {
-  useSEO({
-    title: 'Healthcare Website Design for Nurse Practitioners | $500 Flat - ZmaxLab',
-    description: 'Custom healthcare website design for nurse practitioners, PAs, chiropractors and mental health providers. $500 flat, live in 7 business days, source code included. No contract.',
-    canonical: 'https://zmaxlab.site/',
-  })
+  const seo: SeoProps = {
+    title: "Website Design for Nurse Practitioners | ZmaxLab",
+    description: "Custom websites for nurse practitioners, therapists, chiropractors and specialists. $500 flat, live in 7 business days, on your own domain.",
+    path: '/',
+  }
 
   return (
     <MotionConfig reducedMotion="user">
+      <Seo {...seo} />
       <div className="hm">
 
         {/* ── Hero ─────────────────────────────────────────── */}
@@ -91,7 +94,7 @@ export default function HomePage() {
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 40, rotate: 1.5 }}
+              initial={isBooting() ? false : { opacity: 0, y: 40, rotate: 1.5 }}
               animate={{ opacity: 1, y: 0, rotate: 0 }}
               transition={{ duration: 1, delay: 0.2, ease: EASE }}
               className="hm-hero-slip"
@@ -116,7 +119,7 @@ export default function HomePage() {
                 <motion.a {...reveal(i * 0.08)} key={w.name} href={`https://${w.url}`} target="_blank" rel="noopener noreferrer" className="hm-work-card">
                   <div className="hm-frame">
                     <div className="hm-frame-bar"><i /><i /><i /><span>{w.url}</span></div>
-                    <img src={w.img} alt={`${w.name} website`} loading="lazy" />
+                    <img src={w.img} {...imgSize(w.img)} decoding="async" alt={`${w.name} website`} loading="lazy" />
                   </div>
                   <div className="hm-work-meta">
                     <h3>{w.name}</h3>
@@ -197,7 +200,7 @@ export default function HomePage() {
                 One price for the build, paid in two halves: $250 to start, and $250 once you
                 have approved the live site. Agencies typically quote $3,000 to $10,000 for the same scope.
               </p>
-              <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="hm-btn">
+              <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="" className="hm-btn">
                 Book a 15-minute consultation <ArrowUpRight size={16} />
               </a>
             </motion.div>
@@ -254,7 +257,7 @@ export default function HomePage() {
         <section className="hm-sec hm-sec-ink hm-note">
           <div className="hm-wrap hm-note-grid">
             <motion.figure {...reveal()} className="hm-note-photo">
-              <img src="/ravi.jpg" alt="Ravi Kumar, founder of ZmaxLab" loading="lazy" />
+              <img src="/ravi.webp" {...imgSize("/ravi.webp")} decoding="async" alt="Ravi Kumar, founder of ZmaxLab" loading="lazy" />
             </motion.figure>
             <motion.div {...reveal(0.08)}>
               <p className="hm-eyebrow">From the person who builds it</p>
@@ -265,7 +268,7 @@ export default function HomePage() {
               </blockquote>
               <p className="hm-note-sign"><em>Ravi Kumar</em><span>Founder, ZmaxLab</span></p>
               <div className="hm-note-ctas">
-                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="hm-btn hm-btn-light">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" data-cta="" className="hm-btn hm-btn-light">
                   Book a 15-minute consultation <ArrowUpRight size={16} />
                 </a>
                 <a href="#intake" className="hm-link hm-link-light">Or request a call back <ArrowRight size={15} /></a>

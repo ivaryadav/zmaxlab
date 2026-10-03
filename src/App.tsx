@@ -1,46 +1,20 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/layout/Layout'
-import HomePage from './pages/HomePage'
-import ServicesPage from './pages/ServicesPage'
-import ClientsPage from './pages/ClientsPage'
-import HowItWorksPage from './pages/HowItWorksPage'
-import AboutPage from './pages/AboutPage'
-import ContactPage from './pages/ContactPage'
-import PricingPage from './pages/PricingPage'
-import AIAddonPage from './pages/AIAddonPage'
-import PayNowPage from './pages/PayNowPage'
-import BlogPage from './pages/BlogPage'
-import PrivacyPage from './pages/PrivacyPage'
-import TermsPage from './pages/TermsPage'
+import { PAGE_LOADERS, NOT_FOUND_LOADER, routeElement } from './routes'
+import { trackPageView } from './lib/analytics'
+import { endBoot } from './lib/boot'
 
-const PAGE_CATEGORIES: Record<string, string> = {
-  '/': 'home',
-  '/services': 'services',
-  '/clients': 'clients',
-  '/how-it-works': 'how-it-works',
-  '/about': 'about',
-  '/contact': 'contact',
-  '/pricing': 'pricing',
-  '/ai-addon': 'ai-addon',
-  '/pay-now': 'pay-now',
-  '/privacy': 'legal',
-  '/terms': 'legal',
-  '/blog/custom-vs-template-medical-website': 'blog',
+/** One manual GA4/Meta page view per route change (deduplicated inside trackPageView). */
+function PageViewTracker() {
+  const { pathname } = useLocation()
+  useEffect(() => { trackPageView(pathname) }, [pathname])
+  return null
 }
 
-function PageViewTracker() {
-  const location = useLocation()
-  useEffect(() => {
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'page_view', {
-        page_path: location.pathname,
-        page_location: window.location.href,
-        page_title: document.title,
-        page_category: PAGE_CATEGORIES[location.pathname] || 'other',
-      })
-    }
-  }, [location])
+/** Marks the end of the first render; animations are enabled for anything mounted afterwards. */
+function BootDone() {
+  useEffect(() => { endBoot() }, [])
   return null
 }
 
@@ -50,20 +24,13 @@ export default function App() {
       <PageViewTracker />
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/clients" element={<ClientsPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/ai-addon" element={<AIAddonPage />} />
-          <Route path="/pay-now" element={<PayNowPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/blog/custom-vs-template-medical-website" element={<BlogPage />} />
+          {Object.entries(PAGE_LOADERS).map(([path, loader]) => (
+            <Route key={path} path={path} element={routeElement(loader)} />
+          ))}
+          <Route path="*" element={routeElement(NOT_FOUND_LOADER)} />
         </Route>
       </Routes>
+      <BootDone />
     </BrowserRouter>
   )
 }

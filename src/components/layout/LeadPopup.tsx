@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Check, X } from 'lucide-react'
 import { T, MONO, EASE } from '@/lib/theme'
+import { submitLead } from '@/lib/leads'
+import { trackPopupShown } from '@/lib/analytics'
 
 const SPECIALTIES = ['Nurse Practitioner', 'Physician Assistant', 'Mental Health NP / Therapist', 'Chiropractor', 'Dentist', 'Physical Therapist', 'Occupational Therapist', 'Psychiatric NP', 'Functional Medicine MD', 'LCSW / Mental Health Therapist', 'Other NPI Practitioner']
 
@@ -10,10 +12,6 @@ const SPECIALTIES = ['Nurse Practitioner', 'Physician Assistant', 'Mental Health
 const EXCLUDED = ['/contact', '/pay-now', '/privacy', '/terms']
 const SEEN_KEY = 'zx_lead_popup_seen'
 const DELAY_MS = 10000
-
-function gtagEvent(name: string, params: Record<string, string | number | boolean>) {
-  if (typeof window.gtag === 'function') window.gtag('event', name, params)
-}
 
 const inputCss: React.CSSProperties = {
   width: '100%', background: '#fff',
@@ -51,7 +49,7 @@ export default function LeadPopup() {
       shownRef.current = true
       localStorage.setItem(SEEN_KEY, '1')
       setOpen(true)
-      gtagEvent('popup_shown', { form_id: 'popup_lead', page_category: pathRef.current })
+      trackPopupShown('popup_lead')
     }, DELAY_MS)
     return () => clearTimeout(timer)
   }, [])
@@ -67,28 +65,15 @@ export default function LeadPopup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (loading || sent) return
     setLoading(true); setError('')
-    gtagEvent('form_submit', { form_id: 'popup_lead', form_name: 'Popup Lead Form', specialty: form.specialty, page_category: pathRef.current })
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: '5a1bc976-474a-422f-bdb3-0c7f11eaed3d',
-          subject: `New ZmaxLab popup lead - ${form.name} (${form.specialty})`,
-          from_name: form.name, email: form.email, specialty: form.specialty,
-          source: 'timed_popup', page: pathRef.current, replyto: form.email,
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        gtagEvent('qualify_lead', { form_id: 'popup_lead', form_name: 'Popup Lead Form', specialty: form.specialty, page_category: pathRef.current, lead_status: 'new', method: 'popup_form' })
-        setSent(true)
-        setTimeout(close, 2600)
-      } else setError('Something went wrong. Please try again in a moment.')
-    } catch {
-      setError('Network error. Please check your connection and try again.')
-    }
+    const res = await submitLead('popup_lead', {
+      name: form.name, email: form.email, specialty: form.specialty, source: 'Timed popup',
+    })
+    if (res.ok) {
+      setSent(true)
+      setTimeout(close, 2600)
+    } else setError(res.error)
     setLoading(false)
   }
 
@@ -154,7 +139,7 @@ export default function LeadPopup() {
                     Want to see your site before you pay for it?
                   </h3>
                   <p style={{ fontSize: 14.5, lineHeight: 1.6, color: T.muted, margin: '0 0 24px' }}>
-                    Twenty minutes, no obligation. Leave your details and I will show you a live
+                    Fifteen minutes, no obligation. Leave your details and I will show you a live
                     mockup for your specialty.
                   </p>
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { ShieldCheck, Lock, Globe } from 'lucide-react'
 import { T } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Pill, Display, Lead, TextLink, rise, motion } from '@/components/ui/kit'
 
 // Created via Razorpay Dashboard > Payment Button > Custom Button, with a
@@ -20,12 +20,12 @@ const TRUST = [
 export default function PayNowPage() {
   const formHost = useRef<HTMLDivElement>(null)
 
-  useSEO({
-    title: 'Pay Now | Secure Online Payment - ZmaxLab',
-    description: 'Pay your ZmaxLab invoice or deposit securely online. Processed by Razorpay, international cards accepted.',
-    canonical: 'https://zmaxlab.site/pay-now',
+  const seo: SeoProps = {
+    title: "Pay Now | ZmaxLab",
+    description: "Pay your ZmaxLab invoice or deposit securely online. Processed by Razorpay, international cards accepted.",
+    path: '/pay-now',
     noindex: true,
-  })
+  }
 
   useEffect(() => {
     const host = formHost.current
@@ -42,6 +42,7 @@ export default function PayNowPage() {
 
   return (
     <>
+      <Seo {...seo} />
       <section style={{ paddingTop: 'clamp(120px,14vw,180px)', paddingBottom: 'clamp(48px,6vw,72px)' }}>
         <Shell>
           <motion.div {...rise()} style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>

@@ -56,6 +56,6 @@ export const TYPE = {
   body: '17px', small: '14px', micro: '11.5px',
 }
 
-export const CALENDLY_URL = 'https://calendly.com/zmaxlab/consultation'
+export const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendly.com/zmaxlab/consultation'
 
 export const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]

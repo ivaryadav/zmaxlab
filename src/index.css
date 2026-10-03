@@ -6,6 +6,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Self-hosted variable fonts (latin subset) - no render-blocking third-party CSS */
+@font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap; src: url('/fonts/newsreader.woff2') format('woff2-variations'), url('/fonts/newsreader.woff2') format('woff2'); }
+@font-face { font-family: 'Newsreader'; font-style: italic; font-weight: 200 800; font-display: swap; src: url('/fonts/newsreader-italic.woff2') format('woff2-variations'), url('/fonts/newsreader-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Geist'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/fonts/geist.woff2') format('woff2-variations'), url('/fonts/geist.woff2') format('woff2'); }
+@font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/fonts/geist-mono.woff2') format('woff2-variations'), url('/fonts/geist-mono.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('/fonts/space-grotesk.woff2') format('woff2-variations'), url('/fonts/space-grotesk.woff2') format('woff2'); }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -204,3 +211,6 @@ a { text-decoration: none; color: inherit; }
 /* Editorial emphasis - replaces gradient text */
 .zx-em { font-style: italic; font-weight: inherit; color: #0B6E61; font-variation-settings: 'opsz' 72; }
 .zx-dark .zx-em { color: #7FD8C4; }
+
+/* Calendly popup must sit above the fixed header, chat and booking buttons */
+.calendly-overlay { z-index: 2147483000 !important; }

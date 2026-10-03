@@ -1,6 +1,6 @@
 import { ArrowRight, Check, X } from 'lucide-react'
 import { T, CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const COMPARE_ROWS: [string, string, string][] = [
@@ -33,15 +33,16 @@ const blogSchema = [{
 }]
 
 export default function BlogPage() {
-  useSEO({
-    title: 'Custom vs Template Medical Website: Which Is Right for Your NPI Practice? | ZmaxLab',
-    description: 'A $30/month template or a custom-built healthcare website? Real differences in search rankings, patient trust and long-term ROI for NPI practitioners.',
-    canonical: 'https://zmaxlab.site/blog/custom-vs-template-medical-website',
+  const seo: SeoProps = {
+    title: "Custom vs Template Medical Website: Which to Choose",
+    description: "A $30/month template or a custom-built healthcare website? Real differences in search rankings, patient trust and long-term ROI for NPI practitioners.",
+    path: '/blog/custom-vs-template-medical-website',
     schema: blogSchema,
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO */}
       <section style={{ paddingTop: 'clamp(112px,13vw,164px)', paddingBottom: 'clamp(40px,5vw,64px)' }}>
         <Shell>
@@ -173,7 +174,7 @@ export default function BlogPage() {
               Want to see what yours would look like?
             </H2>
             <Lead dark style={{ maxWidth: 520, marginBottom: 34 }}>
-              Twenty minutes, no obligation. I'll show you a live mockup for your specialty and
+              Fifteen minutes, no obligation. I'll show you a live mockup for your specialty and
               tell you honestly whether a custom site is the right move yet.
             </Lead>
             <div style={{ display: 'flex', gap: 26, alignItems: 'center', flexWrap: 'wrap' }}>

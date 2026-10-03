@@ -1,4 +1,4 @@
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Shield, Mail } from 'lucide-react'
@@ -6,17 +6,19 @@ import { Shield, Mail } from 'lucide-react'
 const GS = { fontFamily: "'Space Grotesk',sans-serif" }
 const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
 
+// TODO(owner review): third-party list updated for Formspree, Google Ads, Meta Pixel and Microsoft Clarity.
+// Please confirm this wording with your own legal review before relying on it.
 export default function PrivacyPage() {
-  useSEO({
-    title: 'Privacy Policy | ZmaxLab - Healthcare Website Design',
-    description: 'Privacy Policy for ZmaxLab - custom healthcare website design for NPI practitioners. How we collect, use, and protect your information.',
-    canonical: 'https://zmaxlab.site/privacy',
-  })
+  const seo: SeoProps = {
+    title: "Privacy Policy | ZmaxLab",
+    description: "How ZmaxLab collects, uses and protects the information you share through this website, and the choices you have.",
+    path: '/privacy',
+  }
 
   const SECTIONS = [
     {
       title: '1. Information We Collect',
-      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers - submissions are processed via Web3Forms and delivered directly to our inbox.`
+      body: `When you submit a form on zmaxlab.site, we collect only the information you voluntarily provide: your name, email address, specialty, practice name, US state, and any message you include. We do not collect any Protected Health Information (PHI) as defined under HIPAA. We do not store form submissions on our servers - submissions are processed via Formspree and delivered directly to our inbox.`
     },
     {
       title: '2. How We Use Your Information',
@@ -32,7 +34,7 @@ export default function PrivacyPage() {
     },
     {
       title: '5. Third-Party Services',
-      body: `Our website uses the following third-party services: Google Analytics 4 (anonymised usage analytics), Web3Forms (form submission delivery), Calendly (appointment scheduling), Google Fonts (Space Grotesk typeface). Each of these services has its own privacy policy and data processing terms. We do not share your personal information with these services beyond what is necessary for their function.`
+      body: `Our website uses the following third-party services: Google Analytics 4 (usage analytics), Google Ads and Meta Pixel (measuring which ads lead to enquiries), Microsoft Clarity (anonymised usage recordings and heatmaps), Formspree (form submission delivery) and Calendly (appointment scheduling). Fonts are hosted on our own server. Each of these services has its own privacy policy and data processing terms. We do not share your personal information with these services beyond what is necessary for their function.`
     },
     {
       title: '6. Data Retention',
@@ -58,6 +60,7 @@ export default function PrivacyPage() {
 
   return (
     <div style={{ background: '#FFFFFF' }}>
+      <Seo {...seo} />
       <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(48px,6vw,72px)', background: `radial-gradient(ellipse at 30% 20%,rgba(29,78,216,0.06) 0%,transparent 60%),#FFFFFF` }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <motion.div {...fadeUp()}>

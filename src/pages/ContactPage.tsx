@@ -1,15 +1,15 @@
 import { useState, useRef } from 'react'
 import { ArrowRight, Check, Mail, Clock, ShieldCheck } from 'lucide-react'
 import { T, MONO } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import { submitLead } from '@/lib/leads'
+import { trackFormStart } from '@/lib/analytics'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Display, H2, Lead, Mono, Grad, rise, motion } from '@/components/ui/kit'
+import { imgSize } from '@/lib/images'
 
 const SPECIALTIES = ['Nurse Practitioner','Physician Assistant','Mental Health NP / Therapist','Chiropractor','Dentist','Physical Therapist','Occupational Therapist','Psychiatric NP','Functional Medicine MD','LCSW / Mental Health Therapist','Other NPI Practitioner']
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
 
-function gtagEvent(name: string, params: Record<string, string | number | boolean>) {
-  if (typeof (window as any).gtag === 'function') (window as any).gtag('event', name, params)
-}
 
 const fieldWrap: React.CSSProperties = { marginBottom: 16 }
 const labelCss: React.CSSProperties = {
@@ -37,56 +37,40 @@ export default function ContactPage() {
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const started = useRef(false)
+  const submitting = useRef(false)
 
-  const touch = () => {
-    if (!started.current) {
-      started.current = true
-      gtagEvent('form_start', { form_id:'contact_demo', form_name:'Free Demo Form', page_category:'contact' })
-    }
-  }
+  const touch = () => trackFormStart('contact_form')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting.current) return
+    submitting.current = true
     setLoading(true); setError('')
-    gtagEvent('form_submit', { form_id:'contact_demo', form_name:'Free Demo Form', specialty:form.specialty, service:form.service, page_category:'contact' })
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json', Accept:'application/json' },
-        body: JSON.stringify({
-          access_key:'5a1bc976-474a-422f-bdb3-0c7f11eaed3d',
-          subject:`New ZmaxLab enquiry - ${form.name} (${form.specialty})`,
-          from_name: form.name, email: form.email, specialty: form.specialty,
-          practice: form.practice, state: form.state, service: form.service,
-          message: form.message || '(no message)', replyto: form.email,
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        gtagEvent('qualify_lead', { form_id:'contact_demo', form_name:'Free Demo Form', specialty:form.specialty, service:form.service, page_category:'contact', lead_status:'new', method:'contact_form' })
-        setSent(true)
-      } else setError('Something went wrong. Please try again in a moment.')
-    } catch {
-      setError('Network error. Please check your connection and try again.')
-    }
+    const res = await submitLead('contact_form', {
+      name: form.name, email: form.email, specialty: form.specialty, practice: form.practice,
+      state: form.state, service: form.service, message: form.message || '(no message)',
+    })
+    if (res.ok) setSent(true)
+    else setError(res.error)
     setLoading(false)
+    submitting.current = false
   }
 
-  useSEO({
-    title: 'Contact | Book a Consultation - ZmaxLab Healthcare Web Design',
-    description: 'Book a 15-minute website consultation. Custom healthcare websites for NPI-registered practitioners - $500 flat, live in 7 business days.',
-    canonical: 'https://zmaxlab.site/contact',
+  const seo: SeoProps = {
+    title: "Book a Website Consultation | ZmaxLab",
+    description: "Book a 15-minute website consultation or request a call back. Custom healthcare websites for US practitioners, $500 flat.",
+    path: '/contact',
     schema: [{"@context":"https://schema.org","@type":"LocalBusiness","name":"ZmaxLab","description":"Custom healthcare website design for NPI-registered practitioners. $500 flat fee.","url":"https://zmaxlab.site","priceRange":"$500","serviceArea":{"@type":"Country","name":"United States"}}],
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       <section style={{
         position: 'relative', overflow: 'hidden',
         paddingTop: 'clamp(168px,17vw,232px)', paddingBottom: 'clamp(72px,9vw,124px)',
       }}>
-        <img src="/img/contact-bg.jpg" alt="" aria-hidden="true"
+        <img src="/img/contact-bg.webp" {...imgSize("/img/contact-bg.webp")} decoding="async" fetchPriority="high" alt="" aria-hidden="true"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%', filter: 'grayscale(0.55) blur(2px)', transform: 'scale(1.04)' }} />
         <div style={{
           position: 'absolute', inset: 0,
@@ -108,7 +92,7 @@ export default function ContactPage() {
               Let's talk about your <Grad>practice</Grad>.
             </Display>
             <Lead dark style={{ maxWidth: 540 }}>
-              Twenty minutes, no obligation, nothing to prepare. I will walk you through what a
+              Fifteen minutes, no obligation, nothing to prepare. I will walk you through what a
               custom site for your specialty would look like - and tell you honestly if it is not a fit.
             </Lead>
           </motion.div>
@@ -206,7 +190,7 @@ export default function ContactPage() {
                   </button>
 
                   <p style={{ fontSize: 12.5, color: T.faint, marginTop: 18, lineHeight: 1.6, maxWidth: 420 }}>
-                    Your details are used only to reply to this enquiry. No list, no newsletter, no sharing.
+                    We only use your details to reply to your enquiry.
                   </p>
                 </form>
               )}
@@ -219,7 +203,7 @@ export default function ContactPage() {
               </Mono>
               {[
                 [Mail, 'I reply personally', 'Within one business day, usually sooner. No auto-responder, no sales sequence.'],
-                [Clock, 'We book twenty minutes', 'A short call about your specialty, your market, and what the build would involve.'],
+                [Clock, 'We book fifteen minutes', 'A short call about your specialty, your market, and what the build would involve.'],
                 [ShieldCheck, 'You decide, with no pressure', 'If it is not a fit, I will tell you on the call rather than sell you something.'],
               ].map(([Icon, title, body], i) => {
                 const I = Icon as typeof Mail
@@ -231,7 +215,7 @@ export default function ContactPage() {
                   }}>
                     <I size={17} style={{ color: T.blue, marginTop: 3 }} />
                     <div>
-                      <h3 style={{ fontSize: 16.5, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 6 }}>{title as string}</h3>
+                      <h2 style={{ fontSize: 16.5, fontWeight: 750, letterSpacing: '-0.02em', marginBottom: 6 }}>{title as string}</h2>
                       <p style={{ fontSize: 14.5, lineHeight: 1.65, color: T.muted, margin: 0 }}>{body as string}</p>
                     </div>
                   </div>

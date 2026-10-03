@@ -1,9 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown } from 'lucide-react'
-
-// Web3Forms key - submissions are emailed to the inbox tied to this key (never shown on the site).
-const WEB3FORMS_KEY = '5a1bc976-474a-422f-bdb3-0c7f11eaed3d'
+import { submitLead } from '@/lib/leads'
+import { trackFormStart } from '@/lib/analytics'
 
 const SPECIALTIES = [
   'Nurse Practitioner', 'Physician Assistant', 'Chiropractor', 'Mental Health / Therapist',
@@ -25,10 +24,6 @@ const COUNTRIES = [
 ]
 
 const ease = [0.16, 1, 0.3, 1] as const
-
-function gtagEvent(name: string, params: Record<string, string | number | boolean>) {
-  if (typeof (window as any).gtag === 'function') (window as any).gtag('event', name, params)
-}
 
 const titleCase = (s: string) => s.trim().toLowerCase().replace(/\b\p{L}/gu, c => c.toUpperCase())
 
@@ -129,13 +124,9 @@ export default function HeroLeadForm() {
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
-  const started = useRef(false)
+  const submitting = useRef(false)
 
-  const touch = () => {
-    if (started.current) return
-    started.current = true
-    gtagEvent('form_start', { form_id: 'hero_quick', form_name: 'Hero Intake Form', page_category: 'home' })
-  }
+  const touch = () => trackFormStart('hero_intake')
   const toggleNeed = (n: string) => { touch(); setNeeds(v => v.includes(n) ? v.filter(x => x !== n) : [...v, n]) }
 
   const digits = phone.replace(/\D/g, '')
@@ -147,33 +138,20 @@ export default function HeroLeadForm() {
     setTouched(true)
     if (!nameOk) { setError('Enter your full name.'); return }
     if (!phoneOk) { setError(country.dial === '+1' ? 'Enter a 10-digit US cell number.' : 'Enter a valid cell phone number.'); return }
+    if (submitting.current) return
+    submitting.current = true
     setLoading(true); setError('')
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: 'New Inquiry',
-          from_name: 'ZmaxLab Website',
-          name: titleCase(name),
-          cell_phone: `${country.dial} ${formatLocal(digits, country.dial)}`,
-          country: country.name,
-          specialty: specialty || '(not specified)',
-          looking_for: needs.length ? needs.join(', ') : '(not specified)',
-          source: 'Homepage intake form',
-          botcheck: '',
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        gtagEvent('qualify_lead', { form_id: 'hero_quick', form_name: 'Hero Intake Form', specialty, page_category: 'home', method: 'hero_form' })
-        setSent(true)
-      } else setError('That did not go through. Try again in a moment.')
-    } catch {
-      setError('No connection. Check your internet and try again.')
-    }
+    const res = await submitLead('hero_intake', {
+      name: titleCase(name),
+      phone: `${country.dial} ${formatLocal(digits, country.dial)}`,
+      country: country.name,
+      specialty: specialty || '(not specified)',
+      looking_for: needs.length ? needs.join(', ') : '(not specified)',
+    })
+    if (res.ok) setSent(true)
+    else setError(res.error)
     setLoading(false)
+    submitting.current = false
   }
 
   const firstName = titleCase(name).split(' ')[0]
@@ -189,13 +167,13 @@ export default function HeroLeadForm() {
           <motion.div key="done" role="status" className="zx-slip-body"
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease }}>
             <div className="zx-slip-stamp"><Check size={15} strokeWidth={2.5} /> Received</div>
-            <h3 className="zx-slip-title">Thank you{firstName ? `, ${firstName}` : ''}.</h3>
+            <h2 className="zx-slip-title">Thank you{firstName ? `, ${firstName}` : ''}.</h2>
             <p className="zx-slip-note">Our developer will contact you soon.</p>
           </motion.div>
         ) : (
           <motion.form key="form" onSubmit={submit} noValidate aria-label="Request a call back" className="zx-slip-body"
             exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3, ease }}>
-            <h3 className="zx-slip-title">Request a call back</h3>
+            <h2 className="zx-slip-title">Request a call back</h2>
 
             <label className={`zx-line${touched && !nameOk ? ' is-bad' : ''}`}>
               <span className="zx-line-label">Full name <i>required</i></span>
@@ -244,7 +222,7 @@ export default function HeroLeadForm() {
               {loading ? 'Sending...' : <>Request a call back <ArrowRight size={16} /></>}
             </button>
             {error && <p role="alert" className="zx-slip-error">{error}</p>}
-            <p className="zx-slip-fine">Used only to contact you about your website. Never shared.</p>
+            <p className="zx-slip-fine">We only use your details to reply to your enquiry.</p>
           </motion.form>
         )}
       </AnimatePresence>

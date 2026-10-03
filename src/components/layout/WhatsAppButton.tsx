@@ -26,6 +26,7 @@ export default function BookingButton() {
       <AnimatePresence>
         {hovered && (
           <motion.a
+            data-cta=""
             href={CALENDLY_URL}
             target="_blank"
             rel="noreferrer"
@@ -104,6 +105,7 @@ export default function BookingButton() {
 
       {/* Icon button */}
       <motion.a
+        data-cta=""
         href={CALENDLY_URL}
         target="_blank"
         rel="noreferrer"

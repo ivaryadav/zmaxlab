@@ -110,7 +110,7 @@ export default function Navbar() {
             }}>
               $500 FLAT
             </Link>
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="zx-nav-desktop" style={{
+            <a data-cta="" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="zx-nav-desktop" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               background: onDarkHero ? '#fff' : T.ink, color: onDarkHero ? T.ink : '#fff',
               fontSize: 13.5, fontWeight: 650,
@@ -161,7 +161,7 @@ export default function Navbar() {
                 </Link>
               </motion.div>
             ))}
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" style={{
+            <a data-cta="" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', gap: 9, marginTop: 34,
               background: T.blue, color: '#fff', fontSize: 15, fontWeight: 700,
               padding: '15px 28px', borderRadius: 999,

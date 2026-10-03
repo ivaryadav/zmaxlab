@@ -2,9 +2,10 @@ import type { ReactNode, CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { T, MONO, TYPE, EASE } from '@/lib/theme'
+import { isBooting } from '@/lib/boot'
 
 export const rise = (delay = 0) => ({
-  initial: { opacity: 0, y: 34 },
+  initial: isBooting() ? false as const : { opacity: 0, y: 34 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.15 },
   transition: { duration: 0.85, delay, ease: EASE },
@@ -12,7 +13,7 @@ export const rise = (delay = 0) => ({
 
 /** horizontal slide-in - used to give two-column sections real direction */
 export const slideIn = (dir: 'left' | 'right' = 'left', delay = 0) => ({
-  initial: { opacity: 0, x: dir === 'left' ? -46 : 46 },
+  initial: isBooting() ? false as const : { opacity: 0, x: dir === 'left' ? -46 : 46 },
   whileInView: { opacity: 1, x: 0 },
   viewport: { once: true, amount: 0.15 },
   transition: { duration: 0.95, delay, ease: EASE },
@@ -79,11 +80,11 @@ export function Btn({ to, children, dark, onClick }: { to?: string; children: Re
   }
   const inner = <span style={s} onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')}
     onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}>{children}</span>
-  if (onClick) return <button onClick={onClick} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>{inner}</button>
+  if (onClick) return <button data-cta="" onClick={onClick} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>{inner}</button>
   if (!to) return inner
-  if (/^https?:/.test(to)) return <a href={to} target="_blank" rel="noopener noreferrer">{inner}</a>
-  if (to.startsWith('mailto:') || to.startsWith('tel:')) return <a href={to}>{inner}</a>
-  return <Link to={to}>{inner}</Link>
+  if (/^https?:/.test(to)) return <a data-cta="" href={to} target="_blank" rel="noopener noreferrer">{inner}</a>
+  if (to.startsWith('mailto:') || to.startsWith('tel:')) return <a data-cta="" href={to}>{inner}</a>
+  return <Link data-cta="" to={to}>{inner}</Link>
 }
 
 /** ghost/secondary - text with animated underline, never a second filled button */
@@ -161,6 +162,7 @@ export function Vid({ src, poster, style, className }: { src: string; poster?: s
 /* ── Slider: auto-advancing, swipeable, with progress dots ─────────── */
 import { useState as _useState, useEffect as _useEffect, useRef as _useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
+import { imgSize } from '@/lib/images'
 
 export type Slide = { img: string; title: string; body: string; focus?: string }
 
@@ -202,7 +204,7 @@ export function Slider({ slides, interval = 2000 }: { slides: Slide[]; interval?
             transition={{ duration: 0.65, ease: EASE }}
             style={{ position: 'absolute', inset: 0 }}
           >
-            <img src={slides[i].img} alt={slides[i].title}
+            <img src={slides[i].img} {...imgSize(slides[i].img)} decoding="async" alt={slides[i].title}
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
                        objectPosition: slides[i].focus ?? 'center 22%' }} />
             <div style={{
@@ -248,7 +250,7 @@ export function Slider({ slides, interval = 2000 }: { slides: Slide[]; interval?
 export function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 42, scale: 0.985 }}
+      initial={isBooting() ? false : { opacity: 0, y: 42, scale: 0.985 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.18 }}
       transition={{ duration: 0.95, delay, ease: EASE }}

@@ -1,8 +1,9 @@
 import { ArrowRight, Check, Sparkles } from 'lucide-react'
 import { T, MONO , CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import GrowthServices from '@/components/ui/GrowthServices'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
+import { imgSize } from '@/lib/images'
 
 const CORE = [
   'Custom-coded, zero templates', 'Mobile-first across every device', 'SSL secured with HTTPS',
@@ -65,15 +66,16 @@ export default function ServicesPage() {
     }))],
   }]
 
-  useSEO({
+  const seo: SeoProps = {
+    title: "Healthcare Website Design & Marketing Services | ZmaxLab",
+    description: "Medical website design from $500, plus SEO, Google Ads, Meta ads, lead generation and reputation management for US healthcare practices.",
+    path: '/services',
     schema: serviceSchema,
-    title: 'Services & Pricing | $500 Healthcare Website Design - ZmaxLab',
-    description: 'Healthcare website development from $500, plus SEO, Google Ads, Meta campaigns, lead generation, demand generation, digital marketing and reputation management for medical practices.',
-    canonical: 'https://zmaxlab.site/services',
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO */}
       <section style={{ paddingTop: 'clamp(96px,11vw,140px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
         <Shell wide>
@@ -132,7 +134,7 @@ export default function ServicesPage() {
               </Lead>
               <Btn to={CALENDLY_URL}>Start your build <ArrowRight size={17} /></Btn>
               <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
-                <img src="/img/stethoscope-wall.jpg" alt="Stethoscope" loading="lazy"
+                <img src="/img/stethoscope-wall.webp" {...imgSize("/img/stethoscope-wall.webp")} decoding="async" alt="Stethoscope hanging on a clinic wall" loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
               </div>
               <div style={{ borderRadius: 18, marginTop: 18, padding: 26, background: T.gradPanel }}>

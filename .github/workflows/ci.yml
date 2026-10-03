@@ -1,0 +1,24 @@
+name: Build check
+
+# Verifies every push builds and prerenders cleanly. Deployment is done from a
+# trusted machine with `npm run deploy` (rsync to the VPS); no secrets live in CI.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SITE_URL: https://zmaxlab.site
+      VITE_FORMSPREE_ID: xwvzkwpo
+      VITE_CALENDLY_URL: https://calendly.com/zmaxlab/consultation
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build

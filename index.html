@@ -2,39 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Space+Grotesk:wght@500;600;700&display=swap" />
-    <title>ZmaxLab | $500 Custom Healthcare Websites for NPI Practitioners</title>
-    <meta name="description" content="$500 custom healthcare websites for NPI practitioners. 7-day delivery, custom design, SEO-ready. NPs, PAs, mental health, dentists, chiropractors.">
-    <link rel="canonical" href="https://zmaxlab.site/" />
-    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
     <meta name="theme-color" content="#FFFFFF" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="ZmaxLab" />
-    <meta property="og:image" content="https://zmaxlab.site/og-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@zmaxlab" />
-        <!-- Google tag (gtag.js) - GA4 + Consent Mode -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9MXJ3DPTFH"></script>
-        <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                // Consent Mode v2 defaults (before consent)
-                gtag('consent', 'default', {
-                          analytics_storage: 'granted',
-                          ad_storage: 'denied',
-                          ad_user_data: 'denied',
-                          ad_personalization: 'denied',
-                          wait_for_update: 500
-                });
-                gtag('js', new Date());
-                gtag('config', 'G-9MXJ3DPTFH', {
-                          send_page_view: false
-                });
-        </script>
+    <!-- Self-hosted fonts: preload the two faces used above the fold -->
+    <link rel="preload" href="/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- Title, description, canonical, robots, Open Graph and Twitter tags are set per page by <Seo> (react-helmet-async). -->
+    <!-- Analytics (GA4, Google Ads, Meta Pixel, Clarity) is loaded once by src/lib/analytics.ts -->
       <script type="application/ld+json">
     {"@context":"https://schema.org","@graph":[
       {"@type":"Organization","@id":"https://zmaxlab.site/#org","name":"ZmaxLab",

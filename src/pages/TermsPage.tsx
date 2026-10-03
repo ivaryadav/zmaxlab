@@ -1,4 +1,4 @@
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FileText, Mail } from 'lucide-react'
@@ -7,11 +7,11 @@ const GS = { fontFamily: "'Space Grotesk',sans-serif" }
 const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
 
 export default function TermsPage() {
-  useSEO({
-    title: 'Terms of Service | ZmaxLab - Healthcare Website Design',
-    description: 'Terms of Service for ZmaxLab - custom healthcare website design for NPI practitioners. $500 flat fee. 7-day delivery guarantee.',
-    canonical: 'https://zmaxlab.site/terms',
-  })
+  const seo: SeoProps = {
+    title: "Terms of Service | ZmaxLab",
+    description: "The terms that govern ZmaxLab website design and marketing services, including payment, delivery and refunds.",
+    path: '/terms',
+  }
 
   const SECTIONS = [
     {
@@ -66,6 +66,7 @@ export default function TermsPage() {
 
   return (
     <div style={{ background: '#FFFFFF' }}>
+      <Seo {...seo} />
       <section style={{ padding: 'clamp(120px,14vw,160px) 5% clamp(48px,6vw,72px)', background: `radial-gradient(ellipse at 30% 20%,rgba(29,78,216,0.06) 0%,transparent 60%),#FFFFFF` }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <motion.div {...fadeUp()}>

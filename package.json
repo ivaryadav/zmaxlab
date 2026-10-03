@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/ssr-prerender.mjs && node scripts/prerender.mjs",
+    "build": "tsc -b && vite build && node scripts/prerender.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "bash scripts/deploy.sh",
+    "qa:tracking": "node scripts/qa-tracking.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -17,6 +19,7 @@
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.16.0",
     "shadcn": "^4.10.0",
     "tailwind-merge": "^3.6.0",
@@ -24,6 +27,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
     "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^24.12.4",
     "@types/react": "^19.2.14",
@@ -36,6 +43,7 @@
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
     "puppeteer": "^24.43.1",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",

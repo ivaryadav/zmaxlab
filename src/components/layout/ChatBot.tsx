@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, ArrowRight, Sparkles, Check } from 'lucide-react'
 import { T, MONO, EASE } from '@/lib/theme'
+import { submitLead as sendLead } from '@/lib/leads'
+import { openBooking } from '@/lib/booking'
 import BeeBotIcon from './BeeBotIcon'
 import { findAnswer, GREETING_TEXT, INITIAL_CHIPS, QUOTE_TRIGGER_RE, type ChatLink } from '@/lib/chatKnowledge'
 
-const LEAD_ENDPOINT = 'https://api.web3forms.com/submit'
-const LEAD_ACCESS_KEY = '5a1bc976-474a-422f-bdb3-0c7f11eaed3d'
 
 type QuoteSummary = { specialty: string; addonLabel: string; monthly: number | null }
 
@@ -201,7 +201,8 @@ export default function ChatBot() {
       setOpen(false)
       navigate(link.to)
     } else if (link.href) {
-      window.open(link.href, '_blank', 'noopener,noreferrer')
+      if (link.href.includes('calendly.com/')) { setOpen(false); openBooking(link.href) }
+      else window.open(link.href, '_blank', 'noopener,noreferrer')
     }
   }
 
@@ -213,30 +214,12 @@ export default function ChatBot() {
   async function submitLead(extra?: Record<string, string>) {
     if (!leadName.trim() || !leadEmail.trim() || leadSending) return
     setLeadSending(true)
-    try {
-      const res = await fetch(LEAD_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: LEAD_ACCESS_KEY,
-          subject: `New ZmaxLab chat lead - ${leadName}`,
-          from_name: leadName,
-          email: leadEmail,
-          replyto: leadEmail,
-          source: 'chatbot',
-          page: pathname,
-          ...extra,
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        setLeadSent(true)
-        setMessages(m => [...m, { id: uid(), role: 'bot', text: `Got it, ${leadName.split(' ')[0]} — that's with Ravi now. He replies within one business day.` }])
-      } else {
-        setMessages(m => [...m, { id: uid(), role: 'bot', text: "That didn't quite go through — mind trying again in a moment, or using the contact page?" }])
-      }
-    } catch {
-      setMessages(m => [...m, { id: uid(), role: 'bot', text: 'Network hiccup on my end — mind trying again?' }])
+    const res = await sendLead('chatbot', { name: leadName, email: leadEmail, source: 'Chat assistant', ...extra })
+    if (res.ok) {
+      setLeadSent(true)
+      setMessages(m => [...m, { id: uid(), role: 'bot', text: `Got it, ${leadName.split(' ')[0]} — that's with Ravi now. He replies within one business day.` }])
+    } else {
+      setMessages(m => [...m, { id: uid(), role: 'bot', text: "That didn't quite go through — mind trying again in a moment, or using the contact page?" }])
     }
     setLeadSending(false)
   }

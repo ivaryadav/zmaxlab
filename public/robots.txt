@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://zmaxlab.site/sitemap.xml
-
-# Updated: deploy with fixed FTP path

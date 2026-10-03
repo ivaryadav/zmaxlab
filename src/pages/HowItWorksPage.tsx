@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { ArrowRight, Plus, Minus } from 'lucide-react'
 import { T, MONO , CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Grad, Pill, rise, motion } from '@/components/ui/kit'
 
 const STEPS: [string, string, string, string[]][] = [
-  ['Day 1', 'Discovery call', 'Thirty minutes on a call. Your specialty, your patients, your market, and what your competitors are doing.',
+  ['Day 1', 'Discovery call', 'Fifteen minutes on a call. Your specialty, your patients, your market, and what your competitors are doing.',
     ['Specialty and services mapped', 'Local competitor scan', 'Design direction agreed', 'Nothing to prepare in advance']],
   ['Day 1', 'You send your content', 'A short form - name, specialty, services, location, credentials. Fifteen minutes of your time.',
     ['One simple form', 'Photos optional - I source them if needed', 'Your NPI number and licence', 'That is the whole ask']],
@@ -73,15 +73,16 @@ export default function HowItWorksPage() {
     })),
   }]
 
-  useSEO({
+  const seo: SeoProps = {
+    title: "How We Build a Medical Website in 7 Days | ZmaxLab",
+    description: "From consultation to live website in seven business days. What happens each day, what you provide, and how payment works.",
+    path: '/how-it-works',
     schema: faqSchema,
-    title: 'How It Works | Healthcare Website Built in 7 Days - ZmaxLab',
-    description: 'From discovery call to live website in seven business days. See exactly what happens each day, what you provide, and how payment works.',
-    canonical: 'https://zmaxlab.site/how-it-works',
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO */}
       <section style={{ paddingTop: 'clamp(120px,14vw,180px)', paddingBottom: 'clamp(48px,6vw,80px)' }}>
         <Shell>

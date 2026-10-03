@@ -1,7 +1,8 @@
 import { ArrowRight, Check } from 'lucide-react'
 import { T, TYPE , CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Index, Grad, Pill, Vid, rise, motion } from '@/components/ui/kit'
+import { imgSize } from '@/lib/images'
 
 const PRINCIPLES: [string, string, string][] = [
   ['01', 'One person builds it', 'You talk to the person writing the code. No account manager relaying messages, no junior designer learning on your project.'],
@@ -11,15 +12,16 @@ const PRINCIPLES: [string, string, string][] = [
 ]
 
 export default function AboutPage() {
-  useSEO({
-    title: 'About Ravi | Healthcare Web Designer for NPI Practitioners - ZmaxLab',
-    description: 'ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.',
-    canonical: 'https://zmaxlab.site/about',
+  const seo: SeoProps = {
+    title: "About ZmaxLab | Healthcare Web Designer Ravi Kumar",
+    description: "ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.",
+    path: '/about',
     schema: [{"@context":"https://schema.org","@type":"Person","name":"Ravi","jobTitle":"Healthcare Web Designer","description":"Ravi personally builds every custom healthcare website for NPI-registered practitioners in the USA. $500 flat fee, delivered in 7 business days.","url":"https://zmaxlab.site/about","worksFor":{"@type":"Organization","name":"ZmaxLab","url":"https://zmaxlab.site"}}],
-  })
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO - asymmetric with portrait */}
       <section style={{ paddingTop: 'clamp(118px,13vw,172px)', paddingBottom: 'clamp(56px,7vw,92px)' }}>
         <Shell wide>
@@ -44,7 +46,7 @@ export default function AboutPage() {
 
             <motion.div className="zx-hero-media" {...rise(0.1)}>
               <div style={{ aspectRatio: '4/5', overflow: 'hidden', borderRadius: 20, background: T.surface, boxShadow: '0 24px 64px rgba(7,37,58,0.18)' }}>
-                <Vid src="/video/portrait-clinician.mp4" poster="/img/poster-portrait-clinician.jpg" />
+                <Vid src="/video/portrait-clinician.mp4" poster="/img/poster-portrait-clinician.webp" />
               </div>
             </motion.div>
           </div>
@@ -70,7 +72,7 @@ export default function AboutPage() {
             <motion.div {...rise()}>
               <Eyebrow>Why this exists</Eyebrow>
               <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 20px 54px rgba(7,37,58,0.16)', marginTop: 22 }}>
-                <img src="/img/clinician-scrubs.jpg" alt="Healthcare practitioner in scrubs" loading="lazy"
+                <img src="/img/clinician-scrubs.webp" {...imgSize("/img/clinician-scrubs.webp")} decoding="async" alt="Healthcare practitioner in scrubs" loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 16%', display: 'block' }} />
               </div>
             </motion.div>
@@ -93,7 +95,7 @@ export default function AboutPage() {
                 What you get in return is that the person you speak to is the person who builds it.
               </Lead>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <img src="/ravi.jpg" alt="Ravi, founder of ZmaxLab" loading="lazy"
+                <img src="/ravi.webp" {...imgSize("/ravi.webp")} decoding="async" alt="Ravi, founder of ZmaxLab" loading="lazy"
                   style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, boxShadow: T.shadowMd }} />
                 <div>
                   <div style={{ fontFamily: 'Newsreader,Georgia,serif', fontWeight: 600, fontSize: 17 }}>Ravi</div>
@@ -116,7 +118,7 @@ export default function AboutPage() {
                 These are the reasons the price and the timeline actually hold.
               </Lead>
               <div className="zx-lift zx-zoom" style={{ borderRadius: 18, overflow: 'hidden', aspectRatio: '4/3', marginTop: 30, boxShadow: '0 18px 46px rgba(7,37,58,0.14)' }}>
-                <img src="/img/detail-stethoscope.jpg" alt="Clinical detail" loading="lazy"
+                <img src="/img/detail-stethoscope.webp" {...imgSize("/img/detail-stethoscope.webp")} decoding="async" alt="Close-up of a stethoscope in a clinic" loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 38%', display: 'block' }} />
               </div>
             </motion.div>
@@ -158,7 +160,7 @@ export default function AboutPage() {
               borderRadius: 20, overflow: 'hidden', aspectRatio: '4/3',
               boxShadow: '0 30px 76px rgba(0,0,0,0.45)',
             }}>
-              <img src="/img/portrait-3.jpg" alt="Healthcare practitioner at a desk" loading="lazy"
+              <img src="/img/portrait-3.webp" {...imgSize("/img/portrait-3.webp")} decoding="async" alt="Healthcare practitioner at a desk" loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 24%', display: 'block' }} />
             </motion.div>
           </div>

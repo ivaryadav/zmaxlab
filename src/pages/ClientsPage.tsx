@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { useMotionValue, useTransform, useInView, animate } from 'framer-motion'
 import { T, MONO, CALENDLY_URL } from '@/lib/theme'
-import { useSEO } from '@/lib/useSEO'
+import Seo, { type SeoProps } from '@/components/Seo'
 import { Shell, Section, Eyebrow, Display, H2, Lead, Mono, Btn, TextLink, Pill, Grad, rise, motion } from '@/components/ui/kit'
+import { imgSize } from '@/lib/images'
 
 const CORAL = '#FF6B3D'    // pain management
 const ROSE = '#D93A22'     // cardiology
@@ -13,43 +14,43 @@ const TEAL = '#0E8FA8'     // pediatrics
 const PLUM = '#9C3D54'     // psychiatry
 
 const CLIENTS: [string, string, string, string, string, string][] = [
-  ['/img/clients/hudson-medical.jpg', 'Hudson Medical', 'Pain management - New York, NY',
+  ['/img/clients/hudson-medical.webp', 'Hudson Medical', 'Pain management - New York, NY',
     'A 15-year, 50,000-patient pain management group. NYC\'s highest-rated practice in the category.',
     'https://medical.hudson.health/', CORAL],
-  ['/img/clients/manhattan-cardiology.jpg', 'Manhattan Cardiology', 'Cardiology - New York, NY',
+  ['/img/clients/manhattan-cardiology.webp', 'Manhattan Cardiology', 'Cardiology - New York, NY',
     'Eleven cardiologists and a team of PAs and NPs, all under one Upper West Side practice.',
     'https://manhattancardiology.com/', ROSE],
-  ['/img/clients/united-gastroenterologists.jpg', 'United Gastroenterologists', 'Gastroenterology - Southern California',
+  ['/img/clients/united-gastroenterologists.webp', 'United Gastroenterologists', 'Gastroenterology - Southern California',
     '250 providers, 80 locations, four counties - Southern California\'s largest independent GI group.',
     'https://unitedgi.com/', GOLD],
-  ['/img/clients/doral-pain-brooklyn.jpg', 'Doral Health & Wellness', 'Pain Relief Department - Brooklyn, NY',
+  ['/img/clients/doral-pain-brooklyn.webp', 'Doral Health & Wellness', 'Pain Relief Department - Brooklyn, NY',
     'Six locations across Brooklyn, same-week appointments, one consistent site across all of them.',
     'https://painmanagementbrooklyn.com/', CORAL],
-  ['/img/clients/agmg-gastroenterology.jpg', 'Associated Gastroenterology', 'Gastroenterology - Orange County, CA',
+  ['/img/clients/agmg-gastroenterology.webp', 'Associated Gastroenterology', 'Gastroenterology - Orange County, CA',
     'Serving Orange, Riverside and LA counties since 1976 - independently owned for 50 years.',
     'https://www.agmg.com/', GOLD],
-  ['/img/clients/unique-pain-medicine.jpg', 'Unique Pain Medicine', 'Interventional pain - Manhattan & Brooklyn, NY',
+  ['/img/clients/unique-pain-medicine.webp', 'Unique Pain Medicine', 'Interventional pain - Manhattan & Brooklyn, NY',
     'Epidural injections, medial branch blocks and radiofrequency ablation across two boroughs.',
     'https://uniquepainmedicine.com/', CORAL],
-  ['/img/clients/nyc-pain-relief.jpg', 'NYC Pain Relief Medicine', 'Pain management - New York, NY',
+  ['/img/clients/nyc-pain-relief.webp', 'NYC Pain Relief Medicine', 'Pain management - New York, NY',
     'Dr. Stanley Ikezi\'s practice - back and neck pain, work injuries, and 44+ five-star reviews.',
     'https://nycprg.com/', CORAL],
-  ['/img/clients/ica-north-texas.jpg', 'Independent Cardiology Associates', 'Cardiology - North Texas',
+  ['/img/clients/ica-north-texas.webp', 'Independent Cardiology Associates', 'Cardiology - North Texas',
     'Book online, pay online - cardiovascular care built around getting seen, not paperwork.',
     'https://icanorthtx.com/', ROSE],
-  ['/img/clients/nw-womens-healthcare.jpg', 'Northwest Women\'s HealthCare', 'OB/GYN - Seattle, WA',
+  ['/img/clients/nw-womens-healthcare.webp', 'Northwest Women\'s HealthCare', 'OB/GYN - Seattle, WA',
     'Trusted more than 35 years, across a full team of obstetrician-gynecologists.',
     'https://www.nwwomenshealth.com/', VIOLET],
-  ['/img/clients/womens-health-manhattan.jpg', 'Women\'s Health of Manhattan', 'OB/GYN - Upper East Side, NY',
+  ['/img/clients/womens-health-manhattan.webp', 'Women\'s Health of Manhattan', 'OB/GYN - Upper East Side, NY',
     'Two doctors, out-of-network by design - the opposite of a rushed, high-volume clinic.',
     'https://www.womenshealthofmanhattan.com/', VIOLET],
-  ['/img/clients/mango-pediatrics.jpg', 'Mango Pediatrics', 'Pediatrics - Jacksonville, FL',
+  ['/img/clients/mango-pediatrics.webp', 'Mango Pediatrics', 'Pediatrics - Jacksonville, FL',
     'A concierge practice built around one doctor who actually knows your child\'s name.',
     'https://www.mangopediatrics.com/', TEAL],
-  ['/img/clients/vibrant-kids.jpg', 'Vibrant Kids', 'Direct primary care - Pediatrics',
+  ['/img/clients/vibrant-kids.webp', 'Vibrant Kids', 'Direct primary care - Pediatrics',
     'Membership-based pediatric care built around a functional-medicine, whole-child approach.',
     'https://www.vibrantkids.us/', TEAL],
-  ['/img/clients/luxury-psychiatry.jpg', 'Luxury Psychiatry Clinic', 'Psychiatry & TMS - Chicago, IL & Orlando, FL',
+  ['/img/clients/luxury-psychiatry.webp', 'Luxury Psychiatry Clinic', 'Psychiatry & TMS - Chicago, IL & Orlando, FL',
     'TMS therapy for treatment-resistant depression and anxiety, across two cities.',
     'https://www.luxurypsychiatryclinic.com/', PLUM],
 ]
@@ -82,14 +83,15 @@ function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
 }
 
 export default function ClientsPage() {
-  useSEO({
-    title: 'Our Clients | Real Healthcare Websites - ZmaxLab',
-    description: 'Live healthcare websites built by ZmaxLab, from solo and two-doctor practices to multi-location pain management groups.',
-    canonical: 'https://zmaxlab.site/clients',
-  })
+  const seo: SeoProps = {
+    title: "Healthcare Website Examples & Client Work | ZmaxLab",
+    description: "Live websites for medical practices across the US, from solo clinics to multi-location pain management and cardiology groups.",
+    path: '/clients',
+  }
 
   return (
     <>
+      <Seo {...seo} />
       {/* HERO */}
       <section style={{ paddingTop: 'clamp(112px,13vw,164px)', paddingBottom: 'clamp(48px,6vw,72px)' }}>
         <Shell>
@@ -150,7 +152,7 @@ export default function ClientsPage() {
                     <span style={{ fontFamily: MONO, fontSize: 9, color: accent, fontWeight: 700, flexShrink: 0 }}>LIVE</span>
                   </div>
                   <div className="zx-zoom" style={{ aspectRatio: '16/10' }}>
-                    <img src={img} alt={`${name} website`} loading="lazy"
+                    <img src={img} {...imgSize(img)} decoding="async" alt={`${name} website`} loading="lazy"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
                   </div>
                 </div>
@@ -161,13 +163,13 @@ export default function ClientsPage() {
                     <span style={{ width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
                     <Mono style={{ color: accent, textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em' }}>{meta}</Mono>
                   </div>
-                  <h3 style={{
+                  <h2 style={{
                     display: 'flex', alignItems: 'center', gap: 7,
                     fontSize: 19, fontWeight: 700, letterSpacing: '-0.015em', margin: '0 0 8px',
                   }}>
                     {name}
                     <ArrowUpRight size={15} className="zx-client-arrow" style={{ color: T.faint, flexShrink: 0 }} />
-                  </h3>
+                  </h2>
                   <p style={{ fontSize: 14.5, lineHeight: 1.62, color: T.muted, margin: 0 }}>{desc}</p>
                 </div>
               </motion.a>
@@ -182,7 +184,7 @@ export default function ClientsPage() {
           <motion.div {...rise()} style={{ maxWidth: 680 }}>
             <Eyebrow dark>Yours could be next</Eyebrow>
             <H2 style={{ color: T.onDark, marginBottom: 22 }}>
-              Twenty minutes, and you'll see what yours would look like.
+              Fifteen minutes, and you'll see what yours would look like.
             </H2>
             <Lead dark style={{ maxWidth: 520, marginBottom: 34 }}>
               No obligation, nothing to prepare. I'll walk you through a mockup for your

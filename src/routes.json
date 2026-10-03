@@ -1,0 +1,17 @@
+{
+  "siteUrl": "https://zmaxlab.site",
+  "routes": [
+    { "path": "/", "source": "src/pages/HomePage.tsx", "priority": "1.0", "changefreq": "weekly", "crumb": "Home" },
+    { "path": "/services", "source": "src/pages/ServicesPage.tsx", "priority": "0.9", "changefreq": "monthly", "crumb": "Services" },
+    { "path": "/pricing", "source": "src/pages/PricingPage.tsx", "priority": "0.9", "changefreq": "monthly", "crumb": "Pricing" },
+    { "path": "/clients", "source": "src/pages/ClientsPage.tsx", "priority": "0.8", "changefreq": "monthly", "crumb": "Our clients" },
+    { "path": "/how-it-works", "source": "src/pages/HowItWorksPage.tsx", "priority": "0.8", "changefreq": "monthly", "crumb": "How it works" },
+    { "path": "/ai-addon", "source": "src/pages/AIAddonPage.tsx", "priority": "0.7", "changefreq": "monthly", "crumb": "AI add-on" },
+    { "path": "/about", "source": "src/pages/AboutPage.tsx", "priority": "0.7", "changefreq": "monthly", "crumb": "About" },
+    { "path": "/contact", "source": "src/pages/ContactPage.tsx", "priority": "0.8", "changefreq": "monthly", "crumb": "Contact" },
+    { "path": "/blog/custom-vs-template-medical-website", "source": "src/pages/BlogPage.tsx", "priority": "0.6", "changefreq": "yearly", "crumb": "Custom vs template medical websites" },
+    { "path": "/privacy", "source": "src/pages/PrivacyPage.tsx", "priority": "0.3", "changefreq": "yearly", "crumb": "Privacy policy" },
+    { "path": "/terms", "source": "src/pages/TermsPage.tsx", "priority": "0.3", "changefreq": "yearly", "crumb": "Terms of service" },
+    { "path": "/pay-now", "source": "src/pages/PayNowPage.tsx", "noindex": true, "crumb": "Pay now" }
+  ]
+}
