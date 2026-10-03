@@ -57,6 +57,7 @@ export default function ContactPage() {
   }
 
   const seo: SeoProps = {
+    preloadImage: '/img/contact-bg.webp',
     title: "Book a Website Consultation | ZmaxLab",
     description: "Book a 15-minute website consultation or request a call back. Custom healthcare websites for US practitioners, $500 flat.",
     path: '/contact',

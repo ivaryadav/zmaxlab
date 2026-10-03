@@ -2,9 +2,10 @@ import Seo, { type SeoProps } from '@/components/Seo'
 import { Link } from 'react-router-dom'
 import { m as motion } from 'framer-motion'
 import { Shield, Mail } from 'lucide-react'
+import { isBooting } from '@/lib/boot'
 
 const GS = { fontFamily: "'Space Grotesk',sans-serif" }
-const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
+const fadeUp = (delay = 0) => ({ initial: isBooting() ? false as const : { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number], delay } })
 
 // TODO(owner review): third-party list updated for Formspree, Google Ads, Meta Pixel and Microsoft Clarity.
 // Please confirm this wording with your own legal review before relying on it.

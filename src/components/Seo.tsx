@@ -15,10 +15,12 @@ export type SeoProps = {
   path: string
   schema?: object | object[]
   noindex?: boolean
+  /** Above-the-fold LCP image to fetch early (it is otherwise discovered after the inlined CSS). */
+  preloadImage?: string
 }
 
 /** Per-page head tags: title, description, canonical, robots, Open Graph, Twitter and JSON-LD. */
-export default function Seo({ title, description, path, schema, noindex }: SeoProps) {
+export default function Seo({ title, description, path, schema, noindex, preloadImage }: SeoProps) {
   const url = SITE + (path === '/' ? '/' : path)
   const image = `${SITE}/og/${ogSlug(path)}.png`
   const route = routesManifest.routes.find(r => r.path === path)
@@ -40,6 +42,7 @@ export default function Seo({ title, description, path, schema, noindex }: SeoPr
       <meta name="description" content={description} />
       {isPage && <link rel="canonical" href={url} />}
       <meta name="robots" content={noindex ? 'noindex,nofollow' : ROBOTS} />
+      {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchPriority="high" />}
 
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="ZmaxLab" />

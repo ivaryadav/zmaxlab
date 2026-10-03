@@ -13,6 +13,7 @@ const PRINCIPLES: [string, string, string][] = [
 
 export default function AboutPage() {
   const seo: SeoProps = {
+    preloadImage: '/img/poster-portrait-clinician.webp',
     title: "About ZmaxLab | Healthcare Web Designer Ravi Kumar",
     description: "ZmaxLab is one specialist building custom healthcare websites for NPI-registered practitioners. $500 flat, seven-day delivery, no contract.",
     path: '/about',
