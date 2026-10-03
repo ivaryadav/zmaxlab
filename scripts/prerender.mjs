@@ -76,6 +76,17 @@ function ogTemplate(title, kicker) {
   </body></html>`
 }
 
+// Inline this page's stylesheets so first paint needs no extra request (they are small once built).
+const cssCache = new Map()
+async function inlineCss(html) {
+  const links = [...html.matchAll(/<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/g)]
+  for (const [tag, href] of links) {
+    if (!cssCache.has(href)) cssCache.set(href, (await readFile(join(distDir, href), 'utf8')).replace(/<\/style/gi, '<\\/style'))
+    html = html.replace(tag, `<style data-href="${href}">${cssCache.get(href)}</style>`)
+  }
+  return html
+}
+
 async function main() {
   const server = createServer((req, res) => { serve(req, res) })
   await new Promise(r => server.listen(PORT, r))
@@ -103,7 +114,8 @@ async function main() {
         el.setAttribute('data-pr', '')
       }
     })
-    const html = '<!doctype html>\n' + await page.evaluate(() => document.documentElement.outerHTML)
+    let html = '<!doctype html>\n' + await page.evaluate(() => document.documentElement.outerHTML)
+    html = await inlineCss(html)
     const title = await page.title()
     await page.close()
     return { html, title }
