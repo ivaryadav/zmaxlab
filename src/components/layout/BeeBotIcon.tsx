@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 
 /** Glassy, animated bee mascot for the chat assistant - hand-built SVG.
  * "Flying" is faked honestly: an organic flight-path wobble (framer-motion x/y/rotate

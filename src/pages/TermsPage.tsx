@@ -1,6 +1,6 @@
 import Seo, { type SeoProps } from '@/components/Seo'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 import { FileText, Mail } from 'lucide-react'
 
 const GS = { fontFamily: "'Space Grotesk',sans-serif" }

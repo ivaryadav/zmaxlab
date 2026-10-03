@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m as motion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown } from 'lucide-react'
 import { submitLead } from '@/lib/leads'
 import { trackFormStart } from '@/lib/analytics'

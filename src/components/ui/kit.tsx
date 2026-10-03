@@ -1,5 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react'
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { T, MONO, TYPE, EASE } from '@/lib/theme'
 import { isBooting } from '@/lib/boot'

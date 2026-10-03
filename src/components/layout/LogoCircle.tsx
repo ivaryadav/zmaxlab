@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 
 const ECG = 'M4,28 L10,28 L13,20 L16.5,38 L19.5,18 L23,28 L44,28'
 const DUR  = '2.4s'

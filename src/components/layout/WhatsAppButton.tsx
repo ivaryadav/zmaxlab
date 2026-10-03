@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m as motion, AnimatePresence } from 'framer-motion'
 import { CalendarCheck } from 'lucide-react'
 import { T, CALENDLY_URL } from '@/lib/theme'
 

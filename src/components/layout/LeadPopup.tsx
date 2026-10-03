@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m as motion } from 'framer-motion'
 import { ArrowRight, Check, X } from 'lucide-react'
 import { T, MONO, EASE } from '@/lib/theme'
 import { submitLead } from '@/lib/leads'

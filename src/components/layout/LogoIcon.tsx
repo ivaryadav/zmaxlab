@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 
 // ECG path (fits inside circle r=22 centered at 24,30)
 const ECG = 'M5,30 L11,30 L14,22 L17.5,40 L20.5,20 L24,30 L43,30'

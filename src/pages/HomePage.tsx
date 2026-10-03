@@ -1,6 +1,6 @@
 import { ArrowRight, ArrowUpRight, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { MotionConfig, motion } from 'framer-motion'
+import { MotionConfig, m as motion } from 'framer-motion'
 import { CALENDLY_URL, EASE } from '@/lib/theme'
 import LiveBuilder from '@/components/ui/LiveBuilder'
 import HeroLeadForm from '@/components/ui/HeroLeadForm'

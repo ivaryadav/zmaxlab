@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { LazyMotion } from 'framer-motion'
 import Layout from './components/layout/Layout'
 import { PAGE_LOADERS, NOT_FOUND_LOADER, routeElement } from './routes'
 import { trackPageView } from './lib/analytics'
@@ -32,8 +33,12 @@ function BootDone() {
   return null
 }
 
+// Animation features (animate, exit, hover/tap, in-view) load after the page; components use `m`.
+const loadMotionFeatures = () => import('./lib/motion-features').then(mod => mod.default)
+
 export default function App() {
   return (
+    <LazyMotion features={loadMotionFeatures} strict>
     <BrowserRouter>
       <PageViewTracker />
       <Routes>
@@ -46,5 +51,6 @@ export default function App() {
       </Routes>
       <BootDone />
     </BrowserRouter>
+    </LazyMotion>
   )
 }
